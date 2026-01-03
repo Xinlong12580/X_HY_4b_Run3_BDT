@@ -1,0 +1,384 @@
+{
+    "NAME": "XYH_test",
+    "GLOBAL": {
+        "FILE": "Templates_2p1_all.root",
+        "HIST": "$process__$region_2p1__nominal",
+        "HIST_SYST": "$process__$region__",
+        "HIST_UP": "$process__$region_2p1__$syst_up",
+        "HIST_DOWN": "$process__$region_2p1__$syst_down",
+        "PATH_LOCAL": "./Templates",
+        "SIGNAME": [
+            "SignalMC_XHY4b_MX-XMASS_MY-YMASS"
+        ],
+
+        "COMMENT": "NOTE: I will be using the local rootfiles. I will also include the year in the process name, so that other years can be added easily later. The python script has a findreplace dictionary which will insert the XMASS and YMASS values in signame above to specify the correct signal. This is only relevant if you hvae multiple different signals in the SIGNAME list above, in which case multiple signals are added to the 2DA ledger and you can select which one to create a Combine card for."
+    },
+    "REGIONS": {
+        "SR2": {
+            "PROCESSES": [
+                "data_obs",
+                "2022__SIGNAME",
+                "2022__MC_TTBarJets",
+                "2022EE__SIGNAME",
+                "2022EE__MC_TTBarJets",
+                "2023__SIGNAME",
+                "2023__MC_TTBarJets",
+                "2023BPix__SIGNAME",
+                "2023BPix__MC_TTBarJets"
+            ],
+            "BINNING": "B_2p1"
+        },
+        "SB2": {
+            "PROCESSES": [
+                "data_obs",
+                "2022__SIGNAME",
+                "2022__MC_TTBarJets",
+                "2022EE__SIGNAME",
+                "2022EE__MC_TTBarJets",
+                "2023__SIGNAME",
+                "2023__MC_TTBarJets",
+                "2023BPix__SIGNAME",
+                "2023BPix__MC_TTBarJets"
+            ],
+            "BINNING": "B_2p1"
+        }
+    },
+    "PROCESSES": {
+        "data_obs": {
+            "SYSTEMATICS": [],
+            "SCALE": 1.0,
+            "COLOR": "black",
+            "TYPE": "DATA",
+            "ALIAS": "Allyears__JetMET",
+            "TITLE": "Data ",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2022__SIGNAME": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2022_TriggerSF",
+                "Y2022_lumi_13p6TeV",
+                "Y2022_JES_",
+                "Y2022_JER_",
+                "Y2022_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "black",
+            "TYPE": "SIGNAL",
+            "TITLE": "NMSSM_XYH",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2022__MC_TTBarJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2022_TriggerSF",
+                "Y2022_lumi_13p6TeV",
+                "TTBar_Xsec",
+                "Y2022_JES_",
+                "Y2022_JER_",
+                "Y2022_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "red",
+            "TYPE": "BKG",
+            "TITLE": "t#bar{t}",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2022__MC_WZJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2022_TriggerSF",
+                "Y2022_lumi_13p6TeV",
+                "Y2022_JES_",
+                "Y2022_JER_",
+                "Y2022_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "magenta",
+            "TYPE": "BKG",
+            "TITLE": "V+jets",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2022EE__SIGNAME": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2022EE_TriggerSF",
+                "Y2022_lumi_13p6TeV",
+                "Y2022EE_JES_",
+                "Y2022EE_JER_",
+                "Y2022EE_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "black",
+            "TYPE": "SIGNAL",
+            "TITLE": "NMSSM_XYH",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2022EE__MC_TTBarJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2022EE_TriggerSF",
+                "Y2022_lumi_13p6TeV",
+                "TTBar_Xsec",
+                "Y2022EE_JES_",
+                "Y2022EE_JER_",
+                "Y2022EE_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "red",
+            "TYPE": "BKG",
+            "TITLE": "t#bar{t}",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2022EE__MC_WZJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2022EE_TriggerSF",
+                "Y2022_lumi_13p6TeV",
+                "Y2022EE_JES_",
+                "Y2022EE_JER_",
+                "Y2022EE_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "magenta",
+            "TYPE": "BKG",
+            "TITLE": "V+jets",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2023__SIGNAME": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2023_TriggerSF",
+                "Y2023_lumi_13p6TeV",
+                "Y2023_JES_",
+                "Y2023_JER_",
+                "Y2023_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "black",
+            "TYPE": "SIGNAL",
+            "TITLE": "NMSSM_XYH",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2023__MC_TTBarJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2023_TriggerSF",
+                "Y2023_lumi_13p6TeV",
+                "TTBar_Xsec",
+                "Y2023_JES_",
+                "Y2023_JER_",
+                "Y2023_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "red",
+            "TYPE": "BKG",
+            "TITLE": "t#bar{t}",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2023__MC_WZJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2023_TriggerSF",
+                "Y2023_lumi_13p6TeV",
+                "Y2023_JES_",
+                "Y2023_JER_",
+                "Y2023_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "magenta",
+            "TYPE": "BKG",
+            "TITLE": "V+jets",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2023BPix__SIGNAME": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2023BPix_TriggerSF",
+                "Y2023_lumi_13p6TeV",
+                "Y2023BPix_JES_",
+                "Y2023BPix_JER_",
+                "Y2023BPix_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "black",
+            "TYPE": "SIGNAL",
+            "TITLE": "NMSSM_XYH",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2023BPix__MC_TTBarJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2023BPix_TriggerSF",
+                "Y2023_lumi_13p6TeV",
+                "TTBar_Xsec",
+                "Y2023BPix_JES_",
+                "Y2023BPix_JER_",
+                "Y2023BPix_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "red",
+            "TYPE": "BKG",
+            "TITLE": "t#bar{t}",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2023BPix__MC_WZJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2023BPix_TriggerSF",
+                "Y2023_lumi_13p6TeV",
+                "Y2023BPix_JES_",
+                "Y2023BPix_JER_",
+                "Y2023BPix_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "magenta",
+            "TYPE": "BKG",
+            "TITLE": "V+jets",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        }
+    },
+
+
+
+    "SYSTEMATICS": {
+        "Y2022_lumi_13p6TeV": {
+            "VAL": 1.014,
+            "CODE": 0
+        },
+        "Y2023_lumi_13p6TeV": {
+            "VAL": 1.013,
+            "CODE": 0
+        },
+        "TTBar_Xsec": {
+            "VALUP":1.0348,
+            "VALDOWN":1.0438,
+            "CODE": 0
+        },
+        "Pdfweight":{
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022_TriggerSF": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_TriggerSF": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_TriggerSF": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_TriggerSF": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        }
+    },
+    "BINNING": {
+        "B_1p1": {
+            "X": {
+                "NAME": "M_JY",
+                "TITLE": "M_{J}^{Y}",
+                "BINS":[40, 60, 80, 100, 120, 140, 170, 200, 300, 400, 500, 600, 700, 800, 900,1000, 1200, 1500, 2000, 3000, 4000, 5000],
+                "SIGSTART": 60,
+                "SIGEND": 80
+            },
+            "Y": {
+                "NAME": "M_JJ",
+                "TITLE": "M_{JJ}",
+                "BINS": [300, 400, 500, 600, 700, 800,900,1000, 1200, 1500, 2000,3000,4000, 5000]
+            }
+        },
+        "B_2p1": {
+            "X": {
+                "NAME": "M_JY",
+                "TITLE": "M_{J}^{Y}",
+                "BINS":[200,  300, 400, 500, 600, 700, 800, 900,1000, 1200, 1500, 2000, 3000, 4000, 5000],
+                "SIGSTART": 300,
+                "SIGEND": 400
+            },
+            "Y": {
+                "NAME": "M_JJ",
+                "TITLE": "M_{JJ}",
+                "BINS": [300, 400, 500, 600, 700, 800,900,1000, 1200, 1500, 2000,3000,4000, 5000]
+            }
+        }
+    },
+    "OPTIONS": {
+        "blindedPlots": [],
+        "blindedFit": [],
+        "plotPrefitSigInFitB": false,
+        "plotUncerts": true,
+        "plotEvtsPerUnit": true,
+        "plotTitles": false,
+        "plotTemplateComparisons": true,
+        "year": 2
+    }
+}

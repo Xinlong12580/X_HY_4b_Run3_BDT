@@ -1,0 +1,4 @@
+-d raw_nano/files/2022EE__SignalMC_XHY4b__MX-3500_MY-300.txt -y 2022EE -n 2 -i 10
+-d raw_nano/files/2022EE__SignalMC_XHY4b__MX-4000_MY-3500.txt -y 2022EE -n 2 -i 3
+-d raw_nano/files/2023BPix__MC_QCDJets__QCD-4Jets_HT-1200to1500.txt -y 2023BPix -n 2 -i 36
+-d raw_nano/files/2023BPix__MC_QCDJets__QCD-4Jets_HT-1500to2000.txt -y 2023BPix -n 2 -i 0
