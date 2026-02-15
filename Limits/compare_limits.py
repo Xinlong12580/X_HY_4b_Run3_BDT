@@ -9,15 +9,22 @@ from matplotlib.ticker import MaxNLocator
 parser=ArgumentParser()
 
 plt.style.use(hep.style.CMS)
-modes = ["1p1_BDT", "1p1"]
-colors = ["cyan", "red", "blue", "green"]
+#modes = ["1p1_BDT", "1p1", "2p1_BDT", "2p1"]
+modes = ["2p1","2p1_BDT_noDDT", "2p1_BDT"]
+#modes = ["2p1", "2p1_BDT_noDDT", "2p1_BDT_v0", "2p1_BDT_v1"]
+modes = ["1p1", "1p1_BDT_DDT", "2p1", "2p1_BDT_noDDT", "2p1_BDT_v0"]
+modes = ["1p1", "1p1_BDT_continuous", "1p1_BDT"]
+modes = ["2p1", "2p1_BDT_noDDT_continuous", "2p1_BDT", "2p1_BDT_v0", "2p1_BDT_noDDT"]
+modes = ["2p1", "2p1_BDT", "2p1_BDT_hv0", "2p1_BDT_v1", "2p1_BDT_noDDT"]
+#modes = ["1p1", "1p1_BDT", "1p1_BDT_DDT"]
+colors = ["cyan", "red", "blue", "green", "magenta", "purple"]
 #colors = [ "blue", "green", "red", "purple"]
 linestyles = [(0, (7, 2)), (0, (5, 2)), (0, (2, 2)), (0, (1, 2))]
 linestyles = [(0, (7, 2)), (0, (5, 2)), (0, (2, 2)), (0, (1, 2))]
-linestyles = ["-", "-", "-", "-"]
+linestyles = ["-", "-", "-", "-", "-", "-", "-"]
 markersize = 10
 linewidth = 2
-markers = ["o", "s", "^", "D"]
+markers = ["o", "s", "^", "D", "o", "o", "o"]
 alpha = 0.7
 save_dir = f"plots/plots_limits_All" 
 collecting = 1
@@ -61,10 +68,10 @@ if collecting == 1:
 
 with open("limits_database/All_Limits.txt", "rb") as f:
         All_Limits = json.load(f)
-with open ("limits_database/Limits_run2_observed.txt", "rb") as f:
+with open ("limits_database/Limits_run2_expected.txt", "rb") as f:
         run2_Limits = json.load(f)
 
-for MY in All_Limits["1p1"]["YSlice"]:
+for MY in All_Limits[modes[0]]["YSlice"]:
     fig = plt.figure(figsize = (10, 8)) 
     ax = fig.add_subplot(1, 1, 1)
     #for mode in modes:
@@ -93,7 +100,7 @@ for MY in All_Limits["1p1"]["YSlice"]:
         print(f"Run2 MY = {MY}: ", MXs)
         print(Obses)
 
-        ax.plot(MXs, Obses, marker='X', color = "grey", label = "run2 observed", alpha = 0.5, markersize = markersize)
+        ax.plot(MXs, Obses, marker='X', color = "grey", label = "run2 expected", alpha = 0.5, markersize = markersize)
 
     ax.xaxis.set_major_locator(MaxNLocator(20))
     ax.yaxis.set_major_locator(MaxNLocator(20))
@@ -109,7 +116,7 @@ for MY in All_Limits["1p1"]["YSlice"]:
     plt.close(fig)
 
 
-for MX in All_Limits["1p1"]["XSlice"]:
+for MX in All_Limits[modes[0]]["XSlice"]:
     fig = plt.figure(figsize = (10, 8)) 
     ax = fig.add_subplot(1, 1, 1)
     #for mode in modes:
@@ -136,7 +143,7 @@ for MX in All_Limits["1p1"]["XSlice"]:
         for MY in MYs:
             Obses.append(run2_Limits["XSlice"][MX][str(MY)][2])
 
-        ax.plot(MYs, Obses, marker='X', color = "grey", alpha = 0.5, label = "run2 observed",  markersize = markersize)
+        ax.plot(MYs, Obses, marker='X', color = "grey", alpha = 0.5, label = "run2 expected",  markersize = markersize)
 
     ax.set_title(f"XHY4b_All_limit_MX: {MX} GeV")
     ax.set_xlabel("MY(GeV)")

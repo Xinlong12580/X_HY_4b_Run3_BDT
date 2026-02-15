@@ -1,0 +1,17 @@
+n
+Jet_
+FatJet_
+GenPart_
+HLT_AK8PFJet
+HLT_PFJet
+HLT_PFHT
+HLT_AK8DiPFJet
+HLT_AK8PFHT
+Flag_goodVertices
+Flag_globalSuperTightHalo2016Filter
+Flag_EcalDeadCellTriggerPrimitiveFilter
+Flag_BadPFMuonFilter
+Flag_BadPFMuonDzFilter
+Flag_hfNoisyHitsFilter
+Flag_eeBadScFilter
+Flag_ecalBadCalibFilter

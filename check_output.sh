@@ -1,11 +1,13 @@
 output=$1
-years=(2022__ 2022EE__ 2023__ 2023BPix__)
+process=JetMET
+process=NanoAODv15-v1
+years=(2022__ 2022EE__ 2023__ 2023BPix__ 2024__ )
 if [[ $output == "skim" ]]; then
     input_file=skim_args.txt
     amend_file=amend_skim_args.txt
     > $amend_file
     output_dir=/store/user/xinlong/XHY4bRun3_skim
-    output_files=$(eosls $output_dir)
+    output_files=$(eosls $output_dir/*$process*)
     declare -A classified_files
     for file in ${output_files[@]}; do
         for year in ${years[@]}; do
@@ -44,16 +46,17 @@ if [[ $output == "skim" ]]; then
     done < $input_file
 
 
-elif [[ $output == "selection_1p1" ]]; then
+elif [[ $output == "selection_"*"_BDT" ]]; then
+    echo $output
     amend_file=amend_selection_args.txt
     > $amend_file
     input_file=selection_args.txt
-    output_dir=/store/user/xinlong/XHY4bRun3_selection_1p1
-    output_files=$(eosls $output_dir)
+    output_dir=/store/user/xinlong/XHY4bRun3_$output
+    output_files=$(eosls $output_dir/*$process*)
     declare -A classified_files
     for file in ${output_files[@]}; do
         for year in ${years[@]}; do
-            if [[ $file == *"output.log"* ]]; then
+            if [[ $file == *"Template"* || $file == *"RegSig"* ]]; then
                 continue
             fi
             if [[ $file == *"$year"* ]]; then
@@ -62,8 +65,12 @@ elif [[ $output == "selection_1p1" ]]; then
             fi
         done
     done
+    #echo ${classified_files["2024__"]}
     while IFS= read -r line; do
-        #echo "$line"
+        #echo $line
+        if [[ $line != *$process* ]]; then
+            continue
+        fi
         input_arg=$(echo "$line" | awk '{print $2}')
         file_base=$(basename $input_arg)
         file_base="${file_base%.*}"
@@ -83,13 +90,10 @@ elif [[ $output == "selection_1p1" ]]; then
                 break
             fi
         done
-        if [[ $JME_base == "nom"  && $found == 1 ]]; then
+        if [[ $JME_base == "nom"  && $found == 0 ]]; then
             found=0
             for file in ${classified_files["$input_y"]}; do
                 
-                if [[ $file == *SKIM_masked_skimmed_2023BPix__Data__JetMET1__Run2023D-22Sep2023_v2-v1__NANOAOD* ]]; then
-                    echo $file
-                fi                
                 if [[ $file == *"Templates"* && $file == *"$file_base"* && $file == *"$n_base"* && $file == *"$i_base"* && $file == *"$JME_base"* ]]; then                
                     found=1
                     echo TEST
@@ -107,6 +111,7 @@ elif [[ $output == "selection_1p1" ]]; then
         fi
             
     done < $input_file
+
 elif [[ $output == "Nminus1_1p1" ]]; then
     input_file=selection_args.txt
     output_dir=/store/user/xinlong/XHY4bRun3_Nminus1_1p1

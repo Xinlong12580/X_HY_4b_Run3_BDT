@@ -1,0 +1,1 @@
+root://cmseos.fnal.gov//store/user/xinlong//XHY4b_regen/mc_2023BPix/NMSSM_XtoYHto4B_MX-1200_MY-95_TuneCP5_13p6TeV_madgraph-pythia8/Run3Summer23BPixMiniAODv4-130X_mcRun3_2023_realistic_postBPix_v6-v3_DAZSLE_PFNano/260212_211729/0000/MC_postBPix2023_1.root

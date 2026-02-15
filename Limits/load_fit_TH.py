@@ -38,11 +38,14 @@ with open(f"outputList/output_division_{args.mode}_BDT.txt") as f:
 systs = ["JES__up", "JES__down", "JER__up", "JER__down", "PileUp_Corr_up", "PileUp_Corr_down", "TriggerSF_up", "TriggerSF_down", "Pdfweight_up", "Pdfweight_down", "nominal"]
 if args.type == "signal":
     processes = {"SignalMC_XHY4b": [f"MX-{args.mx}_MY-{args.my}"]}
+    #processes = {"SignalMC_XHY4b": [f"MX-{args.mx}_MY-{args.my}", f"MX-{args.mx}-MY-{args.my}"]}
 
 elif args.type == "bkg":
     processes = { "MC_TTBarJets": ["*"], "MC_WZJets": ["Wto2Q-3Jets_HT-200to400", "Wto2Q-3Jets_HT-400to600", "Wto2Q-3Jets_HT-600to800", "Wto2Q-3Jets_HT-800", "Zto2Q-4Jets_HT-200to400", "Zto2Q-4Jets_HT-400to600", "Zto2Q-4Jets_HT-600to800", "Zto2Q-4Jets_HT-800"]}
 elif args.type == "all":
-    processes = { "MC_TTBarJets": ["*"], "MC_WZJets": ["Wto2Q-3Jets_HT-200to400", "Wto2Q-3Jets_HT-400to600", "Wto2Q-3Jets_HT-600to800", "Wto2Q-3Jets_HT-800", "Zto2Q-4Jets_HT-200to400", "Zto2Q-4Jets_HT-400to600", "Zto2Q-4Jets_HT-600to800", "Zto2Q-4Jets_HT-800"], "SignalMC_XHY4b": [f"MX-{args.mx}_MY-{args.my}"]}
+    #processes = { "MC_TTBarJets": ["*"], "MC_WZJets": ["Wto2Q-3Jets_HT-200to400", "Wto2Q-3Jets_HT-400to600", "Wto2Q-3Jets_HT-600to800", "Wto2Q-3Jets_HT-800", "Zto2Q-4Jets_HT-200to400", "Zto2Q-4Jets_HT-400to600", "Zto2Q-4Jets_HT-600to800", "Zto2Q-4Jets_HT-800"], "SignalMC_XHY4b": [f"MX-{args.mx}_MY-{args.my}"]}
+    processes = { "MC_TTBarJets": ["*"], "MC_QCDJets": ["*"],  "SignalMC_XHY4b": [f"MX-{args.mx}_MY-{args.my}"]}
+    #processes = { "MC_TTBarJets": ["*"], "MC_QCDJets": ["*"],  "SignalMC_XHY4b": [f"MX-{args.mx}_MY-{args.my}", f"MX-{args.mx}-MY-{args.my}"]}
 for process in processes:
     if processes[process] == ["*"]:
         processes[process] = []
@@ -58,7 +61,8 @@ print(processes)
 #processes = ["JetMET", "MC_TTBarJets", "MC_WZJets", "SignalMC_XHY4b" ]
 
 regions = ["SR1", "SR2", "SB1", "SB2", "VS1", "VS2", "VS3", "VS4", "VB1", "VB2"]
-years = ["2022", "2022EE", "2023", "2023BPix"]
+regions = ["SR1", "SB1"]
+years = ["2022", "2022EE", "2023", "2023BPix", "2024"]
 MJY_bins = array.array("d", np.linspace(0, 5000, 501) )
 MJJ_bins = array.array("d", np.linspace(0, 5000, 501) )
 hist_base = ROOT.TH2D(f"MJJvsMJY", f"MJJ vs MJY", len(MJY_bins) - 1, MJY_bins, len(MJJ_bins) - 1, MJJ_bins)
@@ -97,7 +101,6 @@ for year in years:
                 else:
                     hists[year][process][region][syst] = hist_base.Clone(f"{year}__{process}__{region}_{hist_mode}__Y{year}_{syst}")
 #print(hists)
-#print(VB1_files)
 if args.type == "bkg" or args.type == "all":
     processes["JetMET"] = {}
 for f_name in template_files:

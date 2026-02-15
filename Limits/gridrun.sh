@@ -76,25 +76,25 @@ SR_PASS=$4
 CR_FAIL=$5
 CR_PASS=$6
 mode=$7
-
+tf="1x1"
 mkdir Templates
 
-./load_fit.sh $MX $MY $mode Control
+#./load_fit.sh $MX $MY $mode Control
 ./load_fit.sh $MX $MY $mode Signal
-#python load_fit_TH_new.py --mx $MX --my $MY --mode $mode --type all 2>&1 | tee -a $root_dir/$OUTTXT
 
-./make_json.sh $mode Control
-python XYH.py --tf 1x1 --sig $MX-$MY --r_fail $CR_FAIL --r_pass $CR_PASS --make --makeCard --wsp CR_MX-"$MX"_MY-"$MY" 2>&1 | tee -a $root_dir/$OUTTXT
+#./make_json.sh $mode Control
+#python XYH.py --tf "$tf" --sig $MX-$MY --r_fail $CR_FAIL --r_pass $CR_PASS --make --makeCard --wsp CR_MX-"$MX"_MY-"$MY" 2>&1 | tee -a $root_dir/$OUTTXT
+#./run_fit.sh  --fitdir CR_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_"$tf"_area/ -b -v 3 2>&1 | tee -a $root_dir/$OUTTXT 
+#control_file=CR_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_"$tf"_area/higgsCombineSnapshot.MultiDimFit.mH125.root
+#root -b -q -l load_parameters.C\(\"$control_file\"\) 2>&1 | tee -a $root_dir/$OUTTXT
+
 ./make_json.sh $mode Signal
-python XYH.py --tf 1x1 --sig $MX-$MY --r_fail $SR_FAIL --r_pass $SR_PASS --make --makeCard --wsp SR_MX-"$MX"_MY-"$MY" 2>&1 | tee -a $root_dir/$OUTTXT
+python XYH.py --tf $tf --sig $MX-$MY --r_fail $SR_FAIL --r_pass $SR_PASS --make --makeCard --wsp SR_MX-"$MX"_MY-"$MY" 2>&1 | tee -a $root_dir/$OUTTXT
 
-./run_fit.sh  --fitdir CR_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_1x1_area/ -b -v 3 2>&1 | tee -a $root_dir/$OUTTXT 
 
-control_file=CR_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_1x1_area/higgsCombineSnapshot.MultiDimFit.mH125.root
-root -b -q -l load_parameters.C\(\"$control_file\"\) 2>&1 | tee -a $root_dir/$OUTTXT
 echo "CALCULATING LIMITS ......." | tee -a $root_dir/$OUTTXT
 ls | tee -a $root_dir/$OUTTXT
-./run_limits.sh --fitdir SR_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_1x1_area/ -l -v 3 2>&1 | tee -a $root_dir/$OUTTXT
+./run_limits.sh --fitdir SR_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_"$tf"_area/ -l -v 3 2>&1 | tee -a $root_dir/$OUTTXT
 
 
 status=${PIPESTATUS[0]}
@@ -103,9 +103,9 @@ if [ $status -eq 0 ]; then
     rm *txt
     # move all snapshots to the EOS (there will only be one)
     cp SR*workspace/base.root base_"$MX"_"$MY"_region_"$CR_FAIL"_"$CR_PASS"_"$SR_FAIL"_"$SR_PASS".root
-    cp SR*workspace/SignalMC_XHY4b_1x1_area/card.txt card_"$MX"_"$MY"_region_"$CR_FAIL"_"$CR_PASS"_"$SR_FAIL"_"$SR_PASS".txt
-    cp SR*workspace/SignalMC_XHY4b_1x1_area/higgsCombine.AsymptoticLimits.mH125.123456.root higgsCombine.AsymptoticLimits.mH125.123456_"$MX"_"$MY"_region_"$CR_FAIL"_"$CR_PASS"_"$SR_FAIL"_"$SR_PASS".root 
-    cp SR*workspace/SignalMC_XHY4b_1x1_area/higgsCombineSnapshot.MultiDimFit.mH125.root higgsCombineSnapshot.MultiDimFit.mH125_"$MX"_"$MY"_region_"$CR_FAIL"_"$CR_PASS"_"$SR_FAIL"_"$SR_PASS".root 
+    cp SR*workspace/SignalMC_XHY4b_"$tf"_area/card.txt card_"$MX"_"$MY"_region_"$CR_FAIL"_"$CR_PASS"_"$SR_FAIL"_"$SR_PASS".txt
+    cp SR*workspace/SignalMC_XHY4b_"$tf"_area/higgsCombine.AsymptoticLimits.mH125.123456.root higgsCombine.AsymptoticLimits.mH125.123456_"$MX"_"$MY"_region_"$CR_FAIL"_"$CR_PASS"_"$SR_FAIL"_"$SR_PASS".root 
+    cp SR*workspace/SignalMC_XHY4b_"$tf"_area/higgsCombineSnapshot.MultiDimFit.mH125.root higgsCombineSnapshot.MultiDimFit.mH125_"$MX"_"$MY"_region_"$CR_FAIL"_"$CR_PASS"_"$SR_FAIL"_"$SR_PASS".root 
     xrdcp -f *txt *root root://cmseos.fnal.gov//store/user/$USER/XHY4bRun3_limits_"$mode"_BDT/
     tar -cvzf workspace_"$MX"_"$MY"_region_"$CR_FAIL"_"$CR_PASS"_"$SR_FAIL"_"$SR_PASS".tgz *workspace
     xrdcp -f *gz root://cmseos.fnal.gov//store/user/$USER/XHY4bRun3_limits_"$mode"_BDT/

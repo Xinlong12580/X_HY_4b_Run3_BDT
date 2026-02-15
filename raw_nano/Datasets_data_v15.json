@@ -1,0 +1,47 @@
+{
+    "2022": {
+        "Data": {
+            "JetMET__Run2022C-NanoAODv15-v1__NANOAOD": "/JetMET/Run2022C-NanoAODv15-v1/NANOAOD",
+            "JetMET__Run2022D-NanoAODv15-v1__NANOAOD": "/JetMET/Run2022D-NanoAODv15-v1/NANOAOD"
+        }
+    },
+    "2022EE": {
+        "Data": {
+            "JetMET__Run2022E-NanoAODv15-v1__NANOAOD": "/JetMET/Run2022E-NanoAODv15-v1/NANOAOD",
+            "JetMET__Run2022F-NanoAODv15-v1__NANOAOD": "/JetMET/Run2022F-NanoAODv15-v1/NANOAOD",
+            "JetMET__Run2022G-NanoAODv15-v1__NANOAOD": "/JetMET/Run2022G-NanoAODv15-v1/NANOAOD"
+        }
+    },
+    "2023": {
+        "Data": {
+            "JetMET0__Run2023C-NanoAODv15-v1__NANOAOD": "/JetMET0/Run2023C-NanoAODv15-v1/NANOAOD",
+            "JetMET1__Run2023C-NanoAODv15-v1__NANOAOD": "/JetMET1/Run2023C-NanoAODv15-v1/NANOAOD"
+        }
+    },
+    "2023BPix": {
+        "Data": {
+            "JetMET0__Run2023D-NanoAODv15-v1__NANOAOD": "/JetMET0/Run2023D-NanoAODv15-v1/NANOAOD",
+            "JetMET1__Run2023D-NanoAODv15-v1__NANOAOD": "/JetMET1/Run2023D-NanoAODv15-v1/NANOAOD"
+        }
+    },
+    "2024": {
+        "Data": {
+            "JetMET0__Run2024C-MINIv6NANOv15-v1__NANOAOD": "/JetMET0/Run2024C-MINIv6NANOv15-v1/NANOAOD",
+            "JetMET0__Run2024D-MINIv6NANOv15-v1__NANOAOD": "/JetMET0/Run2024D-MINIv6NANOv15-v1/NANOAOD",
+            "JetMET0__Run2024E-MINIv6NANOv15-v1__NANOAOD": "/JetMET0/Run2024E-MINIv6NANOv15-v1/NANOAOD",
+            "JetMET0__Run2024F-MINIv6NANOv15-v2__NANOAOD": "/JetMET0/Run2024F-MINIv6NANOv15-v2/NANOAOD",
+            "JetMET0__Run2024G-MINIv6NANOv15-v2__NANOAOD": "/JetMET0/Run2024G-MINIv6NANOv15-v2/NANOAOD",
+            "JetMET0__Run2024H-MINIv6NANOv15-v2__NANOAOD": "/JetMET0/Run2024H-MINIv6NANOv15-v2/NANOAOD",
+            "JetMET0__Run2024I-MINIv6NANOv15-v2__NANOAOD": "/JetMET0/Run2024I-MINIv6NANOv15-v2/NANOAOD",
+            "JetMET0__Run2024I-MINIv6NANOv15_v2-v1__NANOAOD": "/JetMET0/Run2024I-MINIv6NANOv15_v2-v1/NANOAOD",
+            "JetMET1__Run2024C-MINIv6NANOv15-v1__NANOAOD": "/JetMET1/Run2024C-MINIv6NANOv15-v1/NANOAOD",
+            "JetMET1__Run2024D-MINIv6NANOv15-v1__NANOAOD": "/JetMET1/Run2024D-MINIv6NANOv15-v1/NANOAOD",
+            "JetMET1__Run2024E-MINIv6NANOv15-v1__NANOAOD": "/JetMET1/Run2024E-MINIv6NANOv15-v1/NANOAOD",
+            "JetMET1__Run2024F-MINIv6NANOv15-v2__NANOAOD": "/JetMET1/Run2024F-MINIv6NANOv15-v2/NANOAOD",
+            "JetMET1__Run2024G-MINIv6NANOv15-v2__NANOAOD": "/JetMET1/Run2024G-MINIv6NANOv15-v2/NANOAOD",
+            "JetMET1__Run2024H-MINIv6NANOv15-v2__NANOAOD": "/JetMET1/Run2024H-MINIv6NANOv15-v2/NANOAOD",
+            "JetMET1__Run2024I-MINIv6NANOv15-v1__NANOAOD": "/JetMET1/Run2024I-MINIv6NANOv15-v1/NANOAOD",
+            "JetMET1__Run2024I-MINIv6NANOv15_v2-v2__NANOAOD": "/JetMET1/Run2024I-MINIv6NANOv15_v2-v2/NANOAOD"
+        }
+    }
+}

@@ -4,6 +4,7 @@ output="$operation"_args.txt
 > $output
 if [[ $operation == "skim" ]] ; then
     files=raw_nano/files/*.txt
+    #files=raw_nano/files_original_dataset/*.txt
     n_files_base=2
 else
     files=outputList/"${input^^}"*.txt
@@ -15,14 +16,16 @@ if [[ $operation == *"debug"* ]] ; then
 fi
 debug=0
 for file in $files; do
-    
     if [[ ( $operation == *"selection"* || $operation == *"Nminus1"* ) && ( $file == *"QCD"* ||  $file == *"Data"* ) ]] ; then
-        n_files=2
+        n_files=1
     elif [[ ( $operation == *"selection"* || $operation == *"Nminus1"* ) && ( $file == *"TTBar"* || $file == *"WZ"* ) ]] ; then
-        n_files=5
+        n_files=2
     else
         n_files=$n_files_base
     fi
+    if [[  ( $operation == *"skim"* ) && ( $file != *"24"* ) && ( $file == *"QCD"* ) ]] ; then
+        n_files=10
+    fi 
         
     pass=0
     #if [[ "$file" == *"SignalMC"* ]]; then
@@ -50,11 +53,16 @@ for file in $files; do
     pass=0
     if [[  ($file == *"TTBar"* || $file == *"Data"* || $file == *"SignalMC"* ) && $file != *"2024"*  ]]; then
     #if [[  ($file == *"TTBar"* || $file == *"Data"*  ) && $file != *"2024"*  ]]; then
-        pass=1
-    fi
-    if [[  ( $file == *"QCD"* ) && $file == *"2022EE"*  ]]; then
         pass=0
     fi
+    if [[  ( $file == *"QCD"* )  ]]; then
+        pass=0
+    fi
+    #if [[  (  $file == *"2024"*"JetMET"* )  ]]; then
+    if [[  (  $file == *"QCD"* ) || (  $file != *"2024"* && $file != *"Signal"* ) ]]; then
+        pass=1
+    fi
+
 
     if [[ $operation == *"selection"* && $pass == 1 ]]; then
         extras=("-s nom" "-s JES__up" "-s JES__down" "-s JER__up" "-s JER__down")
@@ -72,6 +80,8 @@ for file in $files; do
                     ./gen_args.sh $file 2023 $output $n_files "$extra"
                 elif [[ "$file" == *"2023BPix__"* ]]; then
                     ./gen_args.sh $file 2023BPix $output $n_files "$extra"
+                elif [[ "$file" == *"2024"* ]]; then
+                    ./gen_args.sh $file 2024 $output $n_files "$extra"
                 fi
             fi
             if [[ $file == *"Data"* || $file == *"QCD"* || $file == *"DiBoson"* || $file == *"SingleTop"* || $file == *"Higgs"* ]]; then
@@ -88,6 +98,8 @@ for file in $files; do
                 ./gen_args.sh $file 2023 $output $n_files
             elif [[ "$file" == *"2023BPix__"* ]]; then
                 ./gen_args.sh $file 2023BPix $output $n_files
+            elif [[ "$file" == *"2024__"* ]]; then
+                ./gen_args.sh $file 2024 $output $n_files
             fi
         fi
     fi

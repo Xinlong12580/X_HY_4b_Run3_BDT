@@ -8,15 +8,28 @@ import json
 import pickle
 from XHY4b_Helper import *
 ROOT.gROOT.SetBatch(True)
-years = ["2022", "2022EE", "2023", "2023BPix"]
+from argparse import ArgumentParser
+parser=ArgumentParser()
+parser.add_argument('--mode', type=str, dest='mode',action='store', required=True)
+args = parser.parse_args()
+
+years = ["2022", "2022EE", "2023", "2023BPix", "2024"]
+#years = ["2022", "2022EE", "2023", "2023BPix"]
 processes = {"MC_WZJets": ["*"], "MC_TTBarJets": ["*"], "MC_QCDJets": ["*"], "SignalMC_XHY4b": ["MX-3000_MY-300"]}
 processes = {"MC_TTBarJets": ["*"]}
+processes = {"MC_TTBarJets": ["*"], "MC_QCDJets": ["*"]}
 regions = ["SR1", "SB1"]
 
 MJY_bins = array.array("d", np.linspace(0, 1000, 11) )
 MJJ_bins = array.array("d", np.linspace(0, 3000, 21) )
 MJY_bins = array.array("d",[40, 100, 140,  200, 300,  600,  800 ,1000])
-MJJ_bins = array.array("d", [300, 400, 500,  700, 900, 1200, 1500, 2000,3000,4000, 5000] )
+MJY_bins = array.array("d", [200,  300, 400, 500, 600, 700, 800, 900,1000, 1200, 1500, 2000, 3000, 4000, 5000])
+MJY_bins = array.array("d", [200,  300, 400, 500, 600, 700, 800, 900,1000, 1200, 1500, 2000, 2500, 3000,  4000, 5000])
+MJJ_bins = array.array("d", [300, 400, 500, 600, 700, 800,900,1000, 1200, 1500, 2000, 2500, 3000,  4000, 5000] )
+MJY_bins = array.array("d", [200, 400,  600,  800, 1000, 1200, 1500, 2000, 2500, 3000,  4000, 5000])
+MJJ_bins = array.array("d", [300,  500,  700, 900, 1200, 1500, 2000, 2500, 3000,  4000, 5000] )
+#MJY_bins = array.array("d", np.linspace(0, 3000, 16) )
+#MJJ_bins = array.array("d", np.linspace(0, 5000, 26) )
 nbins_x = len(MJY_bins) - 1
 nbins_y = len(MJJ_bins) - 1
 h_base = ROOT.TH2D("Mass", "MJJ vs MJY", len(MJY_bins) - 1, MJY_bins, len(MJJ_bins) - 1, MJJ_bins) 
@@ -25,7 +38,7 @@ h_base_projy = h_base.ProjectionY("MassJJ")
 
 x_edges = np.array(MJY_bins)
 y_edges = np.array(MJJ_bins)
-mode = "1p1"
+mode = args.mode
 f_name=f"Templates/Templates_{mode}_Control_all.root"
 save_dir = f"plots/prefit_{mode}"
 #######################################################################################################################
@@ -187,11 +200,11 @@ for region in regions:
         h_BKGs_rebinned_projy_merged[region][year]["Net_QCDJets"].Add(h_BKGs_rebinned_projy_merged[region][year]["MC_TTBarJets"], -1)
         
 
-
-        h_BKGs_rebinned_projx_merged[region][year]["MC_QCDJets"] = h_BKGs_rebinned_projx_merged[region][year]["MC_TTBarJets"].Clone(f"QCD_x_{year}_{region}")
-        h_BKGs_rebinned_projy_merged[region][year]["MC_QCDJets"] = h_BKGs_rebinned_projy_merged[region][year]["MC_TTBarJets"].Clone(f"QCD_y_{year}_{region}")
-        h_BKGs_rebinned_projx_merged[region][year]["MC_QCDJets"].Reset()
-        h_BKGs_rebinned_projy_merged[region][year]["MC_QCDJets"].Reset()
+        if "MC_QCDJets" not in h_BKGs_rebinned_projx_merged[region][year]:
+            h_BKGs_rebinned_projx_merged[region][year]["MC_QCDJets"] = h_BKGs_rebinned_projx_merged[region][year]["MC_TTBarJets"].Clone(f"QCD_x_{year}_{region}")
+            h_BKGs_rebinned_projy_merged[region][year]["MC_QCDJets"] = h_BKGs_rebinned_projy_merged[region][year]["MC_TTBarJets"].Clone(f"QCD_y_{year}_{region}")
+            h_BKGs_rebinned_projx_merged[region][year]["MC_QCDJets"].Reset()
+            h_BKGs_rebinned_projy_merged[region][year]["MC_QCDJets"].Reset()
         ax1.errorbar(bin_centers_projx, data_binned_projx[region][year], yerr=data_binned_error_projx[region][year], fmt='o', color='black', label='Data')
         mplhep.histplot(
             #[h_BKGs_rebinned_projx_merged[year]["MC_SingleTopJets"][region], h_BKGs_rebinned_projx_merged[year]["MC_DibosonJets"][region], h_BKGs_rebinned_projx_merged[year]["MC_HiggsJets"][region], h_BKGs_rebinned_projx_merged[region][year]["MC_TTBarJets"], h_BKGs_rebinned_projx_merged[year]["MC_WZJets"][region], h_BKGs_rebinned_projx_merged[region][year]["MC_QCDJets"]],
@@ -265,45 +278,118 @@ for region in regions:
         plt.close(fig)
         print("finished: ", region, year)
 
-h_netQCD_rebinned_projx_merged_allyears_VS2 = h_base_projx.Clone("h_netQCD_rebinned_projx_merged_allyears_VS2")
-h_netQCD_rebinned_projx_merged_allyears_VB1 = h_base_projx.Clone("h_netQCD_rebinned_projx_merged_allyears_VB1")
-h_netQCD_rebinned_projy_merged_allyears_VS2 = h_base_projy.Clone("h_netQCD_rebinned_projy_merged_allyears_VS2")
-h_netQCD_rebinned_projy_merged_allyears_VB1 = h_base_projy.Clone("h_netQCD_rebinned_projy_merged_allyears_VB1")
+h_netQCD_rebinned_projx_merged_allyears_SR1 = h_base_projx.Clone("h_netQCD_rebinned_projx_merged_allyears_SR1")
+h_netQCD_rebinned_projx_merged_allyears_SB1 = h_base_projx.Clone("h_netQCD_rebinned_projx_merged_allyears_SB1")
+h_netQCD_rebinned_projy_merged_allyears_SR1 = h_base_projy.Clone("h_netQCD_rebinned_projy_merged_allyears_SR1")
+h_netQCD_rebinned_projy_merged_allyears_SB1 = h_base_projy.Clone("h_netQCD_rebinned_projy_merged_allyears_SB1")
 for year in years:
-    h_netQCD_rebinned_projx_merged_allyears_VS2.Add(h_BKGs_rebinned_projx_merged["VS2"][year]["Net_QCDJets"])
-    h_netQCD_rebinned_projx_merged_allyears_VB1.Add(h_BKGs_rebinned_projx_merged["VB1"][year]["Net_QCDJets"])
-    h_netQCD_rebinned_projy_merged_allyears_VS2.Add(h_BKGs_rebinned_projy_merged["VS2"][year]["Net_QCDJets"])
-    h_netQCD_rebinned_projy_merged_allyears_VB1.Add(h_BKGs_rebinned_projy_merged["VB1"][year]["Net_QCDJets"])
-QCD_ratio_x_VS2_VB1 =  h_netQCD_rebinned_projx_merged_allyears_VS2.Clone("QCD_ratio_x") 
-QCD_ratio_x_VS2_VB1.Divide(h_netQCD_rebinned_projx_merged_allyears_VB1) 
-QCD_ratio_y_VS2_VB1 =  h_netQCD_rebinned_projy_merged_allyears_VS2.Clone("QCD_ratio_y") 
-QCD_ratio_y_VS2_VB1.Divide(h_netQCD_rebinned_projy_merged_allyears_VB1) 
+    h_netQCD_rebinned_projx_merged_allyears_SR1.Add(h_BKGs_rebinned_projx_merged["SR1"][year]["Net_QCDJets"])
+    h_netQCD_rebinned_projx_merged_allyears_SB1.Add(h_BKGs_rebinned_projx_merged["SB1"][year]["Net_QCDJets"])
+    h_netQCD_rebinned_projy_merged_allyears_SR1.Add(h_BKGs_rebinned_projy_merged["SR1"][year]["Net_QCDJets"])
+    h_netQCD_rebinned_projy_merged_allyears_SB1.Add(h_BKGs_rebinned_projy_merged["SB1"][year]["Net_QCDJets"])
+QCD_ratio_x_SR1_SB1 =  h_netQCD_rebinned_projx_merged_allyears_SR1.Clone("QCD_ratio_x") 
+QCD_ratio_x_SR1_SB1.Divide(h_netQCD_rebinned_projx_merged_allyears_SB1) 
+QCD_ratio_y_SR1_SB1 =  h_netQCD_rebinned_projy_merged_allyears_SR1.Clone("QCD_ratio_y") 
+QCD_ratio_y_SR1_SB1.Divide(h_netQCD_rebinned_projy_merged_allyears_SB1) 
+
+#QCD_ratio_x_SR1_SB1 =  h_netQCD_rebinned_projx_merged_allyears_SB1.Clone("QCD_ratio_x") 
+#QCD_ratio_x_SR1_SB1.Divide(h_netQCD_rebinned_projx_merged_allyears_SR1) 
+#QCD_ratio_y_SR1_SB1 =  h_netQCD_rebinned_projy_merged_allyears_SB1.Clone("QCD_ratio_y") 
+#QCD_ratio_y_SR1_SB1.Divide(h_netQCD_rebinned_projy_merged_allyears_SR1) 
+c = ROOT.TCanvas()
+h_netQCD_rebinned_projx_merged_allyears_SR1.Draw("E")  
+c.Update()
+c.SaveAs(f"{save_dir}/NetQCD_SR1_x.png") 
+c = ROOT.TCanvas()
+h_netQCD_rebinned_projx_merged_allyears_SB1.Draw("E")  
+c.Update()
+c.SaveAs(f"{save_dir}/NetQCD_SB1_x.png") 
+c = ROOT.TCanvas()
+h_netQCD_rebinned_projy_merged_allyears_SR1.Draw("E")  
+c.Update()
+c.SaveAs(f"{save_dir}/NetQCD_SR1_y.png") 
+c = ROOT.TCanvas()
+h_netQCD_rebinned_projy_merged_allyears_SB1.Draw("E")  
+c.Update()
+c.SaveAs(f"{save_dir}/NetQCD_SB1_y.png") 
 
 c = ROOT.TCanvas()
-h_netQCD_rebinned_projx_merged_allyears_VS2.Draw("E")  
+
+QCD_ratio_x_SR1_SB1.Draw("E")  
 c.Update()
-c.SaveAs(f"{save_dir}/NetQCD_VS2_x.png") 
+c.SaveAs(f"{save_dir}/NetQCD_ratio_SR1_SB1_x.png") 
 c = ROOT.TCanvas()
-h_netQCD_rebinned_projx_merged_allyears_VB1.Draw("E")  
+QCD_ratio_y_SR1_SB1.Draw("E")  
 c.Update()
-c.SaveAs(f"{save_dir}/NetQCD_VB1_x.png") 
+c.SaveAs(f"{save_dir}/NetQCD_ratio_SR1_SB1_y.png") 
+#exit()     
+
+
+
+h_netQCD_rebinned_projx_merged_allyears_SR1 = h_base_projx.Clone("h_MCQCD_rebinned_projx_merged_allyears_SR1")
+h_netQCD_rebinned_projx_merged_allyears_SB1 = h_base_projx.Clone("h_MCQCD_rebinned_projx_merged_allyears_SB1")
+h_netQCD_rebinned_projy_merged_allyears_SR1 = h_base_projy.Clone("h_MCQCD_rebinned_projy_merged_allyears_SR1")
+h_netQCD_rebinned_projy_merged_allyears_SB1 = h_base_projy.Clone("h_MCQCD_rebinned_projy_merged_allyears_SB1")
+for year in years:
+    h_netQCD_rebinned_projx_merged_allyears_SR1.Add(h_BKGs_rebinned_projx_merged["SR1"][year]["MC_QCDJets"])
+    h_netQCD_rebinned_projx_merged_allyears_SB1.Add(h_BKGs_rebinned_projx_merged["SB1"][year]["MC_QCDJets"])
+    h_netQCD_rebinned_projy_merged_allyears_SR1.Add(h_BKGs_rebinned_projy_merged["SR1"][year]["MC_QCDJets"])
+    h_netQCD_rebinned_projy_merged_allyears_SB1.Add(h_BKGs_rebinned_projy_merged["SB1"][year]["MC_QCDJets"])
+MCQCD_ratio_x_SR1_SB1 =  h_netQCD_rebinned_projx_merged_allyears_SR1.Clone("MCQCD_ratio_x") 
+MCQCD_ratio_x_SR1_SB1.Divide(h_netQCD_rebinned_projx_merged_allyears_SB1) 
+MCQCD_ratio_y_SR1_SB1 =  h_netQCD_rebinned_projy_merged_allyears_SR1.Clone("MCQCD_ratio_y") 
+MCQCD_ratio_y_SR1_SB1.Divide(h_netQCD_rebinned_projy_merged_allyears_SB1) 
+
 c = ROOT.TCanvas()
-h_netQCD_rebinned_projy_merged_allyears_VS2.Draw("E")  
+h_netQCD_rebinned_projx_merged_allyears_SR1.Draw("E")  
 c.Update()
-c.SaveAs(f"{save_dir}/NetQCD_VS2_y.png") 
+c.SaveAs(f"{save_dir}/MCQCD_SR1_x.png") 
 c = ROOT.TCanvas()
-h_netQCD_rebinned_projy_merged_allyears_VB1.Draw("E")  
+h_netQCD_rebinned_projx_merged_allyears_SB1.Draw("E")  
 c.Update()
-c.SaveAs(f"{save_dir}/NetQCD_VB1_y.png") 
+c.SaveAs(f"{save_dir}/MCQCD_SB1_x.png") 
 c = ROOT.TCanvas()
-QCD_ratio_x_VS2_VB1.Draw("E")  
+h_netQCD_rebinned_projy_merged_allyears_SR1.Draw("E")  
 c.Update()
-c.SaveAs(f"{save_dir}/NetQCD_ratio_VS2_VB1_x.png") 
+c.SaveAs(f"{save_dir}/MCQCD_SR1_y.png") 
 c = ROOT.TCanvas()
-QCD_ratio_y_VS2_VB1.Draw("E")  
+h_netQCD_rebinned_projy_merged_allyears_SB1.Draw("E")  
 c.Update()
-c.SaveAs(f"{save_dir}/NetQCD_ratio_VS2_VB1_y.png") 
+c.SaveAs(f"{save_dir}/MCQCD_SB1_y.png") 
+c = ROOT.TCanvas()
+MCQCD_ratio_x_SR1_SB1.SetMarkerColor(ROOT.kRed)
+MCQCD_ratio_x_SR1_SB1.SetLineColor(ROOT.kRed)
+MCQCD_ratio_x_SR1_SB1.Draw("E")  
+QCD_ratio_x_SR1_SB1.Draw("ESAME")  
+c.Update()
+c.SaveAs(f"{save_dir}/MCQCD_ratio_SR1_SB1_x.png") 
+c = ROOT.TCanvas()
+MCQCD_ratio_y_SR1_SB1.SetMarkerColor(ROOT.kRed)
+MCQCD_ratio_y_SR1_SB1.SetLineColor(ROOT.kRed)
+MCQCD_ratio_y_SR1_SB1.Draw("E")  
+QCD_ratio_y_SR1_SB1.Draw("ESAME")  
+c.Update()
+c.SaveAs(f"{save_dir}/MCQCD_ratio_SR1_SB1_y.png") 
 exit()     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ##########################################################################################################################
 #--------------------------------------fitting R_p/f------------------------------------------------------------------------
 ###################################################################################################################

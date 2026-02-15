@@ -223,7 +223,10 @@ class XHY4b_Analyzer:
         if self.totalWeight["BeforeSkim"] == 0:
             raise ValueError("file loading failed")
         #The SkimFlag contains both 1p1 and 2p1 events. for 1p1 the flag is 1 and 3; for 2p1 the flag is 2 and 3
-        self.analyzer.Define("SkimFlag","skimFlag(nFatJet,FatJet_pt, FatJet_eta,FatJet_msoftdrop,nJet,Jet_pt, Jet_eta, nElectron,Electron_cutBased,nMuon,Muon_looseId,Muon_pfIsoId,Muon_miniIsoId)")
+        self.analyzer.Define("FatJet_regressedMass", "makeRegressedMass(nFatJet, FatJet_mass, FatJet_particleNet_massCorr)")
+
+        self.analyzer.Define("SkimFlag","skimFlag(nFatJet,FatJet_pt, FatJet_eta, FatJet_msoftdrop, FatJet_regressedMass, nJet,Jet_pt, Jet_eta)")
+        #self.analyzer.Define("SkimFlag","skimFlag(nFatJet,FatJet_pt, FatJet_eta, FatJet_msoftdrop,nJet,Jet_pt, Jet_eta, nElectron,Electron_cutBased,nMuon,Muon_looseId,Muon_pfIsoId,Muon_miniIsoId)")
         
         self.analyzer.Cut("SkimFlagCut","SkimFlag>0")
         self.register_weight("Skim")
@@ -256,13 +259,14 @@ class XHY4b_Analyzer:
             AutoJME.AutoJME(self.analyzer, ["Jet", "FatJet"], self.corr_year, self.data_era, True)
         else:
             AutoJME.AutoJME(self.analyzer, ["Jet"], self.corr_year, self.data_era, True)
-            self.analyzer.Define(f"FatJet_pt_{JME_syst}", "FatJet_pt")
-            self.analyzer.Define(f"FatJet_msoftdrop_{JME_syst}", "FatJet_msoftdrop")
+            self.analyzer.Define(f"FatJet_pt_{JME_syst}", "FatJet_pt") ###TEMPORARY SOLUTION!!!!!!!!!!!!!!
+            self.analyzer.Define(f"FatJet_msoftdrop_{JME_syst}", "FatJet_msoftdrop")###TEMPORARY SOLUTION!!!!!!!!!!!!!!
         if not (self.isData == 1):
-            if self.year != "2024":
-                AutoPU.AutoPU(self.analyzer, self.corr_year)
-            else:
-                 AutoPU.AutoPU(self.analyzer, "2023_Summer23BPix")  
+            AutoPU.AutoPU(self.analyzer, self.corr_year)
+            #if self.year != "2024":
+            #    AutoPU.AutoPU(self.analyzer, self.corr_year)
+            #else:
+            #     AutoPU.AutoPU(self.analyzer, "2023_Summer23BPix")  ###TEMPORARY SOLUTION!!!!!!!!!!!!!!
             genW = Correction('genW',"cpp_modules/genW.cc",corrtype='corr')
             evalargs = {
                     "genWeight": "genWeight",
@@ -385,13 +389,14 @@ class XHY4b_Analyzer:
             AutoJME.AutoJME(self.analyzer, ["Jet", "FatJet"], self.corr_year, self.data_era, True)
         else:
             AutoJME.AutoJME(self.analyzer, ["Jet"], self.corr_year, self.data_era, True)
-            self.analyzer.Define(f"FatJet_pt_{JME_syst}", "FatJet_pt")
+            self.analyzer.Define(f"FatJet_pt_{JME_syst}", "FatJet_pt")###############TEMPORARY SOLUTION
             self.analyzer.Define(f"FatJet_msoftdrop_{JME_syst}", "FatJet_msoftdrop")
         if not (self.isData == 1):
-            if self.year != "2024":
-                AutoPU.AutoPU(self.analyzer, self.corr_year)
-            else:
-                 AutoPU.AutoPU(self.analyzer, "2023_Summer23BPix")  
+            AutoPU.AutoPU(self.analyzer, self.corr_year)
+            #if self.year != "2024":
+            #    AutoPU.AutoPU(self.analyzer, self.corr_year)
+            #else:
+            #     AutoPU.AutoPU(self.analyzer, "2023_Summer23BPix")  ###############TEMPORARY SOLUTION
             genW    = Correction('genW',"cpp_modules/genW.cc",corrtype='corr')
             evalargs = {
                     "genWeight": "genWeight",
@@ -502,8 +507,8 @@ class XHY4b_Analyzer:
      
         self.analyzer.Cut("PNet_YminCut", "PNet_Ymin > 0.1")
         self.register_weight("PNet_Ymin")
-        #self.analyzer.Cut("MJYCut", "MassYCandidate > 200")
-        #self.register_weight("MJYCut")
+        self.analyzer.Cut("MJYCut", "MassYCandidate > 200")
+        self.register_weight("MJYCut")
 
 
         #defining a few variables
@@ -520,14 +525,17 @@ class XHY4b_Analyzer:
         if not (self.isData == 1):
             self.analyzer.AddCorrection(
                 Correction('TriggerSF','cpp_modules/Trigger_SF.cc',["raw_nano/trigger_2p1_SFs.json", self.year], corrtype='weight'), {"pt":"leadingFatJetPt", "mass":"MX"}
-            ) 
+            ) ###############TEMPORARY SOLUTION for 24
         self.analyzer.MakeWeightCols(name = "All")
         
         print(f"DEBUG: { self.analyzer.GetActiveNode().DataFrame.Count().GetValue()}") 
 
 
 
-    def selection_compound(self, JME_syst = "nom"):
+
+
+        
+    def selection_combined_BDT(self, JME_syst = "nom", region = "Signal"):
         AutoJetID.AutoJetID(self.analyzer, self.corr_year, ["Jet","FatJet"], nanoAOD_ver = self.nanoAOD_ver)
         if self.year != "2024":
             AutoJME.AutoJME(self.analyzer, ["Jet", "FatJet"], self.corr_year, self.data_era, True)
@@ -594,7 +602,10 @@ class XHY4b_Analyzer:
         self.analyzer.Define("flag1p1_DeltaEtaCut", "flag1p1_SkimCut == 0 ? false : abs(FatJet_eta.at(0) - FatJet_eta.at(1)) < 1.3")
         
         #Higgs Match
-        self.analyzer.Define("val1p1_idxH_try", f"flag1p1_SkimCut == 0 ? 0 : higgsMassMatching(FatJet_msoftdrop_{JME_syst}.at(0), FatJet_msoftdrop_{JME_syst}.at(1))")
+        if region == "Control":
+            self.analyzer.Define("val1p1_idxH_try", f"higgsMassMatching(FatJet_msoftdrop_{JME_syst}[0], FatJet_msoftdrop_{JME_syst}[1], 150, 200)")
+        elif region == "Signal":
+            self.analyzer.Define("val1p1_idxH_try", f"higgsMassMatching(FatJet_msoftdrop_{JME_syst}[0], FatJet_msoftdrop_{JME_syst}[1], 100, 150)")
         self.analyzer.Define("val1p1_idxY_try", "flag1p1_SkimCut == 0 ? 0 : 1 - val1p1_idxH_try")
         self.analyzer.Define("val1p1_idxH", "flag1p1_SkimCut == 0 ? 0 : std::max(0, val1p1_idxH_try)")
         self.analyzer.Define("val1p1_idxY", "flag1p1_SkimCut == 0 ? 0 : std::min(1, val1p1_idxY_try)")
@@ -631,7 +642,11 @@ class XHY4b_Analyzer:
         self.analyzer.Define("flag2p1_SkimCut", "SkimFlag == 2 || SkimFlag == 3")
         
         #Looking for Higgs Jet
-        self.analyzer.Define("val2p1_idxJH_try", f"flag2p1_SkimCut == 0 ? 0 : FindIdxJH(FatJet_msoftdrop_{JME_syst}, 100, 150, 10000)")
+        #self.analyzer.Define("val2p1_idxJH_try", f"flag2p1_SkimCut == 0 ? 0 : FindIdxJH(FatJet_msoftdrop_{JME_syst}, 100, 150, 10000)")
+        if region == "Signal":
+            self.analyzer.Define("val2p1_idxJH_try", f"FindIdxJH(FatJet_msoftdrop_{JME_syst}, 100, 150, 10000, 125)")
+        elif region == "Control":
+            self.analyzer.Define("val2p1_idxJH_try", f"FindIdxJH(FatJet_msoftdrop_{JME_syst}, 150, 200, 10000, 175)")
         self.analyzer.Define("val2p1_idxJH", f"flag2p1_SkimCut == 0 ? 0 : std::max(val2p1_idxJH_try, 0)")
         self.analyzer.Define("flag2p1_HiggsMassCut", f"flag2p1_SkimCut == 0 ? false : val2p1_idxJH_try >= 0")
 
@@ -779,14 +794,61 @@ class XHY4b_Analyzer:
         ROOT.gInterpreter.Declare('MVA_evaluator evaluator(4, std::vector<std::string>({ "DeltaY", "MassHiggsCandidate", "PNet_H", "PNet_Y"}), "raw_nano/TMVAClassification_BDTG.weights_1p1.xml", 3, std::vector<std::string>({"BDT_weight", "minPNet", "sample_ID"}) );')
         self.analyzer.Define("BDTG", "evaluator.eval(std::vector<float>({ DeltaY, MassHiggsCandidate, PNet_H, PNet_Y}))")
         ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/DDT_map_para_1p1.txt", "1.99/(1+exp(- [5] /x * ( [0] + [1]*x+[2]*y + [3]*x*x + [4]*y*y ))) - 1");')
-        self.analyzer.Define("Region_SR1", f'Dmap.eval(BDTG, MX, MY)')
+        #ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/DDT_map_para_1p1.txt", "0.8 + 0 * x * [5]");')
+        self.analyzer.Define("BDTG_threshold", f'Dmap.eval(MX, MY)')
+        self.analyzer.Define("Region_SR1", f'BDTG > BDTG_threshold')
         self.analyzer.Define("Region_SB1", f"! Region_SR1")
     
     def BDT_tagging_2p1(self):        
-        ROOT.gInterpreter.Declare('MVA_evaluator evaluator(4, std::vector<std::string>({ "DeltaY", "MassHiggsCandidate", "PNet_H", "PNet_Y"}), "raw_nano/TMVAClassification_BDTG.weights_2p1.xml", 3, std::vector<std::string>({"BDT_weight", "minPNet", "sample_ID"}) );')
-        self.analyzer.Define("BDTG", "evaluator.eval(std::vector<float>({ DeltaY, MassHiggsCandidate, PNet_H, PNet_Y}))")
-        ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/DDT_map_para_2p1.txt");')
-        self.analyzer.Define("Region_SR1", f'Dmap.eval(BDTG, MX, MY)')
+        self.analyzer.Cut("minPNet", "PNet_H > 0.3 && PNet_Y > 0.3 && PNet_Ymin > 0.1") 
+        self.register_weight("minPNet")
+        self.analyzer.Cut("MJYCut", "MassYCandidate > 200")
+        self.register_weight("massJYCut")
+        ROOT.gInterpreter.Declare('MVA_evaluator evaluator(4, std::vector<std::string>({ "MassHiggsCandidate", "PNet_H", "PNet_Y", "PNet_Ymin"}), "raw_nano/TMVAClassification_BDTG.weights_2p1.xml", 6, std::vector<std::string>({"BDT_weight", "PNet_Y0", "PNet_Y1", "minPNet", "minPNet_higherY", "sample_ID"}) );')
+        self.analyzer.Define("BDTG", "evaluator.eval(std::vector<float>({ MassHiggsCandidate, PNet_H, PNet_Y, PNet_Ymin}))")
+        #ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/DDT_map_para_2p1.txt", "0.14/(1+exp(- [5]  * ( [0] + [1]*x+[2]*y + [3]*x*x + [4]*y*y ))) + 0.78");')
+        ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/DDT_map_para_2p1.txt", "1.8/(1+exp( [4] * (sqrt( (x - [0]) * (x - [0]) / [1] / [1]  + (y - [2]) * (y - [2]) / [3] / [3]) - [5] ) ) ) - 1");')
+        #ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/DDT_map_para_2p1.txt", "0.16/(1+exp(- [5]  * ( [0] + [1]*x+[2]*y + [3]*x*x + [4]*y*y ))) + 0.8");')
+        #ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/DDT_map_para_2p1.txt", "0.8 + 0 * x * [5]");')
+        self.analyzer.Define("BDTG_threshold", f'Dmap.eval(MX, MY)')
+        self.analyzer.Define("Region_SR1", f'BDTG > BDTG_threshold')
+        self.analyzer.Define("Region_SB1", f"! Region_SR1")
+
+
+    def BDT_tagging_discrete_1p1(self):       
+        self.analyzer.Cut("minPNet", "PNet_H > 0.3 && PNet_Y > 0.3") 
+        self.register_weight("minPNet")
+        self.analyzer.Define("PNet_H_discrete", f'discretizeTaggers(PNet_H, "AK8", "{self.year}")')
+        self.analyzer.Define("PNet_Y_discrete", f'discretizeTaggers(PNet_Y, "AK8", "{self.year}")')
+        ROOT.gInterpreter.Declare('MVA_evaluator evaluator(4, std::vector<std::string>({ "DeltaY", "MassHiggsCandidate", "PNet_H_discrete", "PNet_Y_discrete"}), "raw_nano/TMVAClassification_BDTG.weights_1p1_discrete.xml", 5, std::vector<std::string>({"PNet_H", "PNet_Y", "BDT_weight", "minPNet", "sample_ID"}) );')
+        self.analyzer.Define("BDTG", "evaluator.eval(std::vector<float>({ DeltaY, MassHiggsCandidate, PNet_H_discrete, PNet_Y_discrete}))")
+        ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/DDT_map_para_discrete_1p1.txt", "1.99/(1+exp(- [5] /x * ( [0] + [1]*x+[2]*y + [3]*x*x + [4]*y*y ))) - 1");')
+        #ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/DDT_map_para_discrete_1p1.txt", "0.8 + 0 * x * [5]");')
+        self.analyzer.Define("BDTG_threshold", f'Dmap.eval(MX, MY)')
+        self.analyzer.Define("Region_SR1", f'BDTG > BDTG_threshold')
+        self.analyzer.Define("Region_SB1", f"! Region_SR1")
+    
+    def BDT_tagging_discrete_2p1(self):      
+        self.analyzer.Define("PNet_H_discrete", f'discretizeTaggers(PNet_H, "AK8", "{self.year}")')  
+        self.analyzer.Define("PNet_Y_discrete", f'discretizeTaggers(PNet_Y, "AK4", "{self.year}")')  
+        self.analyzer.Define("PNet_Y0_discrete", f'discretizeTaggers(PNet_Y0, "AK4", "{self.year}")')  
+        self.analyzer.Define("PNet_Y1_discrete", f'discretizeTaggers(PNet_Y1, "AK4", "{self.year}")')  
+        self.analyzer.Cut("CutPNet_min", "PNet_Ymin > 0.04")
+        self.analyzer.Cut("CutPnet_H", "PNet_H > 0.3")
+        self.register_weight("minPNet")
+        self.analyzer.Cut("MJYCut", "MassYCandidate > 200")
+        self.register_weight("massJYCut")
+        ROOT.gInterpreter.Declare('MVA_evaluator evaluator(4, std::vector<std::string>({ "MassHiggsCandidate", "PNet_H_discrete", "PNet_Y0_discrete", "PNet_Y1_discrete"}), "raw_nano/TMVAClassification_BDTG.weights_2p1_discrete.xml", 7, std::vector<std::string>({"PNet_H", "BDT_weight", "PNet_Y0", "PNet_Y1", "minPNet", "minPNet_higherY", "sample_ID"}) );')
+        self.analyzer.Define("BDTG", "evaluator.eval(std::vector<float>({ MassHiggsCandidate, PNet_H_discrete, PNet_Y0_discrete, PNet_Y1_discrete}))")
+        #ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/DDT_map_para_discrete_2p1.txt", "0.14/(1+exp(- [5]  * ( [0] + [1]*x+[2]*y + [3]*x*x + [4]*y*y ))) + 0.78");')
+        #ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/DDT_map_para_discrete_2p1.txt", "1.8/(1+exp( [4] * (sqrt( (x - [0]) * (x - [0]) / [1] / [1]  + (y - [2]) * (y - [2]) / [3] / [3]) - [5] ) ) ) - 1");')
+        #ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/DDT_map_para_discrete_2p1.txt", "1.87/(1+exp(- [5] /x * ( [0] + [1]*x+[2]*y + [3]*x*x + [4]*y*y ))) - 0.88" );')
+        #ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/DDT_map_para_discrete_2p1.txt", "1.3/(1+exp(- [5] /x * ( [0] + [1]*x+[2]*y + [3]*x*x + [4]*y*y ))) - 0");')
+        #ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/handmade_2p1_discrete.txt", "[0]  + [1] * x  + [2] * y");')
+        #ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/handmade_2p1_discrete.txt", "1.99/(1+exp(([0]+[1] * x + [2]*y))) - 1");')
+        ROOT.gInterpreter.Declare('DDT_map Dmap("raw_nano/DDT_map_para_discrete_2p1.txt", "0.8 + 0 * x * [5]");')
+        self.analyzer.Define("BDTG_threshold", f'Dmap.eval(MX, MY)')
+        self.analyzer.Define("Region_SR1", f'BDTG > BDTG_threshold')
         self.analyzer.Define("Region_SB1", f"! Region_SR1")
 
 

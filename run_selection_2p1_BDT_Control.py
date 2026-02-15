@@ -30,7 +30,7 @@ ana.selection_2p1_BDT(args.JME_syst, "Control")
 ana.eff_after_selection_2p1()
 #Saving snapshot and cutflow
 file_basename = os.path.basename(args.dataset).removesuffix(".txt")
-ana.output = "RegCon_" + args.JME_syst +"_tagged_selected_2p1_" + file_basename + f"_n-{args.n_files}_i-{args.i_job}.root"
+ana.output = "RegCon_" + args.JME_syst +"_tagged_selected_" + file_basename + f"_n-{args.n_files}_i-{args.i_job}.root"
 
 if "MC" in args.dataset:
     ana.snapshot(columns + ["genWeight"], saveRunChain = True)

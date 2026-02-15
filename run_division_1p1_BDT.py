@@ -14,9 +14,10 @@ parser.add_argument('-i', type=int, dest='i_job',action='store', required=True)
 args = parser.parse_args()
 CompileCpp("cpp_modules/MVA_evaluator.cc")
 CompileCpp("cpp_modules/DDT_map.cc")
+CompileCpp("cpp_modules/discretizeTaggers.cc")
 #B tagging
 ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job)
-ana.BDT_tagging_1p1()
+ana.BDT_tagging_discrete_1p1()
 
 #Specifying regions we want to save. each region is saved to one root file
 regions = ["SR1", "SB1"]

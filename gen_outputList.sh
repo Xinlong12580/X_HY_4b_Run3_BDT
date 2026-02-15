@@ -32,6 +32,7 @@ classify_files(){
 }
 classify_files "/store/user/$USER/XHY4bRun3_skim" "SKIM" 
 #classify_files "/store/user/$USER/XHY4bRun3_selection_1p1_BDT" "SELECTION_1P1_BDT" 
+#classify_files "/store/user/$USER/XHY4bRun3_selection_2p1_BDT" "SELECTION_2P1_BDT" 
 #classify_files "/store/user/$USER/XHY4bRun3_division_1p1" "DIVISION_1P1" 
 #classify_files "/store/user/$USER/XHY4bRun3_selection_2p1" "SELECTION_2P1" 
 #classify_files "/store/user/$USER/XHY4bRun3_division_2p1" "DIVISION_2P1" 
@@ -52,8 +53,12 @@ eosls $skim_dir > outputList/output_skim_1_tmp.txt
 sed "s@^@root://cmseos.fnal.gov/$skim_1_dir@" outputList/output_skim_1_tmp.txt > outputList/output_skim_1.txt
 
 selection_dir=/store/user/$USER/XHY4bRun3_selection_1p1_BDT/
-eosls $selection_dir"nom*" > outputList/output_selection_tmp.txt
+eosls $selection_dir"Reg*nom*" > outputList/output_selection_tmp.txt
 sed "s@^@root://cmseos.fnal.gov/$selection_dir@" outputList/output_selection_tmp.txt > outputList/output_selection_1p1_BDT.txt
+
+selection_dir=/store/user/$USER/XHY4bRun3_selection_2p1_BDT/
+eosls $selection_dir"Reg*nom*" > outputList/output_selection_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$selection_dir@" outputList/output_selection_tmp.txt > outputList/output_selection_2p1_BDT.txt
 
 Nminus1_dir=/store/user/$USER/XHY4bRun3_Nminus1_1p1/
 eosls $Nminus1_dir"nom*" > outputList/output_Nminus1_tmp.txt
@@ -103,3 +108,7 @@ rm outputList/*tmp*
 file_dir=/store/user/$USER/XHY4bRun3_division_1p1_BDT/
 eosls $file_dir > outputList/output_selection_1p1_tmp.txt
 sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_1p1_tmp.txt > outputList/output_division_1p1_BDT.txt
+rm outputList/*tmp*
+file_dir=/store/user/$USER/XHY4bRun3_division_2p1_BDT/
+eosls $file_dir > outputList/output_selection_1p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_1p1_tmp.txt > outputList/output_division_2p1_BDT.txt

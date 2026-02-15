@@ -18,6 +18,10 @@ if [[ $work == selection_2p1_BDT ]] ; then
     sed -e 's/PYTHON_SCRIPT/run_selection_2p1_BDT.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_selection_2p1_BDT/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
     python CondorHelper.py -r gridrun.sh -a selection_args.txt -i "cpp_modules run_selection_2p1_BDT.py XHY4b_Analyzer.py raw_nano outputList"
 fi
+if [[ $work == selection_2p1_BDT_Control ]] ; then
+    sed -e 's/PYTHON_SCRIPT/run_selection_2p1_BDT_Control.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_selection_2p1_BDT/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
+    python CondorHelper.py -r gridrun.sh -a selection_args.txt -i "cpp_modules run_selection_2p1_BDT_Control.py XHY4b_Analyzer.py raw_nano outputList"
+fi
 if [[ $work == Nminus1_1p1 ]] ; then
     sed -e 's/PYTHON_SCRIPT/run_Nminus1_1p1.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_Nminus1_1p1/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
     python CondorHelper.py -r gridrun.sh -a Nminus1_args.txt -i "cpp_modules run_Nminus1_1p1.py XHY4b_Analyzer.py raw_nano outputList"
@@ -29,6 +33,10 @@ if [[ $work == division_1p1_BDT ]] ; then
     python CondorHelper.py -r gridrun.sh -a division_1p1_BDT_args.txt -i "cpp_modules run_division_1p1_BDT.py XHY4b_Analyzer.py raw_nano outputList"
 fi
 
+if [[ $work == division_2p1_BDT ]] ; then
+    sed -e 's/PYTHON_SCRIPT/run_division_2p1_BDT.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_division_2p1_BDT/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
+    python CondorHelper.py -r gridrun.sh -a division_2p1_BDT_args.txt -i "cpp_modules run_division_2p1_BDT.py XHY4b_Analyzer.py raw_nano outputList"
+fi
 if [[ $work == selection_2p1 ]] ; then
     sed -e 's/PYTHON_SCRIPT/run_selection_2p1.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_selection_2p1/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
     python CondorHelper.py -r gridrun.sh -a selection_args.txt -i "cpp_modules run_selection_2p1.py XHY4b_Analyzer.py raw_nano outputList"
@@ -40,10 +48,6 @@ if [[ $work == Nminus1_2p1 ]] ; then
 fi
 
 
-if [[ $work == division_2p1 ]] ; then
-    sed -e 's/PYTHON_SCRIPT/run_division_2p1.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_division_2p1/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
-    python CondorHelper.py -r gridrun.sh -a division_2p1_args.txt -i "cpp_modules run_division_2p1.py XHY4b_Analyzer.py raw_nano outputList"
-fi
 
 if [[ $work == selection_compound ]] ; then
     sed -e 's/PYTHON_SCRIPT/run_selection_compound.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_selection_compound/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh

@@ -1,11 +1,11 @@
 {
     "NAME": "XYH_test",
     "GLOBAL": {
-        "FILE": "Templates_1p1_Signal_all.root",
-        "HIST": "$process__$region_1p1__nominal",
+        "FILE": "Templates_2p1_Control_all.root",
+        "HIST": "$process__$region_2p1__nominal",
         "HIST_SYST": "$process__$region__",
-        "HIST_UP": "$process__$region_1p1__$syst_up",
-        "HIST_DOWN": "$process__$region_1p1__$syst_down",
+        "HIST_UP": "$process__$region_2p1__$syst_up",
+        "HIST_DOWN": "$process__$region_2p1__$syst_down",
         "PATH_LOCAL": "./Templates",
         "SIGNAME": [
             "SignalMC_XHY4b_MX-XMASS_MY-YMASS"
@@ -24,9 +24,11 @@
                 "2023__SIGNAME",
                 "2023__MC_TTBarJets",
                 "2023BPix__SIGNAME",
-                "2023BPix__MC_TTBarJets"
+                "2023BPix__MC_TTBarJets",
+                "2024__SIGNAME",
+                "2024__MC_TTBarJets"
             ],
-            "BINNING": "B_1p1"
+            "BINNING": "B_2p1"
         },
         "SB1": {
             "PROCESSES": [
@@ -38,9 +40,11 @@
                 "2023__SIGNAME",
                 "2023__MC_TTBarJets",
                 "2023BPix__SIGNAME",
-                "2023BPix__MC_TTBarJets"
+                "2023BPix__MC_TTBarJets",
+                "2024__SIGNAME",
+                "2024__MC_TTBarJets"
             ],
-            "BINNING": "B_1p1"
+            "BINNING": "B_2p1"
         }
     },
     "PROCESSES": {
@@ -236,6 +240,52 @@
             "TYPE": "BKG",
             "TITLE": "V+jets",
             "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2024__SIGNAME": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2024_TriggerSF",
+                "Y2024_lumi_13p6TeV",
+                "Y2024_JES_",
+                "Y2024_JER_",
+                "Y2024_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "black",
+            "TYPE": "SIGNAL",
+            "TITLE": "NMSSM_XYH",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2024__MC_TTBarJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2024_TriggerSF",
+                "Y2024_lumi_13p6TeV",
+                "TTBar_Xsec",
+                "Y2024_JES_",
+                "Y2024_JER_",
+                "Y2024_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "red",
+            "TYPE": "BKG",
+            "TITLE": "t#bar{t}",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2024__MC_WZJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "Y2024_TriggerSF",
+                "Y2024_lumi_13p6TeV",
+                "Y2024_JES_",
+                "Y2024_JER_",
+                "Y2024_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "magenta",
+            "TYPE": "BKG",
+            "TITLE": "V+jets",
+            "LOC": "PATH_LOCAL/FILE:HIST"
         }
     },
 
@@ -250,16 +300,23 @@
             "VAL": 1.013,
             "CODE": 0
         },
+        "Y2024_lumi_13p6TeV": {
+            "VAL": 1.013,
+            "CODE": 0
+        },
+
         "TTBar_Xsec": {
             "VALUP":1.0348,
             "VALDOWN":1.0438,
             "CODE": 0
         },
+
         "Pdfweight":{
             "UP": "PATH_LOCAL/FILE:HIST_UP",
             "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
             "SIGMA": 1.0
         },
+
         "Y2022_TriggerSF": {
             "UP": "PATH_LOCAL/FILE:HIST_UP",
             "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
@@ -280,6 +337,12 @@
             "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
             "SIGMA": 1.0
         },
+        "Y2024_TriggerSF": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+
         "Y2022_JES_": {
             "UP": "PATH_LOCAL/FILE:HIST_UP",
             "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
@@ -300,6 +363,12 @@
             "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
             "SIGMA": 1.0
         },
+        "Y2024_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+
         "Y2022_JER_": {
             "UP": "PATH_LOCAL/FILE:HIST_UP",
             "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
@@ -320,6 +389,12 @@
             "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
             "SIGMA": 1.0
         },
+        "Y2024_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+
         "Y2022_PileUp_Corr": {
             "UP": "PATH_LOCAL/FILE:HIST_UP",
             "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
@@ -336,6 +411,11 @@
             "SIGMA": 1.0
         },
         "Y2023BPix_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_PileUp_Corr": {
             "UP": "PATH_LOCAL/FILE:HIST_UP",
             "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
             "SIGMA": 1.0

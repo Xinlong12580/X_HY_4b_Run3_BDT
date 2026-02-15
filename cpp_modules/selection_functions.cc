@@ -155,3 +155,11 @@ float DeltaRapidity(float pt_0, float eta_0, float phi_0, float mass_0, float pt
     float Y_1 = Rapidity(pt_1, eta_1, phi_1, mass_1);
     return (Y_0 - Y_1);
 }
+
+ROOT::VecOps::RVec<Float_t> makeTXbb(int nFatJet, ROOT::VecOps::RVec<Float_t> FatJet_Xbb, ROOT::VecOps::RVec<Float_t> FatJet_QCD){
+    ROOT::VecOps::RVec<Float_t> TXbb = {};
+    for (int i = 0; i < nFatJet; i ++){
+        TXbb.push_back(FatJet_Xbb.at(i) / (FatJet_Xbb.at(i) + FatJet_QCD.at(i)));
+    }
+    return TXbb;
+}

@@ -31,6 +31,7 @@ _rc_options = {
     },
     '1x1': {
         'form': '0.001*(@0+@1*x+@2*y+@3*x*y)',
+        #'form': '0.001*(@0+@1*x)*(1+@2*y)',
         'constraints': _generate_constraints(4)
     },
     '2x1': {

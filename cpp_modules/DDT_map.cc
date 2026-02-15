@@ -4,6 +4,7 @@ public:
     DDT_map(std::string para_file, std::string func);
     ~DDT_map(){};
     bool eval(float MVA, float MX, float MY);
+    float eval(float MX, float MY);
     
 };
 DDT_map::DDT_map(std::string para_file, std::string func = "1.99/(1+exp(- [5] /x * ( [0] + [1]*x+[2]*y + [3]*x*x + [4]*y*y ))) - 1"){
@@ -29,4 +30,10 @@ bool DDT_map::eval(float MVA, float MX, float MY){
     float wp = f.Eval(MX, MY);
     //std::cout<<MVA<<" "<<wp<<" "<<MX<<" "<<MY<<std::endl;
     return (MVA > wp);
+}
+
+float DDT_map::eval(float MX, float MY){
+    float wp = f.Eval(MX, MY);
+    //std::cout<<MVA<<" "<<wp<<" "<<MX<<" "<<MY<<std::endl;
+    return wp;
 }

@@ -5,6 +5,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from argparse import ArgumentParser
 ######################loading info #########################################################
+def getNBins(f_name):
+    f = ROOT.TFile.Open(f_name, "READ")
+    w = f.Get("w")
+    data = w.data("data_obs_SB1_Region0")
+    return data.numEntries()
+
 
 parser=ArgumentParser()
 
@@ -42,7 +48,8 @@ for subdir in subdirs:
                     elif "QCD" in _ and "Rc" in _:
                         p += 1
             ps.append(p)
-            ns.append(n)
+            #ns.append(n)
+            ns.append(getNBins(subdir + f))
 print(fs, ps, ns)
 if ns[0] == ns[1]:
     n = ns[0]

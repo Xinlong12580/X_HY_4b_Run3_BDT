@@ -25,52 +25,53 @@ CompileCpp("cpp_modules/selection_functions.cc")
 #Specifying columns to save
 columns = ["gen_.*", ".*_matched", "Delta.*","DeltaEta", "DeltaY", ".*Weight", ".*weight", "MY", "MX", "leadingFatJetPt","leadingFatJetPhi","leadingFatJetEta", "leadingFatJetMsoftdrop", "MassLeadingTwoFatJets", "MassHiggsCandidate", "PtHiggsCandidate", "EtaHiggsCandidate", "PhiHiggsCandidate", "MassYCandidate", "PtYCandidate", "EtaYCandidate", "PhiYCandidate", "MJJ", "MJY", "PNet_H", "PNet_Y", "weight.*",  "FatJet_pt_JER__up", "PileUp_Corr__nom", "PileUp_Corr__up", "PileUp_Corr__down", "Pileup_nTrueInt"]
 
+for Reg in ["Signal", "Control"]:
 #Running selection
-ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job)
-ana.selection_1p1_BDT(args.JME_syst)
-ana.eff_after_selection_1p1()
-#Saving snapshot and cutflow
-file_basename = os.path.basename(args.dataset).removesuffix(".txt")
-ana.output = "RegSig_" + args.JME_syst + "_tagged_selected_" + file_basename + f"_n-{args.n_files}_i-{args.i_job}.root"
+    ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job)
+    ana.selection_1p1_BDT(args.JME_syst, Reg)
+    ana.eff_after_selection_1p1()
+    #Saving snapshot and cutflow
+    file_basename = os.path.basename(args.dataset).removesuffix(".txt")
+    ana.output = "Reg" + Reg[0:3] + "_" + args.JME_syst + "_tagged_selected_" + file_basename + f"_n-{args.n_files}_i-{args.i_job}.root"
 
-if "MC" in args.dataset:
-    ana.snapshot(columns + ["genWeight"], saveRunChain = True)
-else:
-    ana.snapshot(columns, saveRunChain = True)
-ana.save_cutflowInfo()
+    if "MC" in args.dataset:
+        ana.snapshot(columns + ["genWeight"], saveRunChain = True)
+    else:
+        ana.snapshot(columns, saveRunChain = True)
+    ana.save_cutflowInfo()
 
-if args.JME_syst != "nom":
-    exit()
+    if args.JME_syst != "nom":
+        continue
 
-#Making a bunch of hitograms
-bins = {}
+    #Making a bunch of hitograms
+    bins = {}
 
-bins["leadingFatJetPt"] = array.array("d", np.linspace(0, 3000, 301))
-bins["PtHiggsCandidate"] =array.array("d", np.linspace(0, 3000, 301) )
-bins["PtYCandidate"] =array.array("d", np.linspace(0, 3000, 301) )
+    bins["leadingFatJetPt"] = array.array("d", np.linspace(0, 3000, 301))
+    bins["PtHiggsCandidate"] =array.array("d", np.linspace(0, 3000, 301) )
+    bins["PtYCandidate"] =array.array("d", np.linspace(0, 3000, 301) )
 
-bins["leadingFatJetPhi"] = array.array("d", np.linspace(-np.pi, np.pi , 21) )
-bins["PhiHiggsCandidate"] = array.array("d", np.linspace(-np.pi, np.pi , 21) )
-bins["PhiYCandidate"] = array.array("d", np.linspace(-np.pi, np.pi , 21) )
+    bins["leadingFatJetPhi"] = array.array("d", np.linspace(-np.pi, np.pi , 21) )
+    bins["PhiHiggsCandidate"] = array.array("d", np.linspace(-np.pi, np.pi , 21) )
+    bins["PhiYCandidate"] = array.array("d", np.linspace(-np.pi, np.pi , 21) )
 
-bins["leadingFatJetEta"] = array.array("d", np.linspace(-3, 3, 21) )
-bins["EtaHiggsCandidate"] = array.array("d", np.linspace(-3, 3, 21) )
-bins["EtaYCandidate"] = array.array("d", np.linspace(-3, 3, 21) )
+    bins["leadingFatJetEta"] = array.array("d", np.linspace(-3, 3, 21) )
+    bins["EtaHiggsCandidate"] = array.array("d", np.linspace(-3, 3, 21) )
+    bins["EtaYCandidate"] = array.array("d", np.linspace(-3, 3, 21) )
 
-bins["leadingFatJetMsoftdrop"] = array.array("d", np.linspace(0, 3000, 301) )
-bins["MassLeadingTwoFatJets"] = array.array("d", np.linspace(0, 5000, 501) )
-bins["MassHiggsCandidate"] = array.array("d", np.linspace(0, 3000, 301) )
-bins["MassYCandidate"] = array.array("d", np.linspace(0, 3000, 301) )
+    bins["leadingFatJetMsoftdrop"] = array.array("d", np.linspace(0, 3000, 301) )
+    bins["MassLeadingTwoFatJets"] = array.array("d", np.linspace(0, 5000, 501) )
+    bins["MassHiggsCandidate"] = array.array("d", np.linspace(0, 3000, 301) )
+    bins["MassYCandidate"] = array.array("d", np.linspace(0, 3000, 301) )
 
-bins["PNet_H"] = array.array("d", np.linspace(0, 1, 101) )
-bins["PNet_Y"] = array.array("d", np.linspace(0, 1, 101) )
-bins["DeltaEta"] = array.array("d", np.linspace(0, 5, 501) )
-bins["DeltaY"] = array.array("d", np.linspace(0, 5, 501) )
+    bins["PNet_H"] = array.array("d", np.linspace(0, 1, 101) )
+    bins["PNet_Y"] = array.array("d", np.linspace(0, 1, 101) )
+    bins["DeltaEta"] = array.array("d", np.linspace(0, 5, 501) )
+    bins["DeltaY"] = array.array("d", np.linspace(0, 5, 501) )
 
-#Saving the histograms to the "Templates" root file
-f = ROOT.TFile("Templates_" + ana.output, "RECREATE")
-if "MC" in ana.dataset:
-    ana.make_TH1(bins, ["weight_All__nominal"], f)
-else:
-    ana.make_TH1(bins, [], f)
-f.Close()
+    #Saving the histograms to the "Templates" root file
+    f = ROOT.TFile("Templates_" + ana.output, "RECREATE")
+    if "MC" in ana.dataset:
+        ana.make_TH1(bins, ["weight_All__nominal"], f)
+    else:
+        ana.make_TH1(bins, [], f)
+    f.Close()
