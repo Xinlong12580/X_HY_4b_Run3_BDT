@@ -39,5 +39,22 @@
             "HLT_AK8DiPFJet250_250_SoftDropMass40",
             "HLT_PFHT1050"
         ]
+    },
+    "Reference":{
+        "2022":[
+            "HLT_PFMET120_PFMHT120_IDTight"
+        ],
+        "2022EE":[
+            "HLT_PFMET120_PFMHT120_IDTight"
+        ],
+        "2023":[
+            "HLT_PFMET120_PFMHT120_IDTight"
+        ],
+        "2023BPix":[
+            "HLT_PFMET120_PFMHT120_IDTight"
+        ],
+        "2024":[
+            "HLT_PFMET120_PFMHT120_IDTight"
+        ]
     }
 }

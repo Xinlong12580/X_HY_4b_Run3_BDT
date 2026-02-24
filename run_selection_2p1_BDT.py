@@ -20,25 +20,28 @@ CompileCpp("cpp_modules/helperFunctions.cc")
 CompileCpp("cpp_modules/massMatching.cc")
 
 CompileCpp("cpp_modules/selection_functions.cc")
+CompileCpp("cpp_modules/TaggerDiscretizer.cc")
 
 #Specifying columns to save
-columns = [ "MY", "MX", "leadingFatJetPt","leadingFatJetPhi","leadingFatJetEta", "leadingFatJetMsoftdrop", "PtJY0", "PtJY1", "EtaJY0", "EtaJY1", "PhiJY0", "PhiJY1", "MassJY0", "MassJY1", "MassJJH", "MassHiggsCandidate", "PtHiggsCandidate", "EtaHiggsCandidate", "PhiHiggsCandidate", "MassYCandidate", "MJJH", "MJY", "PNet_Y0", "PNet_Y1", "PNet_Ymin", "PNet_Y", "PNet_H", "Pileup_nTrueInt", "weight.*"]
+columns = [ "Tagger_.*", "MassHiggs.*", "idxJ.*", "MY", "MX", "leadingFatJetPt","leadingFatJetPhi","leadingFatJetEta", "leadingFatJetMsoftdrop", "PtJY0", "PtJY1", "EtaJY0", "EtaJY1", "PhiJY0", "PhiJY1", "MassJY0", "MassJY1", "MassJJH", "MassHiggsCandidate", "PtHiggsCandidate", "EtaHiggsCandidate", "PhiHiggsCandidate", "MassYCandidate", "MJJH", "MJY",  "Pileup_nTrueInt", "weight.*"]
+#columns = [ "MY", "MX", "leadingFatJetPt","leadingFatJetPhi","leadingFatJetEta", "leadingFatJetMsoftdrop", "PtJY0", "PtJY1", "EtaJY0", "EtaJY1", "PhiJY0", "PhiJY1", "MassJY0", "MassJY1", "MassJJH", "MassHiggsCandidate", "PtHiggsCandidate", "EtaHiggsCandidate", "PhiHiggsCandidate", "MassYCandidate", "MJJH", "MJY", "PNet_Y0", "PNet_Y1", "PNet_Ymin", "PNet_Y", "PNet_H", "Pileup_nTrueInt", "weight.*"]
 
 #Running selection
 for Reg in ["Signal", "Control"]:
     ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job)
     ana.selection_2p1_BDT(args.JME_syst, Reg)
-    ana.eff_after_selection_2p1()
+    #ana.trainer_preprosessing_2p1()
+    #ana.eff_after_selection_2p1()
     #Saving snapshot and cutflow
     file_basename = os.path.basename(args.dataset).removesuffix(".txt")
-    ana.output = "Reg" + Reg[0:3] + "_" + args.JME_syst +"_tagged_selected_" + file_basename + f"_n-{args.n_files}_i-{args.i_job}.root"
+    ana.output = "Reg" + Reg[0:3] + "_" + args.JME_syst + "_2p1_tagged_selected_" + file_basename + f"_n-{args.n_files}_i-{args.i_job}.root"
 
     if "MC" in args.dataset:
         ana.snapshot(columns + ["genWeight"], saveRunChain = True)
     else:
         ana.snapshot(columns, saveRunChain = True)
     ana.save_cutflowInfo()
-
+    break
     if args.JME_syst != "nom":
         continue
 

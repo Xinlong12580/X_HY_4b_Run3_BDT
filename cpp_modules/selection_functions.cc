@@ -23,26 +23,26 @@ RVec<float> DeltaR(RVec<float> Etas, RVec<float> Phies, float eta, float phi){
 }
 
 //2p1 mode only. Looking for two Y Jets satifying DeltaR and B score requirement
-RVec<int> FindIdxJY(RVec<float> Etas, RVec<float> Phies, float eta, float phi, RVec<float> BScores, float deltaR){
+RVec<int> FindIdxJY(RVec<float> Etas, RVec<float> Phies, float eta, float phi, RVec<float> BScores, float deltaR,  RVec<bool> Goodnesses){
     RVec<int> IdxJYs = {-1, -1};
     int count = 0;
-    float max1 = -1;
-    float max2 = -1;
+    float max1 = -100.;
+    float max2 = -100.;
     RVec<float> DeltaR_HJ = DeltaR(Etas, Phies, eta, phi);
     for (int i = 0; i < DeltaR_HJ.size(); i++)
     {
-        if (DeltaR_HJ.at(i) <= deltaR)
+        if (DeltaR_HJ.at(i) <= deltaR || (! Goodnesses.at(i)) )
             continue;
         if(BScores.at(i) > max1)
         {
-            max1 = BScores.at(i);
             max2 = max1;
+            max1 = BScores.at(i);
             IdxJYs.at(1) = IdxJYs.at(0);
             IdxJYs.at(0) = i;
         }
         else if (BScores.at(i) <= max1 && BScores.at(i) > max2)
         {
-            max2 = i;
+            max2 = BScores.at(i);
             IdxJYs.at(1) = i;
         } 
 
@@ -50,13 +50,42 @@ RVec<int> FindIdxJY(RVec<float> Etas, RVec<float> Phies, float eta, float phi, R
     return IdxJYs; 
 }
 
-RVec<int> FindIdxJY(RVec<float> Etas, RVec<float> Phies, float eta, float phi, RVec<float> BScores, float deltaR, float minBScore, float maxBScore){
+//2p1 mode only. Looking for two Y Jets satifying DeltaR and B score requirement
+RVec<int> FindIdxJY(RVec<float> Etas, RVec<float> Phies, float eta, float phi, RVec<int> BScores, float deltaR,  RVec<bool> Goodnesses){
+    RVec<int> IdxJYs = {-1, -1};
+    int count = 0;
+    int max1 = -100;
+    int max2 = -100;
+    RVec<float> DeltaR_HJ = DeltaR(Etas, Phies, eta, phi);
+    for (int i = 0; i < DeltaR_HJ.size(); i++)
+    {
+        if (DeltaR_HJ.at(i) <= deltaR || (! Goodnesses.at(i)) )
+            continue;
+        if(BScores.at(i) > max1)
+        {
+            max2 = max1;
+            max1 = BScores.at(i);
+            IdxJYs.at(1) = IdxJYs.at(0);
+            IdxJYs.at(0) = i;
+        }
+        else if (BScores.at(i) <= max1 && BScores.at(i) > max2)
+        {
+            max2 = BScores.at(i);
+            IdxJYs.at(1) = i;
+        } 
+
+    }
+    return IdxJYs; 
+}
+
+
+RVec<int> FindIdxJY_bscore_limits(RVec<float> Etas, RVec<float> Phies, float eta, float phi, RVec<float> BScores, float deltaR, float minBScore, float maxBScore, RVec<bool> Goodnesses){
     RVec<int> IdxJYs = {-1, -1};
     int count = 0;
     RVec<float> DeltaR_HJ = DeltaR(Etas, Phies, eta, phi);
     for (int i = 0; i < DeltaR_HJ.size(); i++)
     {
-        if (DeltaR_HJ.at(i) > deltaR && BScores.at(i) >= minBScore && BScores.at(i) < maxBScore )
+        if (DeltaR_HJ.at(i) > deltaR && BScores.at(i) >= minBScore && BScores.at(i) < maxBScore && Goodnesses.at(i) )
         {
             IdxJYs.at(count) = i;
             count ++;
@@ -67,13 +96,13 @@ RVec<int> FindIdxJY(RVec<float> Etas, RVec<float> Phies, float eta, float phi, R
     return IdxJYs; 
 }
 // 2p1 mode only. Looking for Higgs Jet from the first nmass FatJets, with mass requirement only
-Int_t FindIdxJH(RVec<float> Masses, float minM, float maxM, int nMass, float HiggsM = 125){
+Int_t FindIdxJH(RVec<float> Masses, float minM, float maxM, RVec<bool> Goodnesses, float HiggsM = 125){
     int ind_best = 0;
     float diff_mass_best = 10000;
     // Looking for best match
     for (int i = 0; i < Masses.size(); i++)
     {
-        if (abs(Masses[i] - HiggsM) < diff_mass_best) {
+        if (Goodnesses.at(i) && (abs(Masses[i] - HiggsM) < diff_mass_best) ) {
             ind_best = i;
             diff_mass_best = abs(Masses[i] - HiggsM);
         }
@@ -88,15 +117,19 @@ Int_t FindIdxJH(RVec<float> Masses, float minM, float maxM, int nMass, float Hig
 
 
 
-Int_t FindIdxJH_random(RVec<float> Masses, float minM, float maxM, int nMass){
+Int_t FindIdxJH_random(RVec<float> Masses, float minM, float maxM, int nMass, RVec<bool> Goodnesses){
     //Looking for all possible FatJets
     RVec<int> validIdxs = {};
+    int n_goodjet = 0;
     for (int i = 0; i < Masses.size(); i++)
     {
-        if (i >= nMass) 
+        if(Goodnesses.at(i)){
+            n_goodjet ++;
+            if (Masses.at(i) >= minM && Masses.at(i) <= maxM)
+                validIdxs.push_back(i);
+        }
+        if (n_goodjet >= nMass) 
             break;
-        if (Masses.at(i) >= minM && Masses.at(i) <= maxM)
-            validIdxs.push_back(i);
     }
     //If there are more than one such FatJet, choose one randomly
     if (validIdxs.size() >= 1){
@@ -110,18 +143,53 @@ Int_t FindIdxJH_random(RVec<float> Masses, float minM, float maxM, int nMass){
 	return -1;
 }
 
-bool calBadCalibFilterRecipe(int run,  float PuppiMET_pt, float PuppiMET_phi,  int nJet, RVec<float> Jet_pt, RVec<float> Jet_eta, RVec<float> Jet_phi, RVec<float> Jet_neEmEF, RVec<float> Jet_chEmEF) {
-    if(run >= 362433 && run <= 367144){
-        if (PuppiMET_pt > 100){
-            for (int i = 0; i < nJet; i++){
-                float deltaPhi = std::abs(Jet_phi[i] - PuppiMET_phi) < M_PI ? std::abs(Jet_phi[i] - PuppiMET_phi) : 2*M_PI - std::abs(Jet_phi[i] - PuppiMET_phi);
-                if(Jet_pt[i] > 50 && Jet_eta[i] > -0.5 && Jet_eta[i] < -0.1 && (Jet_neEmEF[i] > 0.9 || Jet_chEmEF[i] > 0.9) && deltaPhi > 2.9)
-                    return 0;
-            }
-        }
-    }
-    return 1;
+Int_t FindIdxJY(RVec<bool> Goodnesses, int IdxJH){
+    for (int i = 0; i < Goodnesses.size(); i++)
+        if (Goodnesses.at(i) && i != IdxJH )
+            return i;
+    return -1;
 }
+
+
+
+
+RVec<bool> goodJet(int nJet, RVec<int> Jet_jetId, int jetId_min, RVec<float> Jet_pt, float pt_min, RVec<float> Jet_eta, float absEta_max){
+    RVec<bool> IsGood = {};
+    for (int i = 0; i < nJet; i ++){
+        if (Jet_jetId.at(i) >= jetId_min && Jet_pt.at(i) >= pt_min && std::abs(Jet_eta.at(i)) <= absEta_max )
+            IsGood.push_back(true);
+        else
+             IsGood.push_back(false);
+    }
+    return IsGood;
+}
+
+
+
+RVec<bool> goodJet_withMass(int nJet, RVec<int> Jet_jetId, int jetId_min, RVec<float> Jet_pt, float pt_min, RVec<float> Jet_mass0, float mass0_min, RVec<float> Jet_mass1, float mass1_min, RVec<float> Jet_eta, float absEta_max){
+    RVec<bool> IsGood = {};
+    for (int i = 0; i < nJet; i ++){
+        if (Jet_jetId.at(i) >= jetId_min && Jet_pt.at(i) >= pt_min && (Jet_mass0.at(i) >= mass0_min || Jet_mass1.at(i) >= mass1_min) && std::abs(Jet_eta.at(i)) <= absEta_max )
+            IsGood.push_back(true);
+        else
+             IsGood.push_back(false);
+    }
+    return IsGood;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Calculate Inv mass for a list of variables
 Float_t InvMass_PtEtaPhiM(ROOT::VecOps::RVec<Float_t> Pts, ROOT::VecOps::RVec<Float_t> Etas,  ROOT::VecOps::RVec<Float_t> Phis, ROOT::VecOps::RVec<Float_t> Masss)
@@ -162,4 +230,9 @@ ROOT::VecOps::RVec<Float_t> makeTXbb(int nFatJet, ROOT::VecOps::RVec<Float_t> Fa
         TXbb.push_back(FatJet_Xbb.at(i) / (FatJet_Xbb.at(i) + FatJet_QCD.at(i)));
     }
     return TXbb;
+}
+template <class _type>
+bool debugger(_type input, std::string extra = ""){
+    std::cout<<extra<<" DEBUGGER: "<<input<<std::endl;
+    return 0;
 }

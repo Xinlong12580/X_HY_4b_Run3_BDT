@@ -78,86 +78,8 @@ Int_t nMuons(Int_t nMuon, rvec_b Muon_id, rvec_c Muon_pfIsoId, Int_t iso_cut, rv
 }
 
 
-Int_t skimFlag(Int_t nFatJet, rvec_f FatJet_eta, rvec_f FatJet_pt, rvec_f FatJet_msoftdrop,Int_t nJet, rvec_f Jet_eta, rvec_f Jet_pt, Int_t nElectron, rvec_i Electron_cutBased,Int_t nMuon, rvec_b Muon_looseId,rvec_c Muon_pfIsoId,rvec_c Muon_miniIsoId){
-    Int_t jetSkim    = skimmingLeadingAK8Jet(nFatJet,FatJet_eta,FatJet_pt,FatJet_msoftdrop);
-    Int_t dijetSkim  = skimmingTwoAK8Jets(nFatJet,FatJet_eta,FatJet_pt,FatJet_msoftdrop);
-    Int_t leptonSkim = skimmingIsoLepton(nJet,Jet_eta,Jet_pt,nElectron,Electron_cutBased,nMuon,Muon_looseId,Muon_pfIsoId,Muon_miniIsoId);//1 if ele, 2 if muon
-    //Bits: 1:jetSkim, 2:dijetSkim, 4:electronSkim,8:muonSkim
-    Int_t skimScore  = jetSkim+2*dijetSkim+4*leptonSkim;
-    return skimScore;
-}
 
 
-Int_t goodMuon(Int_t nMuon, rvec_b Muon_looseId,rvec_c Muon_pfIsoId,rvec_c Muon_miniIsoId){
-    for(Int_t i=0; i<nMuon;i++){
-        if(Muon_looseId[i] && (int(Muon_pfIsoId[i])>1 || int(Muon_miniIsoId[i])>0)){
-        //1=PFIsoVeryLoose, 2=PFIsoLoose, 3=PFIsoMedium, 4=PFIsoTight, 5=PFIsoVeryTight, 6=PFIsoVeryVeryTight
-        //1=MiniIsoLoose, 2=MiniIsoMedium, 3=MiniIsoTight, 4=MiniIsoVeryTight)
-            return 1;
-        }
-    }
-    return 0;
-}
-Int_t goodElectron(Int_t nElectron, rvec_i Electron_cutBased){
-    for(Int_t i=0; i<nElectron;i++){
-        if(Electron_cutBased[i]>1){//0:fail,1:veto,2:loose,3:medium,4:tight
-            return 1;
-        }
-    }
-    return 0;
-}
-
-
-Int_t skimmingIsoLepton(Int_t nJet, rvec_f Jet_eta, rvec_f Jet_pt, Int_t nElectron, rvec_i Electron_cutBased,Int_t nMuon, rvec_b Muon_looseId,rvec_c Muon_pfIsoId,rvec_c Muon_miniIsoId){
-    if(nJet<1){
-        return 0;
-    }
-    Int_t isGoodJet = TMath::Abs(Jet_eta[0])<2.5 && Jet_pt[0]>30;
-    Int_t isGoodMuon = goodMuon(nMuon,Muon_looseId,Muon_pfIsoId,Muon_miniIsoId);
-    Int_t isGoodElectron = goodElectron(nElectron,Electron_cutBased);
-
-    if(isGoodElectron && isGoodMuon){
-        return 0;
-    }
-    else if (isGoodJet && isGoodElectron){
-        return 1;
-    }
-    else if (isGoodJet && isGoodMuon){
-        return 2;
-    }
-    else{
-        return 0;
-    }
-}
-
-
-Int_t skimmingLeadingAK8Jet(Int_t nFatJet, rvec_f FatJet_eta, rvec_f FatJet_pt, rvec_f FatJet_msoftdrop){
-    if(nFatJet<1){
-        return 0;
-    }
-    else if(TMath::Abs(FatJet_eta[0])<2.5 && FatJet_pt[0]>400 && FatJet_msoftdrop[0]>30){
-        return 1;
-    }
-    else{
-    return 0;
-    }
-}
-
-Int_t skimmingTwoAK8Jets(Int_t nFatJet, rvec_f FatJet_eta, rvec_f FatJet_pt, rvec_f FatJet_msoftdrop){
-    if(nFatJet<2){
-        return 0;
-    }
-    Int_t pT = FatJet_pt[0]>300 && FatJet_pt[1]>300;
-    Int_t eta = TMath::Abs(FatJet_eta[0]<2.5) && TMath::Abs(FatJet_eta[1])<2.5;
-    Int_t mSD = FatJet_msoftdrop[0]>30 && FatJet_msoftdrop[1]>30;
-    
-    if(pT && eta && mSD){
-        return 1;
-    }
-    else{
-        return 0;
-    }
-}
 
 
 Float_t calculateHT(Int_t nJet, rvec_f Jet_eta, rvec_f Jet_pt,Float_t pt_cut, Float_t eta_cut){

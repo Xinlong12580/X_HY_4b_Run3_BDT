@@ -85,4 +85,3 @@ int genHiggsMatching_withPNet(float eta, float phi, ROOT::VecOps::RVec<float> Et
     int idx = genHiggsMatching_withPNet(deltaRMatched, Masses, minMass, maxMass, BScores, minBScore, maxBScore);
     return idx;
 }
-

@@ -1,6 +1,6 @@
 output=$1
 process=JetMET
-process=NanoAODv15-v1
+#process=NanoAODv15
 years=(2022__ 2022EE__ 2023__ 2023BPix__ 2024__ )
 if [[ $output == "skim" ]]; then
     input_file=skim_args.txt
@@ -21,6 +21,9 @@ if [[ $output == "skim" ]]; then
         done
     done
     while IFS= read -r line; do
+        if [[ $line != *$process* ]]; then
+            continue
+        fi
         #echo "$line"
         input_arg=$(echo "$line" | awk '{print $2}')
         file_base=$(basename $input_arg)

@@ -59,7 +59,7 @@ for file in $files; do
         pass=0
     fi
     #if [[  (  $file == *"2024"*"JetMET"* )  ]]; then
-    if [[  (  $file == *"QCD"* ) || (  $file != *"2024"* && $file != *"Signal"* ) ]]; then
+    if [[  (  $file != *"QCD"* ) && (  $file != *"2024"* ) ]]; then
         pass=1
     fi
 
