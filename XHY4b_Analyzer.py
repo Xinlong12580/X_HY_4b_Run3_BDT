@@ -885,9 +885,9 @@ class XHY4b_Analyzer:
         self.analyzer.Cut("MJYCut", "MY > 40")
         self.register_weight("MYCut")
         
-        self.analyzer.Cut("Tagger_H_min", "Tagger_H >= 0.2")
+        self.analyzer.Cut("Tagger_H_min", "Tagger_H >= 0.1")
         self.register_weight("minTagger_H")
-        self.analyzer.Cut("Tagger_Y_min", "Tagger_Y >= 0.2")
+        self.analyzer.Cut("Tagger_Y_min", "Tagger_Y >= 0.1")
         self.register_weight("minTagger_Y")
         
 
@@ -898,7 +898,7 @@ class XHY4b_Analyzer:
         self.analyzer.Cut("MJYCut", "MY > 200")
         self.register_weight("MYCut")
         
-        self.analyzer.Cut("Tagger_H_min", "Tagger_H >= 0.2")
+        self.analyzer.Cut("Tagger_H_min", "Tagger_H >= 0.1")
         self.register_weight("minTagger_H")
         self.analyzer.Cut("Tagger_b_Ymin", "Tagger_b_Ymin_discrete >= 1")
         self.register_weight("minTagger_Y")

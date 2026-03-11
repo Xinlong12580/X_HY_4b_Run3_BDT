@@ -28,9 +28,9 @@ columns = [".*matched.*", "Tagger_.*", "TFlavor.*", "MassHiggs.*", "idxJ.*", "MY
 
 #Running selection
 for Reg in ["Signal"]:
-    ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job, nEvents = 100)
+    ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job, nEvents = -1)
     ana.selection_2p1_BDT(args.JME_syst, Reg)
-    #ana.trainer_preprosessing_2p1()
+    ana.trainer_preprosessing_2p1()
     #ana.trainer_preprosessing_2p1()
     #ana.eff_after_selection_2p1()
     #Saving snapshot and cutflow
