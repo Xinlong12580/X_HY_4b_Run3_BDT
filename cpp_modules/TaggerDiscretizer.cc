@@ -1,45 +1,53 @@
+#include <cmath>
+#include <algorithm>
 #include <correction.h>
 #include <ROOT/RVec.hxx>
+using namespace ROOT::VecOps;
+
 
 using ROOT::VecOps::RVec;
 class TaggerDiscretizer{
 public:
     std::vector<float> WPs;
 
-    TaggerDiscretizer(std::string jetType,  std::string year, std::string taggerType = "UParTAK4_wp_values"){
-        if (jetType == "FatJet" || jetType == "AK8"){
-            //WPs = {0, 0.9172, 0.9734, 0.9880, 1};
-            //WPs = {0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.9172, 0.9734, 0.9880, 1};
-            WPs = {0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.975, 0.99, 1}; // TEMPERARY SOLUTION!
-        }
-        else if (jetType == "Jet" || jetType == "AK4"){
-           std::string f_name = "/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BTV/"; 
-            if (year == "2024_Summer24")
-                f_name = f_name + year + "/btagging_preliminary.json.gz"; // AD HOC SOLUTION!
-            else
-                f_name = f_name + year + "/btagging.json.gz";
-            std::unique_ptr<correction::CorrectionSet> _cset = correction::CorrectionSet::from_file(f_name.c_str());
-            std::cout<<"Using File: " << f_name<<" with key: " <<taggerType<<std::endl;
-            //correction::Correction::Ref         ref = _cset->at(taggerType.c_str());
-            correction::Correction::Ref         ref = _cset->at(taggerType);
-            WPs = {0.};
-            std::vector<std::string> s_wps = {"L", "M", "T", "XT", "XXT"};
-                
-            for (auto s_wp : s_wps){
-                std::map<std::string, correction::Variable::Type> map {{ "working_point" , s_wp.c_str()}};
-                std::vector<correction::Variable::Type> inputs;
-                for (const correction::Variable& input: ref->inputs()) {
-                    std::cout<<input.name()<<std::endl;
-                    inputs.push_back(map.at(input.name()));
-                }
-                float wp = ref->evaluate(inputs);
-                std::cout<<s_wp<<": "<<wp<<std::endl;
-                WPs.push_back(wp);
-            }
-            WPs.push_back(1.);
-        } 
+    TaggerDiscretizer(std::string jetType,  std::string year, std::string taggerType = "UParTAK4_wp_values", std::vector<float> _WPs = {}){
+        if (_WPs.size() > 0)
+            WPs = _WPs;
         else
-            throw "Supported jetType: Jet, FatJet";
+            if (jetType == "FatJet" || jetType == "AK8"){
+                //WPs = {0, 0.9172, 0.9734, 0.9880, 1};
+                //WPs = {0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.9172, 0.9734, 0.9880, 1};
+                //WPs = {0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.975, 0.99, 1}; // TEMPERARY SOLUTION!
+                WPs = {0, 0.95, 0.975, 0.99, 1}; // TEMPERARY SOLUTION!
+            }
+            else if (jetType == "Jet" || jetType == "AK4"){
+               std::string f_name = "/cvmfs/cms.cern.ch/rsync/cms-nanoAOD/jsonpog-integration/POG/BTV/"; 
+                if (year == "2024_Summer24")
+                    f_name = f_name + year + "/btagging_preliminary.json.gz"; // AD HOC SOLUTION!
+                else
+                    f_name = f_name + year + "/btagging.json.gz";
+                std::unique_ptr<correction::CorrectionSet> _cset = correction::CorrectionSet::from_file(f_name.c_str());
+                std::cout<<"Using File: " << f_name<<" with key: " <<taggerType<<std::endl;
+                //correction::Correction::Ref         ref = _cset->at(taggerType.c_str());
+                correction::Correction::Ref         ref = _cset->at(taggerType);
+                WPs = {0.};
+                std::vector<std::string> s_wps = {"L", "M", "T", "XT", "XXT"};
+                    
+                for (auto s_wp : s_wps){
+                    std::map<std::string, correction::Variable::Type> map {{ "working_point" , s_wp.c_str()}};
+                    std::vector<correction::Variable::Type> inputs;
+                    for (const correction::Variable& input: ref->inputs()) {
+                        std::cout<<input.name()<<std::endl;
+                        inputs.push_back(map.at(input.name()));
+                    }
+                    float wp = ref->evaluate(inputs);
+                    std::cout<<s_wp<<": "<<wp<<std::endl;
+                    WPs.push_back(wp);
+                }
+                WPs.push_back(1.);
+            } 
+            else
+                throw "Supported jetType: Jet, FatJet";
         std::cout<<"Using Working Points: ";
         for (auto wp : WPs)
                 std::cout<<wp<<" ";

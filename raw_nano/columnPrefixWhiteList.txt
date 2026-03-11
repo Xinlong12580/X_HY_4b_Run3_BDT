@@ -1,5 +1,6 @@
 n
 FatJet_globalParT3_QCD
+FatJet_globalParT3_Top
 FatJet_globalParT3_TopbWev
 FatJet_globalParT3_TopbWmv
 FatJet_globalParT3_TopbWq
@@ -14,11 +15,18 @@ FatJet_particleNet_XbbVsQCD
 FatJet_particleNet_massCorr
 Jet_btagPNetB
 GenPart_
+SubJet_area
+SubJet_eta
+SubJet_mass
+SubJet_phi
+SubJet_pt
+SubJet_rawFactor
 HLT_AK8PFJet
 HLT_PFJet
 HLT_PFHT
 HLT_AK8DiPFJet
 HLT_AK8PFHT
+HLT_PFMET
 Flag_goodVertices
 Flag_globalSuperTightHalo2016Filter
 Flag_EcalDeadCellTriggerPrimitiveFilter

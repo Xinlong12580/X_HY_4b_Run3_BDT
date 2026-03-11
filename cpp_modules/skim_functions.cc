@@ -11,12 +11,14 @@ int skimmingTwoAK8Jets(int nFatJet, RVec<float> FatJet_pt, RVec<float> FatJet_et
         bool pt_cut = FatJet_pt.at(i)>300;
         bool eta_cut = TMath::Abs(FatJet_eta.at(i))<2.5;
         bool mSD_cut = (FatJet_msoftdrop.at(i)>30);
-        bool mreg_cut = (FatJet_regressedMass.at(i)>50);
+        bool mreg_cut = (FatJet_regressedMass.at(i)>30);
         if(pt_cut && eta_cut && mreg_cut)
             col_Higgs.push_back(i);
         if(pt_cut && eta_cut && mSD_cut)
             col_Y.push_back(i);
     }
+    if (col_Higgs.size() >= 2)// We may also use regressed mass for Y
+        return 1;
     if (col_Higgs.size() == 0 || col_Y.size() == 0 )
         return 0;
     if (col_Higgs.size() == 1 && col_Y.size() == 1 && col_Higgs.at(0) == col_Y.at(0) )

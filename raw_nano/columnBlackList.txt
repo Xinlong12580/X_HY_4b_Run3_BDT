@@ -520,8 +520,6 @@ GenFatJetCands_pFCandsIdx
 GenFatJetCands_jetIdx
 GenFatJetSVs_jetIdx
 GenFatJetSVs_sVIdx
-FatJet_subJetIdx1
-FatJet_subJetIdx2
 FatJet_n2b1
 FatJet_n3b1
 FatJet_tau1

@@ -28,14 +28,15 @@ class Trigger_SF
             boost::property_tree::read_json(json_name, ptree);
             year_tree = ptree.get_child(year);
         };
-        RVec<float> eval(float pt, float mass);
+        RVec<float> eval(float pt, float mass, std::string uncert);
         ~Trigger_SF(){};
 };
 
-RVec<float> Trigger_SF::eval(float pt, float mass) {
+RVec<float> Trigger_SF::eval(float pt, float mass, std::string uncert) {
     float nom = 1.;
     float up = 1.;
     float down = 1.;
+    //cout<<"TEST"<<uncert<<corr_type<<std::endl;
     for(const auto & pt_range : year_tree){
         std::string pt_key = pt_range.first;
         size_t pt_pos = pt_key.find('_');
@@ -54,9 +55,23 @@ RVec<float> Trigger_SF::eval(float pt, float mass) {
                 float mass_high = std::stof(mass_part2);
                 if (mass_low <= mass && mass < mass_high){
                     boost::property_tree::ptree mass_tree = mass_range.second;
-                    nom = mass_tree.get<float>("nom");
-                    up = mass_tree.get<float>("up");
-                    down = mass_tree.get<float>("down");
+                    if (uncert == "data"){
+                        nom = mass_tree.get<float>("data_nom");
+                        up = mass_tree.get<float>("data_up");
+                        down = mass_tree.get<float>("data_down");
+                    }
+                    else if (uncert == "MC"){
+                        nom = mass_tree.get<float>("MC_nom");
+                        up = mass_tree.get<float>("MC_up");
+                        down = mass_tree.get<float>("MC_down");
+                    }
+                    else if (uncert == "total"){
+                        nom = mass_tree.get<float>("nom");
+                        up = mass_tree.get<float>("up");
+                        down = mass_tree.get<float>("down");
+                    }
+                    else
+                        throw "BAD UNCERTAINTY TYPE!";
                     break;
                 }
             } 

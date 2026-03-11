@@ -1,0 +1,251 @@
+imax 6
+jmax 13
+kmax 4
+------------------------------------------------------------------------------------------------------------------------
+shapes  2022EE__MC_TTBarJets VB1_LOW ../base.root w:2022EE__MC_TTBarJets_VB1_LOW w:2022EE__MC_TTBarJets_VB1_LOW_$SYSTEMATIC
+shapes  2022EE__MC_TTBarJets VB1_SIG ../base.root w:2022EE__MC_TTBarJets_VB1_SIG w:2022EE__MC_TTBarJets_VB1_SIG_$SYSTEMATIC
+shapes  2022EE__MC_TTBarJets VB1_HIGH ../base.root w:2022EE__MC_TTBarJets_VB1_HIGH w:2022EE__MC_TTBarJets_VB1_HIGH_$SYSTEMATIC
+shapes  2022EE__MC_TTBarJets VS2_LOW ../base.root w:2022EE__MC_TTBarJets_VS2_LOW w:2022EE__MC_TTBarJets_VS2_LOW_$SYSTEMATIC
+shapes  2022EE__MC_TTBarJets VS2_SIG ../base.root w:2022EE__MC_TTBarJets_VS2_SIG w:2022EE__MC_TTBarJets_VS2_SIG_$SYSTEMATIC
+shapes  2022EE__MC_TTBarJets VS2_HIGH ../base.root w:2022EE__MC_TTBarJets_VS2_HIGH w:2022EE__MC_TTBarJets_VS2_HIGH_$SYSTEMATIC
+shapes  2022EE__MC_WZJets    VB1_LOW ../base.root w:2022EE__MC_WZJets_VB1_LOW w:2022EE__MC_WZJets_VB1_LOW_$SYSTEMATIC
+shapes  2022EE__MC_WZJets    VB1_SIG ../base.root w:2022EE__MC_WZJets_VB1_SIG w:2022EE__MC_WZJets_VB1_SIG_$SYSTEMATIC
+shapes  2022EE__MC_WZJets    VB1_HIGH ../base.root w:2022EE__MC_WZJets_VB1_HIGH w:2022EE__MC_WZJets_VB1_HIGH_$SYSTEMATIC
+shapes  2022EE__MC_WZJets    VS2_LOW ../base.root w:2022EE__MC_WZJets_VS2_LOW w:2022EE__MC_WZJets_VS2_LOW_$SYSTEMATIC
+shapes  2022EE__MC_WZJets    VS2_SIG ../base.root w:2022EE__MC_WZJets_VS2_SIG w:2022EE__MC_WZJets_VS2_SIG_$SYSTEMATIC
+shapes  2022EE__MC_WZJets    VS2_HIGH ../base.root w:2022EE__MC_WZJets_VS2_HIGH w:2022EE__MC_WZJets_VS2_HIGH_$SYSTEMATIC
+shapes  2022EE__SignalMC_XHY4b VB1_LOW ../base.root w:2022EE__SignalMC_XHY4b_VB1_LOW w:2022EE__SignalMC_XHY4b_VB1_LOW_$SYSTEMATIC
+shapes  2022EE__SignalMC_XHY4b VB1_SIG ../base.root w:2022EE__SignalMC_XHY4b_VB1_SIG w:2022EE__SignalMC_XHY4b_VB1_SIG_$SYSTEMATIC
+shapes  2022EE__SignalMC_XHY4b VB1_HIGH ../base.root w:2022EE__SignalMC_XHY4b_VB1_HIGH w:2022EE__SignalMC_XHY4b_VB1_HIGH_$SYSTEMATIC
+shapes  2022EE__SignalMC_XHY4b VS2_LOW ../base.root w:2022EE__SignalMC_XHY4b_VS2_LOW w:2022EE__SignalMC_XHY4b_VS2_LOW_$SYSTEMATIC
+shapes  2022EE__SignalMC_XHY4b VS2_SIG ../base.root w:2022EE__SignalMC_XHY4b_VS2_SIG w:2022EE__SignalMC_XHY4b_VS2_SIG_$SYSTEMATIC
+shapes  2022EE__SignalMC_XHY4b VS2_HIGH ../base.root w:2022EE__SignalMC_XHY4b_VS2_HIGH w:2022EE__SignalMC_XHY4b_VS2_HIGH_$SYSTEMATIC
+shapes  2022__MC_TTBarJets   VB1_LOW ../base.root w:2022__MC_TTBarJets_VB1_LOW w:2022__MC_TTBarJets_VB1_LOW_$SYSTEMATIC
+shapes  2022__MC_TTBarJets   VB1_SIG ../base.root w:2022__MC_TTBarJets_VB1_SIG w:2022__MC_TTBarJets_VB1_SIG_$SYSTEMATIC
+shapes  2022__MC_TTBarJets   VB1_HIGH ../base.root w:2022__MC_TTBarJets_VB1_HIGH w:2022__MC_TTBarJets_VB1_HIGH_$SYSTEMATIC
+shapes  2022__MC_TTBarJets   VS2_LOW ../base.root w:2022__MC_TTBarJets_VS2_LOW w:2022__MC_TTBarJets_VS2_LOW_$SYSTEMATIC
+shapes  2022__MC_TTBarJets   VS2_SIG ../base.root w:2022__MC_TTBarJets_VS2_SIG w:2022__MC_TTBarJets_VS2_SIG_$SYSTEMATIC
+shapes  2022__MC_TTBarJets   VS2_HIGH ../base.root w:2022__MC_TTBarJets_VS2_HIGH w:2022__MC_TTBarJets_VS2_HIGH_$SYSTEMATIC
+shapes  2022__MC_WZJets      VB1_LOW ../base.root w:2022__MC_WZJets_VB1_LOW w:2022__MC_WZJets_VB1_LOW_$SYSTEMATIC
+shapes  2022__MC_WZJets      VB1_SIG ../base.root w:2022__MC_WZJets_VB1_SIG w:2022__MC_WZJets_VB1_SIG_$SYSTEMATIC
+shapes  2022__MC_WZJets      VB1_HIGH ../base.root w:2022__MC_WZJets_VB1_HIGH w:2022__MC_WZJets_VB1_HIGH_$SYSTEMATIC
+shapes  2022__MC_WZJets      VS2_LOW ../base.root w:2022__MC_WZJets_VS2_LOW w:2022__MC_WZJets_VS2_LOW_$SYSTEMATIC
+shapes  2022__MC_WZJets      VS2_SIG ../base.root w:2022__MC_WZJets_VS2_SIG w:2022__MC_WZJets_VS2_SIG_$SYSTEMATIC
+shapes  2022__MC_WZJets      VS2_HIGH ../base.root w:2022__MC_WZJets_VS2_HIGH w:2022__MC_WZJets_VS2_HIGH_$SYSTEMATIC
+shapes  2022__SignalMC_XHY4b VB1_LOW ../base.root w:2022__SignalMC_XHY4b_VB1_LOW w:2022__SignalMC_XHY4b_VB1_LOW_$SYSTEMATIC
+shapes  2022__SignalMC_XHY4b VB1_SIG ../base.root w:2022__SignalMC_XHY4b_VB1_SIG w:2022__SignalMC_XHY4b_VB1_SIG_$SYSTEMATIC
+shapes  2022__SignalMC_XHY4b VB1_HIGH ../base.root w:2022__SignalMC_XHY4b_VB1_HIGH w:2022__SignalMC_XHY4b_VB1_HIGH_$SYSTEMATIC
+shapes  2022__SignalMC_XHY4b VS2_LOW ../base.root w:2022__SignalMC_XHY4b_VS2_LOW w:2022__SignalMC_XHY4b_VS2_LOW_$SYSTEMATIC
+shapes  2022__SignalMC_XHY4b VS2_SIG ../base.root w:2022__SignalMC_XHY4b_VS2_SIG w:2022__SignalMC_XHY4b_VS2_SIG_$SYSTEMATIC
+shapes  2022__SignalMC_XHY4b VS2_HIGH ../base.root w:2022__SignalMC_XHY4b_VS2_HIGH w:2022__SignalMC_XHY4b_VS2_HIGH_$SYSTEMATIC
+shapes  2023BPix__MC_TTBarJets VB1_LOW ../base.root w:2023BPix__MC_TTBarJets_VB1_LOW w:2023BPix__MC_TTBarJets_VB1_LOW_$SYSTEMATIC
+shapes  2023BPix__MC_TTBarJets VB1_SIG ../base.root w:2023BPix__MC_TTBarJets_VB1_SIG w:2023BPix__MC_TTBarJets_VB1_SIG_$SYSTEMATIC
+shapes  2023BPix__MC_TTBarJets VB1_HIGH ../base.root w:2023BPix__MC_TTBarJets_VB1_HIGH w:2023BPix__MC_TTBarJets_VB1_HIGH_$SYSTEMATIC
+shapes  2023BPix__MC_TTBarJets VS2_LOW ../base.root w:2023BPix__MC_TTBarJets_VS2_LOW w:2023BPix__MC_TTBarJets_VS2_LOW_$SYSTEMATIC
+shapes  2023BPix__MC_TTBarJets VS2_SIG ../base.root w:2023BPix__MC_TTBarJets_VS2_SIG w:2023BPix__MC_TTBarJets_VS2_SIG_$SYSTEMATIC
+shapes  2023BPix__MC_TTBarJets VS2_HIGH ../base.root w:2023BPix__MC_TTBarJets_VS2_HIGH w:2023BPix__MC_TTBarJets_VS2_HIGH_$SYSTEMATIC
+shapes  2023BPix__MC_WZJets  VB1_LOW ../base.root w:2023BPix__MC_WZJets_VB1_LOW w:2023BPix__MC_WZJets_VB1_LOW_$SYSTEMATIC
+shapes  2023BPix__MC_WZJets  VB1_SIG ../base.root w:2023BPix__MC_WZJets_VB1_SIG w:2023BPix__MC_WZJets_VB1_SIG_$SYSTEMATIC
+shapes  2023BPix__MC_WZJets  VB1_HIGH ../base.root w:2023BPix__MC_WZJets_VB1_HIGH w:2023BPix__MC_WZJets_VB1_HIGH_$SYSTEMATIC
+shapes  2023BPix__MC_WZJets  VS2_LOW ../base.root w:2023BPix__MC_WZJets_VS2_LOW w:2023BPix__MC_WZJets_VS2_LOW_$SYSTEMATIC
+shapes  2023BPix__MC_WZJets  VS2_SIG ../base.root w:2023BPix__MC_WZJets_VS2_SIG w:2023BPix__MC_WZJets_VS2_SIG_$SYSTEMATIC
+shapes  2023BPix__MC_WZJets  VS2_HIGH ../base.root w:2023BPix__MC_WZJets_VS2_HIGH w:2023BPix__MC_WZJets_VS2_HIGH_$SYSTEMATIC
+shapes  2023BPix__SignalMC_XHY4b VB1_LOW ../base.root w:2023BPix__SignalMC_XHY4b_VB1_LOW w:2023BPix__SignalMC_XHY4b_VB1_LOW_$SYSTEMATIC
+shapes  2023BPix__SignalMC_XHY4b VB1_SIG ../base.root w:2023BPix__SignalMC_XHY4b_VB1_SIG w:2023BPix__SignalMC_XHY4b_VB1_SIG_$SYSTEMATIC
+shapes  2023BPix__SignalMC_XHY4b VB1_HIGH ../base.root w:2023BPix__SignalMC_XHY4b_VB1_HIGH w:2023BPix__SignalMC_XHY4b_VB1_HIGH_$SYSTEMATIC
+shapes  2023BPix__SignalMC_XHY4b VS2_LOW ../base.root w:2023BPix__SignalMC_XHY4b_VS2_LOW w:2023BPix__SignalMC_XHY4b_VS2_LOW_$SYSTEMATIC
+shapes  2023BPix__SignalMC_XHY4b VS2_SIG ../base.root w:2023BPix__SignalMC_XHY4b_VS2_SIG w:2023BPix__SignalMC_XHY4b_VS2_SIG_$SYSTEMATIC
+shapes  2023BPix__SignalMC_XHY4b VS2_HIGH ../base.root w:2023BPix__SignalMC_XHY4b_VS2_HIGH w:2023BPix__SignalMC_XHY4b_VS2_HIGH_$SYSTEMATIC
+shapes  2023__MC_TTBarJets   VB1_LOW ../base.root w:2023__MC_TTBarJets_VB1_LOW w:2023__MC_TTBarJets_VB1_LOW_$SYSTEMATIC
+shapes  2023__MC_TTBarJets   VB1_SIG ../base.root w:2023__MC_TTBarJets_VB1_SIG w:2023__MC_TTBarJets_VB1_SIG_$SYSTEMATIC
+shapes  2023__MC_TTBarJets   VB1_HIGH ../base.root w:2023__MC_TTBarJets_VB1_HIGH w:2023__MC_TTBarJets_VB1_HIGH_$SYSTEMATIC
+shapes  2023__MC_TTBarJets   VS2_LOW ../base.root w:2023__MC_TTBarJets_VS2_LOW w:2023__MC_TTBarJets_VS2_LOW_$SYSTEMATIC
+shapes  2023__MC_TTBarJets   VS2_SIG ../base.root w:2023__MC_TTBarJets_VS2_SIG w:2023__MC_TTBarJets_VS2_SIG_$SYSTEMATIC
+shapes  2023__MC_TTBarJets   VS2_HIGH ../base.root w:2023__MC_TTBarJets_VS2_HIGH w:2023__MC_TTBarJets_VS2_HIGH_$SYSTEMATIC
+shapes  2023__MC_WZJets      VB1_LOW ../base.root w:2023__MC_WZJets_VB1_LOW w:2023__MC_WZJets_VB1_LOW_$SYSTEMATIC
+shapes  2023__MC_WZJets      VB1_SIG ../base.root w:2023__MC_WZJets_VB1_SIG w:2023__MC_WZJets_VB1_SIG_$SYSTEMATIC
+shapes  2023__MC_WZJets      VB1_HIGH ../base.root w:2023__MC_WZJets_VB1_HIGH w:2023__MC_WZJets_VB1_HIGH_$SYSTEMATIC
+shapes  2023__MC_WZJets      VS2_LOW ../base.root w:2023__MC_WZJets_VS2_LOW w:2023__MC_WZJets_VS2_LOW_$SYSTEMATIC
+shapes  2023__MC_WZJets      VS2_SIG ../base.root w:2023__MC_WZJets_VS2_SIG w:2023__MC_WZJets_VS2_SIG_$SYSTEMATIC
+shapes  2023__MC_WZJets      VS2_HIGH ../base.root w:2023__MC_WZJets_VS2_HIGH w:2023__MC_WZJets_VS2_HIGH_$SYSTEMATIC
+shapes  2023__SignalMC_XHY4b VB1_LOW ../base.root w:2023__SignalMC_XHY4b_VB1_LOW w:2023__SignalMC_XHY4b_VB1_LOW_$SYSTEMATIC
+shapes  2023__SignalMC_XHY4b VB1_SIG ../base.root w:2023__SignalMC_XHY4b_VB1_SIG w:2023__SignalMC_XHY4b_VB1_SIG_$SYSTEMATIC
+shapes  2023__SignalMC_XHY4b VB1_HIGH ../base.root w:2023__SignalMC_XHY4b_VB1_HIGH w:2023__SignalMC_XHY4b_VB1_HIGH_$SYSTEMATIC
+shapes  2023__SignalMC_XHY4b VS2_LOW ../base.root w:2023__SignalMC_XHY4b_VS2_LOW w:2023__SignalMC_XHY4b_VS2_LOW_$SYSTEMATIC
+shapes  2023__SignalMC_XHY4b VS2_SIG ../base.root w:2023__SignalMC_XHY4b_VS2_SIG w:2023__SignalMC_XHY4b_VS2_SIG_$SYSTEMATIC
+shapes  2023__SignalMC_XHY4b VS2_HIGH ../base.root w:2023__SignalMC_XHY4b_VS2_HIGH w:2023__SignalMC_XHY4b_VS2_HIGH_$SYSTEMATIC
+shapes  data_obs             VB1_LOW ../base.root w:data_obs_VB1_LOW
+shapes  data_obs             VB1_SIG ../base.root w:data_obs_VB1_SIG
+shapes  data_obs             VB1_HIGH ../base.root w:data_obs_VB1_HIGH
+shapes  data_obs             VS2_LOW ../base.root w:data_obs_VS2_LOW
+shapes  data_obs             VS2_SIG ../base.root w:data_obs_VS2_SIG
+shapes  data_obs             VS2_HIGH ../base.root w:data_obs_VS2_HIGH
+shapes  QCD_fail             VB1_LOW ../base.root w:QCD_fail_VB1_LOW
+shapes  QCD_fail             VB1_SIG ../base.root w:QCD_fail_VB1_SIG
+shapes  QCD_fail             VB1_HIGH ../base.root w:QCD_fail_VB1_HIGH
+shapes  QCD_pass_1x1         VS2_LOW ../base.root w:QCD_pass_1x1_VS2_LOW
+shapes  QCD_pass_1x1         VS2_SIG ../base.root w:QCD_pass_1x1_VS2_SIG
+shapes  QCD_pass_1x1         VS2_HIGH ../base.root w:QCD_pass_1x1_VS2_HIGH
+------------------------------------------------------------------------------------------------------------------------
+bin                 VB1_LOW              VB1_SIG              VB1_HIGH             VS2_LOW              VS2_SIG              VS2_HIGH            
+observation                   -1                   -1                   -1                   -1                   -1                   -1
+------------------------------------------------------------------------------------------------------------------------
+bin                                      VB1_LOW              VB1_SIG              VB1_HIGH             VS2_LOW              VS2_SIG              VS2_HIGH             VB1_LOW              VB1_SIG              VB1_HIGH             VS2_LOW              VS2_SIG              VS2_HIGH             VB1_LOW              VB1_SIG              VB1_HIGH             VS2_LOW              VS2_SIG              VS2_HIGH             VB1_LOW              VB1_SIG              VB1_HIGH             VS2_LOW              VS2_SIG              VS2_HIGH             VB1_LOW              VB1_SIG              VB1_HIGH             VS2_LOW              VS2_SIG              VS2_HIGH             VB1_LOW              VB1_SIG              VB1_HIGH             VS2_LOW              VS2_SIG              VS2_HIGH             VB1_LOW              VB1_SIG              VB1_HIGH             VS2_LOW              VS2_SIG              VS2_HIGH             VB1_LOW              VB1_SIG              VB1_HIGH             VS2_LOW              VS2_SIG              VS2_HIGH             VB1_LOW              VB1_SIG              VB1_HIGH             VS2_LOW              VS2_SIG              VS2_HIGH             VB1_LOW              VB1_SIG              VB1_HIGH             VS2_LOW              VS2_SIG              VS2_HIGH             VB1_LOW              VB1_SIG              VB1_HIGH             VS2_LOW              VS2_SIG              VS2_HIGH             VB1_LOW              VB1_SIG              VB1_HIGH             VS2_LOW              VS2_SIG              VS2_HIGH             VB1_LOW              VB1_SIG              VB1_HIGH             VS2_LOW              VS2_SIG              VS2_HIGH             
+process                                  2022EE__MC_TTBarJets 2022EE__MC_TTBarJets 2022EE__MC_TTBarJets 2022EE__MC_TTBarJets 2022EE__MC_TTBarJets 2022EE__MC_TTBarJets 2022EE__MC_WZJets    2022EE__MC_WZJets    2022EE__MC_WZJets    2022EE__MC_WZJets    2022EE__MC_WZJets    2022EE__MC_WZJets    2022EE__SignalMC_XHY4b 2022EE__SignalMC_XHY4b 2022EE__SignalMC_XHY4b 2022EE__SignalMC_XHY4b 2022EE__SignalMC_XHY4b 2022EE__SignalMC_XHY4b 2022__MC_TTBarJets   2022__MC_TTBarJets   2022__MC_TTBarJets   2022__MC_TTBarJets   2022__MC_TTBarJets   2022__MC_TTBarJets   2022__MC_WZJets      2022__MC_WZJets      2022__MC_WZJets      2022__MC_WZJets      2022__MC_WZJets      2022__MC_WZJets      2022__SignalMC_XHY4b 2022__SignalMC_XHY4b 2022__SignalMC_XHY4b 2022__SignalMC_XHY4b 2022__SignalMC_XHY4b 2022__SignalMC_XHY4b 2023BPix__MC_TTBarJets 2023BPix__MC_TTBarJets 2023BPix__MC_TTBarJets 2023BPix__MC_TTBarJets 2023BPix__MC_TTBarJets 2023BPix__MC_TTBarJets 2023BPix__MC_WZJets  2023BPix__MC_WZJets  2023BPix__MC_WZJets  2023BPix__MC_WZJets  2023BPix__MC_WZJets  2023BPix__MC_WZJets  2023BPix__SignalMC_XHY4b 2023BPix__SignalMC_XHY4b 2023BPix__SignalMC_XHY4b 2023BPix__SignalMC_XHY4b 2023BPix__SignalMC_XHY4b 2023BPix__SignalMC_XHY4b 2023__MC_TTBarJets   2023__MC_TTBarJets   2023__MC_TTBarJets   2023__MC_TTBarJets   2023__MC_TTBarJets   2023__MC_TTBarJets   2023__MC_WZJets      2023__MC_WZJets      2023__MC_WZJets      2023__MC_WZJets      2023__MC_WZJets      2023__MC_WZJets      2023__SignalMC_XHY4b 2023__SignalMC_XHY4b 2023__SignalMC_XHY4b 2023__SignalMC_XHY4b 2023__SignalMC_XHY4b 2023__SignalMC_XHY4b QCD_fail             QCD_fail             QCD_fail             QCD_pass_1x1         QCD_pass_1x1         QCD_pass_1x1         
+process                                                     3                    3                    3                    3                    3                    3                    4                    4                    4                    4                    4                    4                   -1                   -1                   -1                   -1                   -1                   -1                    1                    1                    1                    1                    1                    1                    2                    2                    2                    2                    2                    2                    0                    0                    0                    0                    0                    0                    7                    7                    7                    7                    7                    7                    8                    8                    8                    8                    8                    8                   -3                   -3                   -3                   -3                   -3                   -3                    5                    5                    5                    5                    5                    5                    6                    6                    6                    6                    6                    6                   -2                   -2                   -2                   -2                   -2                   -2                    9                    9                    9                   10                   10                   10 
+rate                                     -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   -1                   1                    1                    1                    1                    1                    1                    
+------------------------------------------------------------------------------------------------------------------------
+JER_                 shapes                                1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0 -                    -                    -                    -                    -                    -                    
+JES_                 shapes                                1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0 -                    -                    -                    -                    -                    -                    
+PileUp_Corr          shapes                                1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0 -                    -                    -                    -                    -                    -                    
+lumi_13p6TeV         lnN                                  1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05                 1.05 -                    -                    -                    -                    -                    -                    
+QCD_fail_LOW_bin_1-1                     flatParam
+QCD_fail_LOW_bin_2-1                     flatParam
+QCD_fail_LOW_bin_1-2                     flatParam
+QCD_fail_LOW_bin_2-2                     flatParam
+QCD_fail_LOW_bin_1-3                     flatParam
+QCD_fail_LOW_bin_2-3                     flatParam
+QCD_fail_LOW_bin_1-4                     flatParam
+QCD_fail_LOW_bin_2-4                     flatParam
+QCD_fail_LOW_bin_1-5                     flatParam
+QCD_fail_LOW_bin_2-5                     flatParam
+QCD_fail_LOW_bin_1-6                     flatParam
+QCD_fail_LOW_bin_2-6                     flatParam
+QCD_fail_LOW_bin_1-7                     flatParam
+QCD_fail_LOW_bin_2-7                     flatParam
+QCD_fail_LOW_bin_1-8                     flatParam
+QCD_fail_LOW_bin_2-8                     flatParam
+QCD_fail_LOW_bin_1-9                     flatParam
+QCD_fail_LOW_bin_2-9                     flatParam
+QCD_fail_LOW_bin_1-10                    flatParam
+QCD_fail_LOW_bin_2-10                    flatParam
+QCD_fail_LOW_bin_1-11                    flatParam
+QCD_fail_LOW_bin_2-11                    flatParam
+QCD_fail_LOW_bin_1-12                    flatParam
+QCD_fail_LOW_bin_2-12                    flatParam
+QCD_fail_LOW_bin_1-13                    flatParam
+QCD_fail_LOW_bin_2-13                    flatParam
+QCD_fail_LOW_bin_1-14                    flatParam
+QCD_fail_LOW_bin_2-14                    flatParam
+QCD_fail_LOW_bin_1-15                    flatParam
+QCD_fail_LOW_bin_2-15                    flatParam
+QCD_fail_SIG_bin_1-1                     flatParam
+QCD_fail_SIG_bin_1-2                     flatParam
+QCD_fail_SIG_bin_1-3                     flatParam
+QCD_fail_SIG_bin_1-4                     flatParam
+QCD_fail_SIG_bin_1-5                     flatParam
+QCD_fail_SIG_bin_1-6                     flatParam
+QCD_fail_SIG_bin_1-7                     flatParam
+QCD_fail_SIG_bin_1-8                     flatParam
+QCD_fail_SIG_bin_1-9                     flatParam
+QCD_fail_SIG_bin_1-10                    flatParam
+QCD_fail_SIG_bin_1-11                    flatParam
+QCD_fail_SIG_bin_1-12                    flatParam
+QCD_fail_SIG_bin_1-13                    flatParam
+QCD_fail_SIG_bin_1-14                    flatParam
+QCD_fail_SIG_bin_1-15                    flatParam
+QCD_fail_HIGH_bin_1-2                    flatParam
+QCD_fail_HIGH_bin_2-2                    flatParam
+QCD_fail_HIGH_bin_1-3                    flatParam
+QCD_fail_HIGH_bin_2-3                    flatParam
+QCD_fail_HIGH_bin_1-4                    flatParam
+QCD_fail_HIGH_bin_2-4                    flatParam
+QCD_fail_HIGH_bin_1-5                    flatParam
+QCD_fail_HIGH_bin_2-5                    flatParam
+QCD_fail_HIGH_bin_1-6                    flatParam
+QCD_fail_HIGH_bin_2-6                    flatParam
+QCD_fail_HIGH_bin_1-7                    flatParam
+QCD_fail_HIGH_bin_2-7                    flatParam
+QCD_fail_HIGH_bin_1-8                    flatParam
+QCD_fail_HIGH_bin_2-8                    flatParam
+QCD_fail_HIGH_bin_1-9                    flatParam
+QCD_fail_HIGH_bin_2-9                    flatParam
+QCD_fail_HIGH_bin_1-10                   flatParam
+QCD_fail_HIGH_bin_2-10                   flatParam
+QCD_fail_HIGH_bin_1-11                   flatParam
+QCD_fail_HIGH_bin_2-11                   flatParam
+QCD_fail_HIGH_bin_1-12                   flatParam
+QCD_fail_HIGH_bin_2-12                   flatParam
+QCD_fail_HIGH_bin_1-13                   flatParam
+QCD_fail_HIGH_bin_2-13                   flatParam
+QCD_fail_HIGH_bin_1-14                   flatParam
+QCD_fail_HIGH_bin_2-14                   flatParam
+QCD_fail_HIGH_bin_1-15                   flatParam
+QCD_fail_HIGH_bin_2-15                   flatParam
+QCD_fail_LOW_bin_1-1                     flatParam
+QCD_fail_LOW_bin_2-1                     flatParam
+QCD_fail_LOW_bin_1-2                     flatParam
+QCD_fail_LOW_bin_2-2                     flatParam
+QCD_fail_LOW_bin_1-3                     flatParam
+QCD_fail_LOW_bin_2-3                     flatParam
+QCD_fail_LOW_bin_1-4                     flatParam
+QCD_fail_LOW_bin_2-4                     flatParam
+QCD_fail_LOW_bin_1-5                     flatParam
+QCD_fail_LOW_bin_2-5                     flatParam
+QCD_fail_LOW_bin_1-6                     flatParam
+QCD_fail_LOW_bin_2-6                     flatParam
+QCD_fail_LOW_bin_1-7                     flatParam
+QCD_fail_LOW_bin_2-7                     flatParam
+QCD_fail_LOW_bin_1-8                     flatParam
+QCD_fail_LOW_bin_2-8                     flatParam
+QCD_fail_LOW_bin_1-9                     flatParam
+QCD_fail_LOW_bin_2-9                     flatParam
+QCD_fail_LOW_bin_1-10                    flatParam
+QCD_fail_LOW_bin_2-10                    flatParam
+QCD_fail_LOW_bin_1-11                    flatParam
+QCD_fail_LOW_bin_2-11                    flatParam
+QCD_fail_LOW_bin_1-12                    flatParam
+QCD_fail_LOW_bin_2-12                    flatParam
+QCD_fail_LOW_bin_1-13                    flatParam
+QCD_fail_LOW_bin_2-13                    flatParam
+QCD_fail_LOW_bin_1-14                    flatParam
+QCD_fail_LOW_bin_2-14                    flatParam
+QCD_fail_LOW_bin_1-15                    flatParam
+QCD_fail_LOW_bin_2-15                    flatParam
+QCD_fail_SIG_bin_1-1                     flatParam
+QCD_fail_SIG_bin_1-2                     flatParam
+QCD_fail_SIG_bin_1-3                     flatParam
+QCD_fail_SIG_bin_1-4                     flatParam
+QCD_fail_SIG_bin_1-5                     flatParam
+QCD_fail_SIG_bin_1-6                     flatParam
+QCD_fail_SIG_bin_1-7                     flatParam
+QCD_fail_SIG_bin_1-8                     flatParam
+QCD_fail_SIG_bin_1-9                     flatParam
+QCD_fail_SIG_bin_1-10                    flatParam
+QCD_fail_SIG_bin_1-11                    flatParam
+QCD_fail_SIG_bin_1-12                    flatParam
+QCD_fail_SIG_bin_1-13                    flatParam
+QCD_fail_SIG_bin_1-14                    flatParam
+QCD_fail_SIG_bin_1-15                    flatParam
+QCD_fail_HIGH_bin_1-2                    flatParam
+QCD_fail_HIGH_bin_2-2                    flatParam
+QCD_fail_HIGH_bin_1-3                    flatParam
+QCD_fail_HIGH_bin_2-3                    flatParam
+QCD_fail_HIGH_bin_1-4                    flatParam
+QCD_fail_HIGH_bin_2-4                    flatParam
+QCD_fail_HIGH_bin_1-5                    flatParam
+QCD_fail_HIGH_bin_2-5                    flatParam
+QCD_fail_HIGH_bin_1-6                    flatParam
+QCD_fail_HIGH_bin_2-6                    flatParam
+QCD_fail_HIGH_bin_1-7                    flatParam
+QCD_fail_HIGH_bin_2-7                    flatParam
+QCD_fail_HIGH_bin_1-8                    flatParam
+QCD_fail_HIGH_bin_2-8                    flatParam
+QCD_fail_HIGH_bin_1-9                    flatParam
+QCD_fail_HIGH_bin_2-9                    flatParam
+QCD_fail_HIGH_bin_1-10                   flatParam
+QCD_fail_HIGH_bin_2-10                   flatParam
+QCD_fail_HIGH_bin_1-11                   flatParam
+QCD_fail_HIGH_bin_2-11                   flatParam
+QCD_fail_HIGH_bin_1-12                   flatParam
+QCD_fail_HIGH_bin_2-12                   flatParam
+QCD_fail_HIGH_bin_1-13                   flatParam
+QCD_fail_HIGH_bin_2-13                   flatParam
+QCD_fail_HIGH_bin_1-14                   flatParam
+QCD_fail_HIGH_bin_2-14                   flatParam
+QCD_fail_HIGH_bin_1-15                   flatParam
+QCD_fail_HIGH_bin_2-15                   flatParam
+QCD_Rc_1x1_par0                          flatParam
+QCD_Rc_1x1_par1                          flatParam
+QCD_Rc_1x1_par2                          flatParam
+QCD_Rc_1x1_par3                          flatParam

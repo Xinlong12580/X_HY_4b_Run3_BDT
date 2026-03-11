@@ -15,13 +15,21 @@
     "2023": {
         "Data": {
             "JetMET0__Run2023C-NanoAODv15-v1__NANOAOD": "/JetMET0/Run2023C-NanoAODv15-v1/NANOAOD",
-            "JetMET1__Run2023C-NanoAODv15-v1__NANOAOD": "/JetMET1/Run2023C-NanoAODv15-v1/NANOAOD"
+            "JetMET0__Run2023C-NanoAODv15_v2-v1__NANOAOD": "/JetMET0/Run2023C-NanoAODv15_v2-v1/NANOAOD",
+            "JetMET0__Run2023C-NanoAODv15_v3-v1__NANOAOD": "/JetMET0/Run2023C-NanoAODv15_v3-v1/NANOAOD",
+            "JetMET0__Run2023C-NanoAODv15_v4-v1__NANOAOD": "/JetMET0/Run2023C-NanoAODv15_v4-v1/NANOAOD",
+            "JetMET1__Run2023C-NanoAODv15-v1__NANOAOD": "/JetMET1/Run2023C-NanoAODv15-v1/NANOAOD",
+            "JetMET1__Run2023C-NanoAODv15_v2-v1__NANOAOD": "/JetMET1/Run2023C-NanoAODv15_v2-v1/NANOAOD",
+            "JetMET1__Run2023C-NanoAODv15_v3-v1__NANOAOD": "/JetMET1/Run2023C-NanoAODv15_v3-v1/NANOAOD",
+            "JetMET1__Run2023C-NanoAODv15_v4-v1__NANOAOD": "/JetMET1/Run2023C-NanoAODv15_v4-v1/NANOAOD"
         }
     },
     "2023BPix": {
         "Data": {
             "JetMET0__Run2023D-NanoAODv15-v1__NANOAOD": "/JetMET0/Run2023D-NanoAODv15-v1/NANOAOD",
-            "JetMET1__Run2023D-NanoAODv15-v1__NANOAOD": "/JetMET1/Run2023D-NanoAODv15-v1/NANOAOD"
+            "JetMET0__Run2023D-NanoAODv15_v2-v1__NANOAOD": "/JetMET0/Run2023D-NanoAODv15_v2-v1/NANOAOD",
+            "JetMET1__Run2023D-NanoAODv15-v1__NANOAOD": "/JetMET1/Run2023D-NanoAODv15-v1/NANOAOD",
+            "JetMET1__Run2023D-NanoAODv15_v2-v1__NANOAOD": "/JetMET1/Run2023D-NanoAODv15_v2-v1/NANOAOD"
         }
     },
     "2024": {

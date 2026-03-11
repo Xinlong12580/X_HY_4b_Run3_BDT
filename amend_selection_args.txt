@@ -1,0 +1,6 @@
+-d outputList/SKIM_masked_skimmed_2024__Data__JetMET0__Run2024C-MINIv6NANOv15-v1__NANOAOD.txt -y 2024 -n 1 -i 76 -s nom
+-d outputList/SKIM_masked_skimmed_2024__Data__JetMET0__Run2024C-MINIv6NANOv15-v1__NANOAOD.txt -y 2024 -n 1 -i 77 -s nom
+-d outputList/SKIM_masked_skimmed_2024__Data__JetMET0__Run2024C-MINIv6NANOv15-v1__NANOAOD.txt -y 2024 -n 1 -i 79 -s nom
+-d outputList/SKIM_masked_skimmed_2024__Data__JetMET0__Run2024F-MINIv6NANOv15-v2__NANOAOD.txt -y 2024 -n 1 -i 110 -s nom
+-d outputList/SKIM_masked_skimmed_2024__Data__JetMET0__Run2024G-MINIv6NANOv15-v2__NANOAOD.txt -y 2024 -n 1 -i 214 -s nom
+-d outputList/SKIM_masked_skimmed_2024__Data__JetMET1__Run2024I-MINIv6NANOv15_v2-v2__NANOAOD.txt -y 2024 -n 1 -i 22 -s nom

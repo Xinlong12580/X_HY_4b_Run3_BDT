@@ -15,7 +15,7 @@ args = parser.parse_args()
 
 CompileCpp("cpp_modules/MVA_evaluator.cc")
 CompileCpp("cpp_modules/DDT_map.cc")
-CompileCpp("cpp_modules/discretizeTaggers.cc")
+#CompileCpp("cpp_modules/discretizeTaggers.cc")
 #B tagging
 ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job)
 ana.BDT_tagging_discrete_2p1()

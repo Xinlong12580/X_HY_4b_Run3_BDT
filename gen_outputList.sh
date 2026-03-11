@@ -112,3 +112,25 @@ rm outputList/*tmp*
 file_dir=/store/user/$USER/XHY4bRun3_division_2p1_BDT/
 eosls $file_dir > outputList/output_selection_1p1_tmp.txt
 sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_1p1_tmp.txt > outputList/output_division_2p1_BDT.txt
+
+file_dir=/store/user/$USER/XHY4bRun3_trigger_1p1_BDT/
+eosls $file_dir > outputList/output_selection_1p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_1p1_tmp.txt > outputList/output_trigger_1p1_BDT.txt
+rm outputList/*tmp*
+
+file_dir=/store/user/$USER/XHY4bRun3_trigger_2p1_BDT/
+eosls $file_dir > outputList/output_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_tmp.txt > outputList/output_trigger_2p1_BDT.txt
+rm outputList/*tmp*
+file_dir=/store/user/$USER/XHY4bRun3_btagging_2p1_BDT/
+eosls $file_dir > outputList/output_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_tmp.txt > outputList/output_btagging_2p1_BDT.txt
+rm outputList/*tmp*
+file_dir=/store/user/$USER/XHY4bRun3_Xbbtagging_2p1_BDT/
+eosls $file_dir > outputList/output_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_tmp.txt > outputList/output_Xbbtagging_2p1_BDT.txt
+rm outputList/*tmp*
+file_dir=/store/user/$USER/XHY4bRun3_Xbbtagging_1p1_BDT/
+eosls $file_dir > outputList/output_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_tmp.txt > outputList/output_Xbbtagging_1p1_BDT.txt
+rm outputList/*tmp*

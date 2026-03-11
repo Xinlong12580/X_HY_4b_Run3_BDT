@@ -17,19 +17,20 @@ args = parser.parse_args()
 #cpp modules from Matej
 CompileCpp("cpp_modules/deltaRMatching.cc")
 CompileCpp("cpp_modules/helperFunctions.cc")
-CompileCpp("cpp_modules/massMatching.cc")
+CompileCpp("cpp_modules/XHYgenMatching.cc")
+CompileCpp("cpp_modules/ttbar_genMatching.cc")
 
 CompileCpp("cpp_modules/selection_functions.cc")
 CompileCpp("cpp_modules/TaggerDiscretizer.cc")
-
 #Specifying columns to save
-columns = [ "Tagger_.*", "MassHiggs.*", "idxJ.*", "MY", "MX", "leadingFatJetPt","leadingFatJetPhi","leadingFatJetEta", "leadingFatJetMsoftdrop", "PtJY0", "PtJY1", "EtaJY0", "EtaJY1", "PhiJY0", "PhiJY1", "MassJY0", "MassJY1", "MassJJH", "MassHiggsCandidate", "PtHiggsCandidate", "EtaHiggsCandidate", "PhiHiggsCandidate", "MassYCandidate", "MJJH", "MJY",  "Pileup_nTrueInt", "weight.*"]
+columns = [".*matched.*", "Tagger_.*", "TFlavor.*", "MassHiggs.*", "idxJ.*", "MY", "MX", "leadingFatJetPt","leadingFatJetPhi","leadingFatJetEta", "leadingFatJetMsoftdrop", "PtJY0", "PtJY1", "EtaJY0", "EtaJY1", "PhiJY0", "PhiJY1", "MassJY0", "MassJY1", "MassJJH", "MassHiggsCandidate", "PtHiggsCandidate", "EtaHiggsCandidate", "PhiHiggsCandidate", "MassYCandidate", "MJJH", "MJY",  "Pileup_nTrueInt", "weight.*"]
 #columns = [ "MY", "MX", "leadingFatJetPt","leadingFatJetPhi","leadingFatJetEta", "leadingFatJetMsoftdrop", "PtJY0", "PtJY1", "EtaJY0", "EtaJY1", "PhiJY0", "PhiJY1", "MassJY0", "MassJY1", "MassJJH", "MassHiggsCandidate", "PtHiggsCandidate", "EtaHiggsCandidate", "PhiHiggsCandidate", "MassYCandidate", "MJJH", "MJY", "PNet_Y0", "PNet_Y1", "PNet_Ymin", "PNet_Y", "PNet_H", "Pileup_nTrueInt", "weight.*"]
 
 #Running selection
-for Reg in ["Signal", "Control"]:
-    ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job)
+for Reg in ["Signal"]:
+    ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job, nEvents = 100)
     ana.selection_2p1_BDT(args.JME_syst, Reg)
+    #ana.trainer_preprosessing_2p1()
     #ana.trainer_preprosessing_2p1()
     #ana.eff_after_selection_2p1()
     #Saving snapshot and cutflow
@@ -41,7 +42,6 @@ for Reg in ["Signal", "Control"]:
     else:
         ana.snapshot(columns, saveRunChain = True)
     ana.save_cutflowInfo()
-    break
     if args.JME_syst != "nom":
         continue
 
@@ -62,11 +62,12 @@ for Reg in ["Signal", "Control"]:
 
     bins["MassJY0"] = array.array("d", np.linspace(0, 1500, 51) )
     bins["MassJY1"] = array.array("d", np.linspace(0, 5000, 101) )
-    bins["MassHiggsCandidate"] = array.array("d", np.linspace(0, 1500, 51) )
-    bins["MassYCandidate"] = array.array("d", np.linspace(0, 1500, 51) )
-    bins["MassJJH"] = array.array("d", np.linspace(1000, 4000, 51) )
-    bins["MJJH"] = array.array("d", np.linspace(1000, 4000, 51) )
-    bins["MJY"] = array.array("d", np.linspace(0, 1500, 51) )
+    bins["reco_mH"] = array.array("d", np.linspace(0, 1500, 51) )
+    bins["reco_mY"] = array.array("d", np.linspace(0, 1500, 51) )
+    bins["reco_mX"] = array.array("d", np.linspace(1000, 4000, 51) )
+    bins["Tagger_H"] = array.array("d", np.linspace(0, 1, 101) )
+    bins["Tagger_b_Y0"] = array.array("d", np.linspace(0, 1, 101) )
+    bins["Tagger_b_Y1"] = array.array("d", np.linspace(0, 1, 101) )
 
     #Saving histograms to a "Templates_" root file 
     f = ROOT.TFile("Templates_" + ana.output, "RECREATE")

@@ -1,4 +1,5 @@
 years=(2022 2022EE 2023 2023BPix)
+year=( $1 )
 for year in ${years[@]} ; do
     echo $year
     datasets=$( eosls $eospath/XHY4b_regen/mc_$year )

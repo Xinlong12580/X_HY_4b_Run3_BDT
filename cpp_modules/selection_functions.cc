@@ -97,7 +97,7 @@ RVec<int> FindIdxJY_bscore_limits(RVec<float> Etas, RVec<float> Phies, float eta
 }
 // 2p1 mode only. Looking for Higgs Jet from the first nmass FatJets, with mass requirement only
 Int_t FindIdxJH(RVec<float> Masses, float minM, float maxM, RVec<bool> Goodnesses, float HiggsM = 125){
-    int ind_best = 0;
+    int ind_best = -1;
     float diff_mass_best = 10000;
     // Looking for best match
     for (int i = 0; i < Masses.size(); i++)

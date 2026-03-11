@@ -96,11 +96,23 @@ if [[ $work == selection_1p1_debug ]] ; then
     python CondorHelper.py -r gridrun.sh -a selection_1p1_debug_args.txt -i "cpp_modules run_selection_1p1_debug.py XHY4b_Analyzer.py raw_nano outputList"
 fi
 
-if [[ $work == trigger_1p1 ]] ; then
-    sed -e 's/PYTHON_SCRIPT/run_selection_without_trigger_1p1.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_selection_without_trigger_1p1/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
-    python CondorHelper.py -r gridrun.sh -a selection_args.txt -i "cpp_modules run_selection_without_trigger_1p1.py XHY4b_Analyzer.py raw_nano outputList"
+if [[ $work == trigger_1p1_BDT ]] ; then
+    sed -e 's/PYTHON_SCRIPT/run_trigger_1p1_BDT.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_trigger_1p1_BDT/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
+    python CondorHelper.py -r gridrun.sh -a selection_args.txt -i "cpp_modules run_trigger_1p1_BDT.py XHY4b_Analyzer.py raw_nano outputList"
 fi
-if [[ $work == trigger_2p1 ]] ; then
-    sed -e 's/PYTHON_SCRIPT/run_selection_without_trigger_2p1.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_selection_without_trigger_2p1/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
-    python CondorHelper.py -r gridrun.sh -a selection_args.txt -i "cpp_modules run_selection_without_trigger_2p1.py XHY4b_Analyzer.py raw_nano outputList"
+if [[ $work == trigger_2p1_BDT ]] ; then
+    sed -e 's/PYTHON_SCRIPT/run_trigger_2p1_BDT.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_trigger_2p1_BDT/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
+    python CondorHelper.py -r gridrun.sh -a selection_args.txt -i "cpp_modules run_trigger_2p1_BDT.py XHY4b_Analyzer.py raw_nano outputList"
+fi
+if [[ $work == btagging_2p1_BDT ]] ; then
+    sed -e 's/PYTHON_SCRIPT/run_btagging_2p1_BDT.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_btagging_2p1_BDT/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
+    python CondorHelper.py -r gridrun.sh -a selection_args.txt -i "cpp_modules run_btagging_2p1_BDT.py XHY4b_Analyzer.py raw_nano outputList"
+fi
+if [[ $work == Xbbtagging_1p1_BDT ]] ; then
+    sed -e 's/PYTHON_SCRIPT/run_Xbbtagging_1p1_BDT.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_Xbbtagging_1p1_BDT/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
+    python CondorHelper.py -r gridrun.sh -a selection_args.txt -i "cpp_modules run_Xbbtagging_1p1_BDT.py XHY4b_Analyzer.py raw_nano outputList"
+fi
+if [[ $work == Xbbtagging_2p1_BDT ]] ; then
+    sed -e 's/PYTHON_SCRIPT/run_Xbbtagging_2p1_BDT.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_Xbbtagging_2p1_BDT/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
+    python CondorHelper.py -r gridrun.sh -a selection_args.txt -i "cpp_modules run_Xbbtagging_2p1_BDT.py XHY4b_Analyzer.py raw_nano outputList"
 fi

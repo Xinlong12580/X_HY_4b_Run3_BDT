@@ -5,7 +5,7 @@ output="$operation"_args.txt
 if [[ $operation == "skim" ]] ; then
     files=raw_nano/files/*.txt
     #files=raw_nano/files_original_dataset/*.txt
-    n_files_base=2
+    n_files_base=1
 else
     files=outputList/"${input^^}"*.txt
     n_files_base=10000
@@ -23,7 +23,7 @@ for file in $files; do
     else
         n_files=$n_files_base
     fi
-    if [[  ( $operation == *"skim"* ) && ( $file != *"24"* ) && ( $file == *"QCD"* ) ]] ; then
+    if [[  ( $operation == *"skim"* ) && ( $file != *"24"* ) && ( $file == *"QCD"* || $file == *"Signal"* ) ]] ; then
         n_files=10
     fi 
         
@@ -59,11 +59,14 @@ for file in $files; do
         pass=0
     fi
     #if [[  (  $file == *"2024"*"JetMET"* )  ]]; then
-    if [[  (  $file != *"QCD"* ) && (  $file != *"2024"* ) ]]; then
+    #if [[  (  $file == *"TTBar"* || $file == *"QCD"* || $file == *"Signal"* ) ]]; then
+    #if [[  ( $file != *"2022_"* && $file != *"2024_"* && $file == *"QCD"* ) ]]; then
+    #if [[  ( $file == *"TTto4Q"* || $file == *"Data"*   ) ]]; then
+    if [[  (  $file == *"Data"*   ) ]]; then
         pass=1
     fi
-
-
+    pass=1
+    debug=1
     if [[ $operation == *"selection"* && $pass == 1 ]]; then
         extras=("-s nom" "-s JES__up" "-s JES__down" "-s JER__up" "-s JER__down")
         if [[ $debug == 1 ]]; then
