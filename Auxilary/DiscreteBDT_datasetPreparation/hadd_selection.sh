@@ -1,15 +1,16 @@
 mode=$1
+year=$2
 #rm datasets/*root
 input_dir=/store/user/xinlong/XHY4bRun3_selection_"$mode"_BDT
 output_dir="./datasets/"
 eosmkdir -p "$output_dir"
 echo "TEST!"
-files=$( eosls $input_dir | grep "2022EE" | grep "nom" )
+files=$( eosls $input_dir | grep "$year"_ | grep "nom" )
 prefix=$eosprefix$input_dir/
 declare -A classified_files
 declare -A classified_file_idxs
 for file in ${files[@]}; do
-    if [[ $file == *"Template"* || $file != *"2022EE"* || $file != *"nom"* ]]; then
+    if [[ $file == *"Template"* || $file != *"$year"_* || $file != *"nom"* ]]; then
         continue
     fi
     file_base="${file%%_n-*}"
