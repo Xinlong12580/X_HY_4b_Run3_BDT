@@ -5,19 +5,13 @@ BaggedSampleFractions=(0.4 0.8)
 nCutses=(20 200) 
 MaxDepthes=(2 5) 
 
-NTreeses=(500 1500)
-MinNodeSizes=(2% 5%)
-Shrinkages=(0.03 0.1)
-BaggedSampleFractions=(0.5 0.7)
-nCutses=(50 100)
-MaxDepthes=(3 4)
 
-NTreeses=(500 1500)
-MinNodeSizes=(2 5)
-Shrinkages=(0.03 0.1)
-BaggedSampleFractions=(0.5 0.7)
-nCutses=(50 100)
-MaxDepthes=(3 4)
+NTreeses=(400 500 700 1000 1200 1500 2000)
+MinNodeSizes=(2 3 4 5 10)
+Shrinkages=(0.01 0.03 0.05 0.08 0.09 0.1 0.12)
+BaggedSampleFractions=(0.4 0.5 0.6 0.7 0.8)
+nCutses=(30 50 70 80 90 100 120)
+MaxDepthes=(2 3 4 5)
 
 S_NTreeses='{'
 S_MinNodeSizes='{'
@@ -28,7 +22,7 @@ S_MaxDepthes='{'
 
 RANDOM=1234
 
-N=2
+N=60
 for ((i=0; i<N; i++)); do
     echo "Iteration $i"
     I=$((RANDOM % ${#NTreeses[@]} ))
@@ -59,6 +53,7 @@ for ((i=0; i<N; i++)); do
     #echo $config
     #root -b -q 'BDT_Trainer_discrete_paraTuning.C("2p1", "1600", "500", "'$config'")'
 done
+
 S_NTreeses=${S_NTreeses%?}'}'
 S_MinNodeSizes=${S_MinNodeSizes%?}'}'
 S_Shrinkages=${S_Shrinkages%?}'}'
