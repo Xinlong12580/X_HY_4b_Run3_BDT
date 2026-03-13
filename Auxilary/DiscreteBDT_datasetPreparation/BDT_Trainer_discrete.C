@@ -26,6 +26,8 @@ int BDT_Trainer_discrete(std::string mode, std::string year, std::string MX, std
     std::unique_ptr<TFile> Signal_file{TFile::Open(Signal_fname)};
     TTree *signalTree     = (TTree*)Signal_file->Get("Events");
     TTree *background     = (TTree*)BKG_file->Get("Events");
+    int nSig = signalTree->GetEntries();
+    int nBKG = background->GetEntries();
     std::cout<<"Total signal events: "<<signalTree->GetEntries()<<std::endl<<"Total signal events: "<<background->GetEntries()<<std::endl;
     TString outfileName("TMVAC_" + mode + "_" + year + "_discrete.root");
     std::unique_ptr<TFile> outputFile{TFile::Open(outfileName, "RECREATE")};
@@ -67,12 +69,7 @@ int BDT_Trainer_discrete(std::string mode, std::string year, std::string MX, std
     dataloader->SetSignalWeightExpression( "BDT_weight" );
     TCut mycuts = "";
     TCut mycutb = "";
-    if (mode == "1p1" ){
-        dataloader->PrepareTrainingAndTestTree( mycuts, mycutb, "nTrain_Signal=2000:nTrain_Background=5000:SplitMode=Random:NormMode=NumEvents:!V" );
-    }
-    else if ( mode == "2p1" ){
-        dataloader->PrepareTrainingAndTestTree( mycuts, mycutb, "nTrain_Signal=7000:nTrain_Background=30000:SplitMode=Random:NormMode=NumEvents:!V" );
-    }
+    dataloader->PrepareTrainingAndTestTree( mycuts, mycutb, "nTrain_Signal="s + std::to_string(nSig * 7  / 10) + ":nTrain_Background="s + std::to_string(nBKG * 7  / 10) + ":SplitMode=Random:NormMode=NumEvents:!V" );
     //factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT", "!H:!V:NTrees=850:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20" );
     //factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT", "!H:!V:NTrees=850:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=100" );
     //factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG", "!H:!V:NTrees=20:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.05:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2" );

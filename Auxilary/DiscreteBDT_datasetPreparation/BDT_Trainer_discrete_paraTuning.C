@@ -24,6 +24,8 @@ int BDT_Trainer_discrete_paraTuning(std::string mode, std::string year, std::str
     std::unique_ptr<TFile> Signal_file{TFile::Open(Signal_fname)};
     TTree *signalTree     = (TTree*)Signal_file->Get("Events");
     TTree *background     = (TTree*)BKG_file->Get("Events");
+    int nSig = signalTree->GetEntries();
+    int nBKG = background->GetEntries();
     std::cout<<"Total signal events: "<<signalTree->GetEntries()<<std::endl<<"Total signal events: "<<background->GetEntries()<<std::endl;
     TString outfileName("TMVAC_optimization_" + mode + "_" + year + "_discrete.root");
     std::unique_ptr<TFile> outputFile{TFile::Open(outfileName, "RECREATE")};
@@ -69,12 +71,7 @@ int BDT_Trainer_discrete_paraTuning(std::string mode, std::string year, std::str
     //TCut mycutb = "PNet_H > 0.3 && PNet_Y > 0.3";
     TCut mycuts = "";
     TCut mycutb = "";
-    if (mode == "1p1" ){
-        dataloader->PrepareTrainingAndTestTree( mycuts, mycutb, "nTrain_Signal=10000:nTrain_Background=30000:SplitMode=Random:NormMode=NumEvents:!V" );
-    }
-    else if ( mode == "2p1" ){
-        dataloader->PrepareTrainingAndTestTree( mycuts, mycutb, "nTrain_Signal=7000:nTrain_Background=30000:SplitMode=Random:NormMode=NumEvents:!V" );
-    }
+    dataloader->PrepareTrainingAndTestTree( mycuts, mycutb, "nTrain_Signal="s + std::to_string(nSig * 7  / 10) + ":nTrain_Background="s + std::to_string(nBKG * 7  / 10) + ":SplitMode=Random:NormMode=NumEvents:!V" );
     for (int i = 0; i < NTreeses.size(); i++)
     {
         std::string NTrees = std::to_string(NTreeses.at(i));
