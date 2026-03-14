@@ -22,8 +22,21 @@ done
 
 for file_base in ${!classified_files[@]}; do
     echo $file_base
-    echo ${classified_files[$file_base]}
-    hadd "$output_dir""$file_base"_"$mode"_ALL.root ${classified_files[$file_base]}
+    if [[ $file_base == *HT-100to* || $file_base == *HT-200to* || $file_base == *HT-400to* || $file_base == *HT-600to* ]]; then
+        continue
+    fi
+    _files=${classified_files[$file_base]}  ###############REMOVE EMPTY FILES AT THE BEGINNING, or hadd will create empty files
+    _files="${_files#* }"
+    for f in ${classified_files[$file_base]}; do
+        isempty=$(python check_empty.py -f $f)
+        if [[ $isempty == 1 ]]; then
+            _files="${_files#* }"
+        else
+            break
+        fi
+    done
+    hadd "$output_dir""$file_base"_"$mode"_ALL.root $_files
+    #fi
 done
 
 

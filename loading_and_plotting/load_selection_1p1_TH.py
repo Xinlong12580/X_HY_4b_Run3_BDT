@@ -19,7 +19,7 @@ with open(DIR_TOP + "/outputList/output_selection_1p1_BDT.txt") as f:
 data_files = [data_file for data_file in data_files if ((not ("Templates" in data_file)) and "nom" in data_file and "RegSig" in data_file)]
 template_files = []
 for data_file in data_files:
-    data_files_part = data_file.partition("nom")
+    data_files_part = data_file.partition("Reg")
     template_file = data_files_part[0] + "Templates_" + data_files_part[1] + data_files_part[2]
     template_files.append(template_file)
     
@@ -29,12 +29,13 @@ with open(DIR_TOP + "/raw_nano/Luminosity.json") as f:
 with open(DIR_TOP + "/raw_nano/Xsections_background.json") as f:
     Xsec_json = json.load(f)
 
-with open(DIR_TOP + "/raw_nano/Datasets_signal.json") as f:
+with open(DIR_TOP + "/raw_nano/Datasets_signal_v15.json") as f:
     signal_json=json.load(f)
 #----------------------------- set bins, variable columns and other configs---------------------------------------------------------------------
-years = ["2022", "2022EE", "2023", "2023BPix"]
+years = ["2022", "2022EE", "2023", "2023BPix", "2024"]
 bins = {}
 bin_centers = {}
+
 bins["leadingFatJetPt"] = array.array("d", np.linspace(0, 3000, 301))
 bins["PtHiggsCandidate"] =array.array("d", np.linspace(0, 3000, 301) )
 bins["PtYCandidate"] =array.array("d", np.linspace(0, 3000, 301) )
@@ -47,10 +48,10 @@ bins["leadingFatJetEta"] = array.array("d", np.linspace(-3, 3, 21) )
 bins["EtaHiggsCandidate"] = array.array("d", np.linspace(-3, 3, 21) )
 bins["EtaYCandidate"] = array.array("d", np.linspace(-3, 3, 21) )
 
-bins["leadingFatJetMsoftdrop"] = array.array("d", np.linspace(0, 3000, 301) )
-bins["MassLeadingTwoFatJets"] = array.array("d", np.linspace(0, 5000, 501) )
-bins["MassHiggsCandidate"] = array.array("d", np.linspace(0, 3000, 301) )
-bins["MassYCandidate"] = array.array("d", np.linspace(0, 3000, 301) )
+#bins["leadingFatJetMsoftdrop"] = array.array("d", np.linspace(0, 3000, 301) )
+bins["reco_mX"] = array.array("d", np.linspace(0, 5000, 501) )
+bins["reco_mH"] = array.array("d", np.linspace(0, 3000, 301) )
+bins["reco_mY"] = array.array("d", np.linspace(0, 3000, 301) )
 for column in bins:
     bin_centers[column] = 0.5 * (np.array(bins[column])[:-1] + np.array(bins[column])[1:])
 MC_weight = "weight_All__nominal"

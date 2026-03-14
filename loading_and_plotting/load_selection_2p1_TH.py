@@ -28,10 +28,10 @@ with open(DIR_TOP + "raw_nano/Luminosity.json") as f:
 with open(DIR_TOP + "raw_nano/Xsections_background.json") as f:
     Xsec_json = json.load(f)
 
-with open(DIR_TOP + "raw_nano/Datasets_signal.json") as f:
+with open(DIR_TOP + "raw_nano/Datasets_signal_v15.json") as f:
     signal_json=json.load(f)
 #----------------------------- set bins, variable columns and other configs---------------------------------------------------------------------
-years = ["2022", "2022EE", "2023", "2023BPix"]
+years = ["2022", "2022EE", "2023", "2023BPix", "2024"]
 bins = {}
 bin_centers = {}
 bins["PtJY0"] = array.array("d", np.linspace(0, 3000, 101))
@@ -48,11 +48,10 @@ bins["EtaHiggsCandidate"] = array.array("d", np.linspace(-3, 3, 21) )
 
 bins["MassJY0"] = array.array("d", np.linspace(0, 1500, 51) )
 bins["MassJY1"] = array.array("d", np.linspace(0, 5000, 101) )
-bins["MassHiggsCandidate"] = array.array("d", np.linspace(0, 1500, 51) )
-bins["MassYCandidate"] = array.array("d", np.linspace(0, 1500, 51) )
-bins["MassJJH"] = array.array("d", np.linspace(1000, 4000, 51) )
-bins["MJJH"] = array.array("d", np.linspace(1000, 4000, 51) )
-bins["MJY"] = array.array("d", np.linspace(0, 1500, 51) )
+bins["reco_mH"] = array.array("d", np.linspace(0, 1500, 51) )
+bins["reco_mY"] = array.array("d", np.linspace(0, 1500, 51) )
+bins["reco_mX"] = array.array("d", np.linspace(1000, 4000, 51) )
+
 
 for column in bins:
     bin_centers[column] = 0.5 * (np.array(bins[column])[:-1] + np.array(bins[column])[1:])

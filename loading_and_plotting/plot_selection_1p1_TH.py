@@ -15,6 +15,9 @@ with open("pkls/hists_selection_1p1_TH.pkl", "rb") as f:
     hists = pickle.load(f)
 with open(DIR_TOP + "raw_nano/color_scheme.json", "r") as f:
     color_json = json.load(f)
+with open(DIR_TOP + "raw_nano/Luminosity.json", "r") as f:
+    lumi_json = json.load(f)
+
 h_data = hists["data"]
 h_BKGs = hists["BKGs"]
 #----------------------------- set bins, variable columns and other configs---------------------------------------------------------------------
@@ -33,17 +36,18 @@ bins["leadingFatJetEta"] = array.array("d", np.linspace(-3, 3, 21) )
 bins["EtaHiggsCandidate"] = array.array("d", np.linspace(-3, 3, 21) )
 bins["EtaYCandidate"] = array.array("d", np.linspace(-3, 3, 21) )
 
-bins["leadingFatJetMsoftdrop"] = array.array("d", np.linspace(0, 1500, 51) )
-bins["MassLeadingTwoFatJets"] = array.array("d", np.linspace(0, 5000, 101) )
-bins["MassHiggsCandidate"] = array.array("d", np.linspace(0, 1500, 51) )
-bins["MassYCandidate"] = array.array("d", np.linspace(0, 1500, 51) )
+#bins["leadingFatJetMsoftdrop"] = array.array("d", np.linspace(0, 1500, 51) )
+bins["reco_mX"] = array.array("d", np.linspace(0, 5000, 101) )
+bins["reco_mY"] = array.array("d", np.linspace(0, 1500, 51) )
+bins["reco_mH"] = array.array("d", np.linspace(0, 1500, 51) )
 for column in bins:
     bin_centers[column] = 0.5 * (np.array(bins[column])[:-1] + np.array(bins[column])[1:])
 #MC_weight = "lumiXsecWeight"
 MC_weight = "genWeight"
 mplhep.style.use("CMS")
-years = ["2022", "2022EE", "2023", "2023BPix"]
+years = ["2022", "2022EE", "2023", "2023BPix", "2024"]
 processes = {"MC_QCDJets": ["*"], "MC_WZJets": ["*"], "MC_HiggsJets": ["*"], "MC_TTBarJets": ["*"], "MC_DibosonJets": ["*"], "MC_SingleTopJets": ["*"], "SignalMC_XHY4b": ["MX-3000_MY-300"]}
+processes = ["MC_TTBarJets", "MC_QCDJets"]
 save_dir = "plots/plots_selection_1p1_TH"
 #-------------------------------------rebinning -----------------------------------------
 rebinned_h_data = {}
@@ -51,6 +55,8 @@ rebinned_h_BKGs = {}
 for year in h_data:
     rebinned_h_data[year] = {}
     for column in h_data[year]:
+        if column not in bins:
+            continue
         rebinned_h_data[year][column] = rebin_TH1(h_data[year][column], bins[column])
 
 for year in h_BKGs:
@@ -60,6 +66,8 @@ for year in h_BKGs:
         for subprocess in h_BKGs[year][process]:
             rebinned_h_BKGs[year][process][subprocess] = {}
             for column in h_BKGs[year][process][subprocess]:
+                if column not in bins:
+                    continue
                 rebinned_h_BKGs[year][process][subprocess][column] = rebin_TH1(h_BKGs[year][process][subprocess][column], bins[column])
 
 #--------------------- extracting interested processes-----------------------------------------------
@@ -151,15 +159,24 @@ for year in years:
 #-------------------------------Ploting -----------------------------------------------------------
 
 colors = [color_json["MC_SingleTopJets"], color_json["MC_DibosonJets"], color_json["MC_HiggsJets"], color_json["MC_TTBarJets"], color_json["MC_WZJets"], color_json["MC_QCDJets"]]
+h_dict = {"MC_SingleTopJets":h_SingleTop, "MC_DibosonJets":h_Diboson, "MC_HiggsJets":h_Higgs, "MC_TTBarJets":h_TTBar, "MC_WZJets":h_WZ, "MC_QCDJets":h_QCD}
 for year in years:
     for column in bins:
 
+        colors = []
+        labels = []
+        hs = []
+        for process in processes:
+            print(year) 
+            colors.append(color_json[process])
+            labels.append(process)
+            hs.append(h_dict[process][year][column])
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(15, 12), gridspec_kw={"height_ratios": [3, 1]}, sharex=True)
 
         ax1.errorbar(bin_centers[column], data_binned[year][column], yerr=data_binned_error[year][column], fmt='o', color='black', label='Data')
         mplhep.histplot(
-            [h_SingleTop[year][column], h_Diboson[year][column], h_Higgs[year][column], h_TTBar[year][column], h_WZ[year][column], h_QCD[year][column] ],
-            label = ["SingleTop", "Diboson", "Higgs", "TTBar", "WZ", "QCD"],
+            hs,
+            label = labels,
             color = colors,
             stack = True,
             histtype = "fill",
@@ -173,7 +190,7 @@ for year in years:
             ax = ax1,
             linewidth = 1.2,
         )
-        mplhep.cms.label("Preliminary", data = False, rlabel = r"7.9804 $fb^{-1}$, 2022(13.6 TeV)", ax = ax1)
+        mplhep.cms.label("Preliminary", data = False, rlabel = f"{((lumi_json[year])/1000):.2f}"  + r"$fb^{-1}$, "+ year + "(13.6 TeV)", ax = ax1)
         ax1.set_ylabel("Event Counts")
         ax1.set_xlabel("")
         ax1.legend()
@@ -212,7 +229,7 @@ for year in years:
             linewidth = 1.2,
         )
     
-        mplhep.cms.label("Preliminary", data = False, rlabel = r"7.9804 $fb^{-1}$, 2022(13.6 TeV)", ax = ax1_s)
+        mplhep.cms.label("Preliminary", data = False, rlabel = f"{((lumi_json[year])/1000):.2f}" + r"$fb^{-1}$, "+ year + "(13.6 TeV)", ax = ax1_s)
         ax1_s.set_ylabel("Event Counts")
         ax1_s.set_xlabel("")
         ax1_s.legend()

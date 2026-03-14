@@ -11,7 +11,6 @@ args = parser.parse_args()
 files = [f for f in os.listdir('./datasets')]
 #print(files)
 for f in files:
-    print(f)
     if f.startswith("Reg") and f.endswith(".root") and args.mode in f and (args.year + "_") in f:
         if "SignalMC" in f:
             sample_id = 0
@@ -27,7 +26,7 @@ for f in files:
         #out_f = parts[0] + "_reweighted" + parts[1] + parts[2]
         out_f = "datasets/reweighted_" + f
         rdf_events = ROOT.RDataFrame("Events", "datasets/" + f)
-        if rdf_events.Count().GetValue() < 30:
+        if rdf_events.Count().GetValue() < 2:
             print(rdf_events.Count().GetValue())
             continue
         rdf_runs = ROOT.RDataFrame("Runs", "datasets/" + f)
