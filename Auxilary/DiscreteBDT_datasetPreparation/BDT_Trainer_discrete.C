@@ -38,8 +38,8 @@ int BDT_Trainer_discrete(std::string mode, std::string year, std::string MX, std
     auto dataloader_raii = std::make_unique<TMVA::DataLoader>(dataset_name.c_str());
     auto *dataloader = dataloader_raii.get();
     if ( mode == "1p1" ){
-        //dataloader->AddVariable( "Delta_Eta", 'F' );
-        dataloader->AddVariable( "Delta_Y", 'F' );
+        dataloader->AddVariable( "Delta_Eta", 'F' );
+        //dataloader->AddVariable( "Delta_Y", 'F' );
         dataloader->AddVariable( "MassHiggsCandidate_regressed", 'F' );
         //dataloader->AddVariable( "MH", 'F' );
         dataloader->AddVariable( "Tagger_H_discrete", 'I' );

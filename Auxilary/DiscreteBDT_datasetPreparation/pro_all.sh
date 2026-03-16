@@ -1,0 +1,10 @@
+#./produce_trainingSet.sh 1p1 2022
+#./produce_trainingSet.sh 1p1 2022EE
+#./produce_trainingSet.sh 1p1 2023
+#./produce_trainingSet.sh 1p1 2023BPix
+#./produce_trainingSet.sh 1p1 2024
+./optimize_hypeparameters.sh 1p1 2022
+./optimize_hypeparameters.sh 1p1 2022EE
+./optimize_hypeparameters.sh 1p1 2023
+./optimize_hypeparameters.sh 1p1 2023BPix
+./optimize_hypeparameters.sh 1p1 2024
