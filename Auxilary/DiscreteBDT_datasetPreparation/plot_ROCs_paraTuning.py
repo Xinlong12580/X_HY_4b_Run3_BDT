@@ -20,6 +20,7 @@ ax_leg = fig.add_subplot(gs[1])
 handles = []
 max_AUC = 0
 max_config = ""
+max_leg = ""
 count = 0
 for config_name in ROCs:
     paras = config_name.split("_")
@@ -39,12 +40,14 @@ for config_name in ROCs:
     if AUCs[config_name] > max_AUC:
         max_AUC = AUCs[config_name]
         max_config = config_name
+        max_leg = leg_str
     if count % 10 == 0:
         print(count)
         handle, = ax.plot(ROCs[config_name]["X"], ROCs[config_name]["Y"], label = f"{leg_str}, AUC={AUCs[config_name]:.3f}")
         handles.append(handle)
     count += 1
-handle, = ax.plot(ROCs[max_config]["X"], ROCs[max_config]["Y"], label = f"{leg_str}, AUC={AUCs[max_config]:.3f}")
+
+handle, = ax.plot(ROCs[max_config]["X"], ROCs[max_config]["Y"], label = f"{max_leg}, AUC={AUCs[max_config]:.3f}")
 handles.append(handle)
 ax_leg.axis("off")
 ax_leg.legend(handles=handles)
@@ -54,3 +57,5 @@ ax.set_ylabel("Background Rejection Rate")
 #ax.legend()
 fig.savefig(f"ROCs_{args.mode}_{args.year}.png")
 print(max_AUC, max_config)
+with open(f"max_config_{args.mode}_{args.year}.txt", "w") as f:
+    f.write(f"{max_config}\n")

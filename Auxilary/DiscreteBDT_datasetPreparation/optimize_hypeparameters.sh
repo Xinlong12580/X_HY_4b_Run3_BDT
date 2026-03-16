@@ -61,5 +61,5 @@ S_BaggedSampleFractions=${S_BaggedSampleFractions%?}'}'
 S_nCutses=${S_nCutses%?}'}'
 S_MaxDepthes=${S_MaxDepthes%?}'}'
 
-root -b -q 'BDT_Trainer_discrete_paraTuning.C("'$1'", "'$2'", "1600", "300", '$S_NTreeses,$S_MinNodeSizes,$S_Shrinkages,$S_BaggedSampleFractions,$S_nCutses,$S_MaxDepthes')'
+root -b -q 'BDT_Trainer_discrete_paraTuning.C("'$1'", "'$2'", "'$3'", "'$4'", '$S_NTreeses,$S_MinNodeSizes,$S_Shrinkages,$S_BaggedSampleFractions,$S_nCutses,$S_MaxDepthes')'
 

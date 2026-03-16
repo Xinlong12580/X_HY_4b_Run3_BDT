@@ -16,7 +16,7 @@
 #include "TMVA/Tools.h"
 #include "TMVA/TMVAGui.h"
 
-int BDT_Trainer_discrete(std::string mode, std::string year, std::string MX, std::string MY ){
+int BDT_Trainer_discrete(std::string mode, std::string year, std::string MX, std::string MY, int _NTrees, float _MinNodeSize, float _Shrinkage, float _BaggedSampleFraction, int _nCuts,  int _MaxDepth, int training_percentage = 100 ){
 
     TMVA::Tools::Instance();
     TString BKG_fname = "datasets/BKGs_RegSig_" + mode + "_" + year + "_ALL.root";
@@ -38,28 +38,28 @@ int BDT_Trainer_discrete(std::string mode, std::string year, std::string MX, std
     auto dataloader_raii = std::make_unique<TMVA::DataLoader>(dataset_name.c_str());
     auto *dataloader = dataloader_raii.get();
     if ( mode == "1p1" ){
-        dataloader->AddVariable( "Delta_Eta", 'F' );
-        //dataloader->AddVariable( "Delta_Y", 'F' );
+        //dataloader->AddVariable( "Delta_Eta", 'F' );
+        dataloader->AddVariable( "Delta_Y", 'F' );
         dataloader->AddVariable( "MassHiggsCandidate_regressed", 'F' );
         //dataloader->AddVariable( "MH", 'F' );
-        dataloader->AddVariable( "Tagger_H_discrete", 'I' );
-        dataloader->AddVariable( "Tagger_Y_discrete", 'I' );
-        dataloader->AddSpectator( "Tagger_H", 'F' );
-        dataloader->AddSpectator( "Tagger_Y", 'F' );
-        dataloader->AddSpectator( "BDT_weight", 'F' );
-        dataloader->AddSpectator( "sample_ID", 'I' );
+        dataloader->AddVariable( "Tagger_H_discrete", 'F' );
+        dataloader->AddVariable( "Tagger_Y_discrete", 'F' );
+        //dataloader->AddSpectator( "Tagger_H", 'F' );
+        //dataloader->AddSpectator( "Tagger_Y", 'F' );
+        //dataloader->AddSpectator( "BDT_weight", 'F' );
+        //dataloader->AddSpectator( "sample_ID", 'I' );
     }
     else if ( mode == "2p1" ){
         dataloader->AddVariable( "MassHiggsCandidate_regressed", 'F' );
         //dataloader->AddVariable( "MH", 'F' );
-        dataloader->AddVariable( "Tagger_H_discrete", 'I' );
-        dataloader->AddVariable( "Tagger_b_Y0_discrete", 'I' );
-        dataloader->AddVariable( "Tagger_b_Y1_discrete", 'I' );
-        dataloader->AddSpectator( "Tagger_H", 'F' );
-        dataloader->AddSpectator( "BDT_weight", 'F' );
-        dataloader->AddSpectator( "Tagger_b_Y0", 'F' );
-        dataloader->AddSpectator( "Tagger_b_Y1", 'F' );
-        dataloader->AddSpectator( "sample_ID", 'I' );
+        dataloader->AddVariable( "Tagger_H_discrete", 'F' );
+        dataloader->AddVariable( "Tagger_b_Y0_discrete", 'F' );
+        dataloader->AddVariable( "Tagger_b_Y1_discrete", 'F' );
+        //dataloader->AddSpectator( "Tagger_H", 'F' );
+        //dataloader->AddSpectator( "BDT_weight", 'F' );
+        //dataloader->AddSpectator( "Tagger_b_Y0", 'F' );
+        //dataloader->AddSpectator( "Tagger_b_Y1", 'F' );
+        //dataloader->AddSpectator( "sample_ID", 'I' );
     }
     Double_t signalWeight     = 1.0;
     Double_t backgroundWeight = 1.0;
@@ -69,11 +69,18 @@ int BDT_Trainer_discrete(std::string mode, std::string year, std::string MX, std
     dataloader->SetSignalWeightExpression( "BDT_weight" );
     TCut mycuts = "";
     TCut mycutb = "";
-    dataloader->PrepareTrainingAndTestTree( mycuts, mycutb, "nTrain_Signal="s + std::to_string(nSig * 7  / 10) + ":nTrain_Background="s + std::to_string(nBKG * 7  / 10) + ":SplitMode=Random:NormMode=NumEvents:!V" );
-    //factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT", "!H:!V:NTrees=850:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=20" );
-    //factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDT", "!H:!V:NTrees=850:MinNodeSize=2.5%:MaxDepth=3:BoostType=AdaBoost:AdaBoostBeta=0.5:UseBaggedBoost:BaggedSampleFraction=0.5:SeparationType=GiniIndex:nCuts=100" );
-    //factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG", "!H:!V:NTrees=20:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.05:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2" );
-     factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG","!H:!V:NTrees=1000:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2" );
+    dataloader->PrepareTrainingAndTestTree( mycuts, mycutb, "nTrain_Signal="s + std::to_string(nSig * training_percentage  / 100) + ":nTrain_Background="s + std::to_string(nBKG * training_percentage  / 100) + ":SplitMode=Random:NormMode=NumEvents:!V" );
+    
+    //factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG","!H:!V:NTrees=1000:MinNodeSize=2.5%:BoostType=Grad:Shrinkage=0.10:UseBaggedBoost:BaggedSampleFraction=0.5:nCuts=20:MaxDepth=2" );
+    std::string NTrees = std::to_string(_NTrees);
+    std::string MinNodeSize = std::to_string(_MinNodeSize);
+    std::string Shrinkage = std::to_string(_Shrinkage);
+    std::string BaggedSampleFraction = std::to_string(_BaggedSampleFraction);
+    std::string nCuts = std::to_string(_nCuts);
+    std::string MaxDepth = std::to_string(_MaxDepth);
+    std::string config = "!H:!V:NTrees=" + NTrees + ":MinNodeSize=" + MinNodeSize + "%:BoostType=Grad:Shrinkage=" + Shrinkage + ":UseBaggedBoost:BaggedSampleFraction=" + BaggedSampleFraction + ":nCuts=" + nCuts + ":MaxDepth=" + MaxDepth;
+    std::cout<<"Adding Config: "<< config << std::endl;
+    factory->BookMethod( dataloader, TMVA::Types::kBDT, "BDTG_"s + mode + "_" + year, config.c_str() );
  
     factory->TrainAllMethods();
     factory->TestAllMethods();
