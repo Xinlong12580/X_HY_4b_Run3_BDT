@@ -15,8 +15,12 @@
 #include "TMVA/DataLoader.h"
 #include "TMVA/Tools.h"
 #include "TMVA/TMVAGui.h"
-
-
+ 
+#include <vector>
+ 
+ 
+#include "TMVA/Reader.h"
+#include "TMVA/MethodCuts.h"
 class MVA_evaluator{
 public:
     float vals[100] = {0.0};
@@ -25,14 +29,15 @@ public:
     int n_specs = 0;
     std::string methodName;
     TMVA::Reader *reader = new TMVA::Reader( "!Color:!Silent" );
-    MVA_evaluator(int _n_vals, std::vector<std::string> val_names, std::string xml_file, int _n_specs = 0, std::vector<std::string> spec_names = {}, std::string _methodName = "BDTG");
+    MVA_evaluator(int _n_vals, std::vector<std::string> val_names, std::string xml_file, int _n_specs = 0, std::vector<std::string> spec_names = std::vector<std::string>({}), std::string _methodName = "BDTG");
     ~MVA_evaluator(){};
     float eval(std::vector<float> inputs);
     
 
 };
 
-MVA_evaluator::MVA_evaluator(int _n_vals, std::vector<std::string> val_names, std::string xml_file, int _n_specs = 0, std::vector<std::string> spec_names = {}, std::string _methodName = "BDTG"){
+//MVA_evaluator::MVA_evaluator(int _n_vals, std::vector<std::string> val_names, std::string xml_file, int _n_specs = 0, std::vector<std::string> spec_names = {}, std::string _methodName = "BDTG"){
+MVA_evaluator::MVA_evaluator(int _n_vals, std::vector<std::string> val_names, std::string xml_file, int _n_specs , std::vector<std::string> spec_names, std::string _methodName){
     n_vals = _n_vals;
     n_specs = _n_specs;
     methodName = _methodName;

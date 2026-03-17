@@ -30,3 +30,7 @@
 #./retrain.sh 1p1 2024 1600 300
 
 python apply_MVA_discrete.py --mode 1p1 --year 2022
+python apply_MVA_discrete.py --mode 1p1 --year 2022EE
+python apply_MVA_discrete.py --mode 1p1 --year 2023
+python apply_MVA_discrete.py --mode 1p1 --year 2023BPix
+python apply_MVA_discrete.py --mode 1p1 --year 2024
