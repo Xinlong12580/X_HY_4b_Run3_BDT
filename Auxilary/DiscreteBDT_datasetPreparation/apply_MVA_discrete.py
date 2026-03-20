@@ -19,11 +19,10 @@ for f in fs:
         continue
     print("Procesing: ", f)
     input_f = "datasets/" + f
-
     rdf = ROOT.RDataFrame("Events", input_f)
     if args.mode == "1p1": 
         #rdf = rdf.Define("BDTG", "evaluator.eval(std::vector<std::variant<int, float>>( {Delta_Y, MassHiggsCandidate_regressed, Tagger_H_discrete, Tagger_Y_discrete}))")
-        rdf = rdf.Define("BDTG", "evaluator.eval(std::vector<float>( {Delta_Y, MassHiggsCandidate_regressed, float(Tagger_H), float(Tagger_Y)}))")
+        rdf = rdf.Define("BDTG", "evaluator.eval(std::vector<float>( {Delta_Y, MassHiggsCandidate_regressed, float(Tagger_H_discrete), float(Tagger_Y_discrete)}))")
     elif args.mode == "2p1":
         #rdf = rdf.Define("BDTG", "evaluator.eval(std::vector<float>({ MassHiggsCandidate, PNet_H, PNet_Y0, PNet_Y1 }))")
         rdf = rdf.Define("BDTG", "evaluator.eval(std::vector<std::variant<int, float>>({ MassHiggsCandidate_regressed, float(Tagger_H_discrete), float(Tagger_b_Y0_discrete), float(Tagger_b_Y1_discrete) }))")

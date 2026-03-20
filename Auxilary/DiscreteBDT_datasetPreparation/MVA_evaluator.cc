@@ -51,10 +51,12 @@ MVA_evaluator::MVA_evaluator(int _n_vals, std::vector<std::string> val_names, st
 float MVA_evaluator::eval(std::vector<float> inputs){
     for(int i = 0; i < n_vals; i ++){
         vals[i] = inputs.at(i);
+        //cout<<vals[i]<<endl;
     
     }
     //std::cout<<"test"<<std::endl;
     //float MVA_score = reader->EvaluateMVA(methodName + " method");
     float MVA_score = reader->EvaluateMVA(methodName);
+    //cout<<"score: "<<MVA_score<<endl;
     return MVA_score;
 }

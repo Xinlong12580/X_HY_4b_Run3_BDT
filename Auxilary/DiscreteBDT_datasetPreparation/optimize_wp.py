@@ -13,6 +13,7 @@ my_match = re.search(r"MY-(\d+)", args.f)
 
 MX = int(mx_match.group(1))
 MY = int(my_match.group(1))
+'''
 if "1p1" in args.f:
     winsize_mx = 500
     winsize_my = 100
@@ -31,11 +32,13 @@ elif "2p1" in args.f:
             if ybins[i] >= MY:
                 winsize_my = 0.5 * (ybins[i] - ybins[i-1])
                 break
-    #winsize_mx = max(MX * 0.4, 100)
-    #winsize_my = max(MY * 0.4, 100)
+    #winsize_mx = max(MX * 0.2, 100)
+    #winsize_my = max(MY * 0.2, 100)
     #winsize_mx = 200
     #winsize_my = 50
-
+'''
+winsize_mx = max(MX * 0.2, 100)
+winsize_my = max(MY * 0.2, 100)
 
 sig_rdf = ROOT.RDataFrame("Events", args.f)
 bkg_rdf = ROOT.RDataFrame("Events", BKG_file)
@@ -60,9 +63,12 @@ scores = np.linspace(-1, 1, 201)
 #N_total_bkg = bkg_rdf.Sum("BDT_weight").GetValue()
 sig2bkgs = []
 for score in scores:
-    N_sig = sig_rdf.Filter(f"BDTG > {score}").Sum("BDT_weight").GetValue()
-    N_bkg = bkg_rdf.Filter(f"BDTG > {score}").Sum("BDT_weight").GetValue()
+    N_sig = sig_rdf.Filter(f"BDTG > {score}").Sum("BDT_weight").GetValue() * 6.5 
+    N_bkg = bkg_rdf.Filter(f"BDTG > {score}").Sum("BDT_weight").GetValue() * 6.5
+    #N_sig = sig_rdf.Filter(f"BDTG > {score}").Sum("BDT_weight").GetValue()
+    #N_bkg = bkg_rdf.Filter(f"BDTG > {score}").Sum("BDT_weight").GetValue()
     sig2bkg = N_sig / (1 + np.sqrt(N_bkg))
+    #sig2bkg = N_sig / (1e-9 + np.sqrt(N_bkg))
     #sig2bkg = N_sig / np.sqrt(N_bkg)
     sig2bkgs.append(sig2bkg)
 ind = sig2bkgs.index(max(sig2bkgs))

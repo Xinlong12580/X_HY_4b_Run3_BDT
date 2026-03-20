@@ -25,12 +25,11 @@ sc = plt.scatter(MX_vals, MY_vals, c=data[:, 2], cmap="viridis", s=100, edgecolo
 
 # Add colorbar
 cbar = plt.colorbar(sc)
-cbar.set_label("Efficiency")
 
 # Axis labels and title
-plt.xlabel("MX")
-plt.ylabel("MY")
-plt.title(f"best_BDT_score_{args.mode}")
+plt.xlabel(r"$M_X/GeV$")
+plt.ylabel(r"$M_Y/GeV$")
+plt.title(r"$BDTG_{threshold}(M_X, M_Y)$ from local optimization, " + f"{args.mode}")
 #plt.title("Y Matching Efficiency Map (MX vs. MY)")
 plt.grid(True)
 #plt.yscale("log")

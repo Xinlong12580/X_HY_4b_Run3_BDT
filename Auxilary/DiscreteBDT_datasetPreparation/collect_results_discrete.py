@@ -23,7 +23,7 @@ for _file in files:
     massYs.append(MY)
     with open(_file, "r") as f:
         lines = f.readlines()
-        best_scores.append(lines[-1].strip())
+        best_scores.append(lines[-3].strip())
 with open (f"best_scores_discrete_{args.mode}.txt", "w") as f:
     for i in range(len(massXs)):
         f.write(f"{massXs[i]} {massYs[i]} {best_scores[i]} \n") 
