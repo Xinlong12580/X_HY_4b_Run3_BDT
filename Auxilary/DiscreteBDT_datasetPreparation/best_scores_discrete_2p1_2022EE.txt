@@ -1,0 +1,1 @@
+{massXs[i]} {massYs[i]} {best_scores[i]} {best_sig2bkgs[i]} {best_sigEffs[i]} {best_bkgEffs[i]} {best_QCDEffs[i]} {best_QCDPtoFs[i]} {best_TTBar_Effs[i]}

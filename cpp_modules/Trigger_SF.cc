@@ -1,3 +1,5 @@
+#ifndef TRIGGER_CORR
+#define TRIGGER_CORR
 #include <cmath>
 #include <algorithm>
 #include <correction.h>
@@ -81,3 +83,4 @@ RVec<float> Trigger_SF::eval(float pt, float mass, std::string uncert) {
     RVec<float> out({nom, up, down});
     return out;
 };
+#endif

@@ -14,7 +14,7 @@ parser.add_argument('-i', type=int, dest='i_job',action='store', required=True)
 args = parser.parse_args()
 CompileCpp("cpp_modules/MVA_evaluator.cc")
 CompileCpp("cpp_modules/DDT_map.cc")
-#CompileCpp("cpp_modules/discretizeTaggers.cc")
+CompileCpp("cpp_modules/TaggerDiscretizer.cc")
 #B tagging
 ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job)
 #ana.trainer_preprosessing_1p1()

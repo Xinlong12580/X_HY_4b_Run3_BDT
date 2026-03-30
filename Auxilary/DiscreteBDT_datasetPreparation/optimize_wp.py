@@ -6,7 +6,20 @@ parser=ArgumentParser()
 parser.add_argument('-f', type=str, dest='f',action='store', required=True)
 parser.add_argument('-b', type=str, dest='b',action='store', default="datasets/BKGs_1p1_ALL.root")
 args = parser.parse_args()
-
+lumi_dict = {
+    "2022": 7980.454151,
+    "2022EE": 26671.609707000002,
+    "2023": 18062.659110999995,
+    "2023BPix": 9693.130053000003,
+    "2024": 109987.998903 
+}
+lumi_total = 0
+lumi = 0
+years = ["2022", "2022EE", "2023", "2023BPix", "2024"]
+for year in years:
+    lumi_total += lumi_dict[year]
+    if (year + "_") in args.f:
+        lumi += lumi_dict[year]
 BKG_file = args.b
 mx_match = re.search(r"MX-(\d+)", args.f)
 my_match = re.search(r"MY-(\d+)", args.f)
@@ -37,11 +50,12 @@ elif "2p1" in args.f:
     #winsize_mx = 200
     #winsize_my = 50
 '''
-winsize_mx = max(MX * 0.2, 100)
-winsize_my = max(MY * 0.2, 100)
+winsize_mx = max(MX * 0.1, 100)
+winsize_my = max(MY * 0.1, 100)
 
 sig_rdf = ROOT.RDataFrame("Events", args.f)
 bkg_rdf = ROOT.RDataFrame("Events", BKG_file)
+
 print(sig_rdf.Mean("MX").GetValue())
 print(sig_rdf.StdDev("MX").GetValue())
 #sig_rdf = sig_rdf.Filter(f"PNet_H > 0.3 && PNet_Ymin > 0.3 && PNet_Y > 0.3")
@@ -52,27 +66,67 @@ print(sig_rdf.Sum("BDT_weight").GetValue())
 print(bkg_rdf.Sum("BDT_weight").GetValue(), bkg_rdf.Count().GetValue())
 sig_rdf = sig_rdf.Filter(f"MX > {MX - winsize_mx} && MX < {MX + winsize_mx} && MY > {MY - winsize_my} && MY < {MY + winsize_my}")
 bkg_rdf = bkg_rdf.Filter(f"MX > {MX - winsize_mx} && MX < {MX + winsize_mx} && MY > {MY - winsize_my} && MY < {MY + winsize_my}")
+TTBar_rdf = bkg_rdf.Filter("sample_ID == 1")
+QCD_rdf = bkg_rdf.Filter("sample_ID == 2")
 print(f"MX > {MX - winsize_mx} && MX < {MX + winsize_mx} && MY > {MY - winsize_my} && MY < {MY + winsize_my}")
 print(f"MX > {MX - winsize_mx} && MX < {MX + winsize_mx} && MY > {MY - winsize_my} && MY < {MY + winsize_my}")
 print(sig_rdf.Sum("BDT_weight").GetValue())
 print(bkg_rdf.Sum("BDT_weight").GetValue(),  bkg_rdf.Count().GetValue())
 
-scores = np.linspace(-1, 1, 201) 
+scores = np.linspace(-1, 1, 401) 
 
 #N_total_sig = sig_rdf.Sum("BDT_weight").GetValue()
 #N_total_bkg = bkg_rdf.Sum("BDT_weight").GetValue()
 sig2bkgs = []
+bkgEffs = []
+sigEffs = []
+QCDEffs = []
+TTBarEffs = []
+QCDPtoFs = []
+N_sig_total = sig_rdf.Sum("BDT_weight").GetValue() * lumi_total / lumi 
+N_bkg_total = bkg_rdf.Sum("BDT_weight").GetValue() * lumi_total / lumi
+N_TTBar_total = TTBar_rdf.Sum("BDT_weight").GetValue() * lumi_total / lumi
+N_QCD_total = QCD_rdf.Sum("BDT_weight").GetValue() * lumi_total / lumi
 for score in scores:
-    N_sig = sig_rdf.Filter(f"BDTG > {score}").Sum("BDT_weight").GetValue() * 6.5 
-    N_bkg = bkg_rdf.Filter(f"BDTG > {score}").Sum("BDT_weight").GetValue() * 6.5
+    N_sig = sig_rdf.Filter(f"BDTG > {score}").Sum("BDT_weight").GetValue() * lumi_total / lumi
+    N_bkg = bkg_rdf.Filter(f"BDTG > {score}").Sum("BDT_weight").GetValue() * lumi_total / lumi
+    N_TTBar = TTBar_rdf.Filter(f"BDTG > {score}").Sum("BDT_weight").GetValue() * lumi_total / lumi
+    N_QCD = QCD_rdf.Filter(f"BDTG > {score}").Sum("BDT_weight").GetValue() * lumi_total / lumi
     #N_sig = sig_rdf.Filter(f"BDTG > {score}").Sum("BDT_weight").GetValue()
     #N_bkg = bkg_rdf.Filter(f"BDTG > {score}").Sum("BDT_weight").GetValue()
     sig2bkg = N_sig / (1 + np.sqrt(N_bkg))
-    #sig2bkg = N_sig / (1e-9 + np.sqrt(N_bkg))
-    #sig2bkg = N_sig / np.sqrt(N_bkg)
     sig2bkgs.append(sig2bkg)
+    bkgEffs.append(N_bkg/N_bkg_total if N_bkg_total != 0 else float('nan'))
+    TTBarEffs.append(N_TTBar/N_TTBar_total if N_TTBar_total != 0 else float('nan') )
+    QCDEffs.append(N_QCD/N_QCD_total if N_QCD_total != 0 else float('nan') )
+    QCDPtoFs.append(N_QCD/(N_QCD_total - N_QCD) if (N_QCD_total - N_QCD) != 0 else float('nan') )
+    sigEffs.append(N_sig/N_sig_total if N_sig_total != 0 else float('nan') )
+##################################################################################################
 ind = sig2bkgs.index(max(sig2bkgs))
+for i in range(len(QCDPtoFs)):
+    if QCDPtoFs[i] <= 0.0005:
+        ind = i
+        break
+##################################################################################################
 best_score = scores[ind]
+sigEff = sigEffs[ind]
+bkgEff = bkgEffs[ind]
+QCDEff = QCDEffs[ind]
+TTBarEff = TTBarEffs[ind]
+sig2bkg = sig2bkgs[ind]
+QCDPtoF = QCDPtoFs[ind]
+print(ind)
+print("sigEffs", sigEffs)
+print("bkgEffs", bkgEffs)
+print("TTBarEffs", TTBarEffs)
+print("QCDEffs", QCDEffs)
+print("QCDPtoFs", QCDPtoFs)
+print("sig2bkgs", sig2bkgs)
 
-print(sig2bkgs)
-print(best_score)
+print("best_score", best_score)
+print("best_sig2bkg", sig2bkg)
+print("best_sigEff", sigEff)
+print("best_bkgEff", bkgEff)
+print("best_TTBarEff", TTBarEff)
+print("best_QCDEff", QCDEff)
+print("best_QCDPtoF", QCDPtoF)

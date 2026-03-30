@@ -3,6 +3,7 @@ year=$2
 > args.txt
 
 find datasets -type f | while IFS= read -r file; do
+    echo $file
     if [[ $file != *"BDT_discrete_"* || $file != *"SignalMC"* || $file != *"$mode"* || $file != *"$year"_* ]]; then
         continue
     fi

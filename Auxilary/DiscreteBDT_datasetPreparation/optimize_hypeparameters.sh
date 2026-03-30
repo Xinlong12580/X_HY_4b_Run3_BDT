@@ -22,7 +22,7 @@ S_MaxDepthes='{'
 
 RANDOM=1234
 
-N=60
+N=30
 for ((i=0; i<N; i++)); do
     echo "Iteration $i"
     I=$((RANDOM % ${#NTreeses[@]} ))

@@ -62,16 +62,26 @@ for file in $files; do
     #if [[  (  $file == *"TTBar"* || $file == *"QCD"* || $file == *"Signal"* ) ]]; then
     #if [[  ( $file != *"2022_"* && $file != *"2024_"* && $file == *"QCD"* ) ]]; then
     #if [[  ( $file == *"TTto4Q"* || $file == *"Data"*   ) ]]; then
-    if [[  (  $file == *"Data"*   ) ]]; then
+    #if [[  (  $file == *"Data"* || $file == *"Signal"* || $file == *"TTBar"*  ) ]]; then
+    if [[  ( $file != *"Signal"*   ) ]]; then
         pass=1
     fi
-    pass=1
-    debug=1
+    debug=0
     if [[ $operation == *"selection"* && $pass == 1 ]]; then
-        extras=("-s nom" "-s JES__up" "-s JES__down" "-s JER__up" "-s JER__down")
+        Regs=("-r Signal" "-r Control" "-r Validation")
+        #Regs=("-r Signal")
+        Regs=("-r Control")
+        Regs=("-r Validation")
+        JMEs=("-s nom" "-s JES__up" "-s JES__down" "-s JER__up" "-s JER__down")
         if [[ $debug == 1 ]]; then
-            extras=("-s nom")
+            JMEs=("-s nom")
         fi
+        extras=()
+        for Reg in "${Regs[@]}"; do
+            for JME in "${JMEs[@]}"; do
+                extras+=("$JME $Reg")
+            done
+        done
         for extra in "${extras[@]}"; do
             echo $extra
             if [[ $pass == 1 ]] ; then

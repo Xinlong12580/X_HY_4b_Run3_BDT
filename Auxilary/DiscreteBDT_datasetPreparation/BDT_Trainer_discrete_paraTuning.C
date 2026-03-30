@@ -73,7 +73,9 @@ int BDT_Trainer_discrete_paraTuning(std::string mode, std::string year, std::str
     //TCut mycutb = "PNet_H > 0.3 && PNet_Y > 0.3";
     TCut mycuts = "";
     TCut mycutb = "";
+    //TCut mycutb = "sample_ID == 2";
     dataloader->PrepareTrainingAndTestTree( mycuts, mycutb, "nTrain_Signal="s + std::to_string(nSig * 7  / 10) + ":nTrain_Background="s + std::to_string(nBKG * 7  / 10) + ":SplitMode=Random:NormMode=NumEvents:!V" );
+    //dataloader->PrepareTrainingAndTestTree( mycuts, mycutb, "SplitMode=Random:NormMode=NumEvents:!V" );
     for (int i = 0; i < NTreeses.size(); i++)
     {
         std::string NTrees = std::to_string(NTreeses.at(i));

@@ -1,3 +1,5 @@
+#ifndef AK4_CORR
+#define AK4_CORR
 #include <correction.h>
 #include <ROOT/RVec.hxx>
 using namespace ROOT::VecOps;
@@ -5,7 +7,7 @@ class AK4_btagging_correction{
     public:
     AK4_btagging_correction(std::string SF_file,  std::string SF_key_heavy, std::string SF_key_light, std::string eff_file);
     ~AK4_btagging_correction(){}
-    std::vector<float> eval(int nJet, RVec<float> etas, RVec<float> pts, RVec<int> flavors, RVec<int> scores_discrete, bool correlated, bool do_heavy_flavor, bool do_light_flavor, std::string corrType);
+    std::vector<float> eval(int nJet, RVec<float> etas, RVec<float> pts, RVec<int> flavors, RVec<int> scores_discrete, bool correlated, bool do_heavy_flavor, bool do_light_flavor, int WP_variation, std::string corrType);
     correction::Correction::Ref ref_sf_heavy;
     correction::Correction::Ref ref_sf_light;
     boost::property_tree::ptree eff_tree;
@@ -22,7 +24,9 @@ AK4_btagging_correction::AK4_btagging_correction(std::string SF_file,  std::stri
 
 
 
-std::vector<float> AK4_btagging_correction::eval(int nJet, RVec<float> etas, RVec<float> pts, RVec<int> flavors, RVec<int> scores_discrete, bool correlated, bool do_heavy_flavor, bool do_light_flavor, std::string corrType){
+std::vector<float> AK4_btagging_correction::eval(int nJet, RVec<float> etas, RVec<float> pts, RVec<int> flavors, RVec<int> scores_discrete, bool correlated, bool do_heavy_flavor, bool do_light_flavor, int WP_variation, std::string corrType){
+    if (WP_variation != -1 && ! (WP_variation >=1 && WP_variation <= 5) )
+        throw "invalid WP_variation!";
     float nom_event = 1.;
     float up_event = 1.;
     float down_event = 1.;
@@ -187,9 +191,23 @@ std::vector<float> AK4_btagging_correction::eval(int nJet, RVec<float> etas, RVe
         float up = 1.;
         float down = 1.;
         if (eff_L != eff_H ){
-            nom = (eff_L * SF_L.at(0) - eff_H * SF_H.at(0)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
-            up = (eff_L * SF_L.at(1) - eff_H * SF_H.at(1)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
-            down = (eff_L * SF_L.at(2) - eff_H * SF_H.at(2)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
+            if ( WP_variation == score_discrete ){
+                nom = (eff_L * SF_L.at(0) - eff_H * SF_H.at(0)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
+                up = (eff_L * SF_L.at(1) - eff_H * SF_H.at(0)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
+                down = (eff_L * SF_L.at(2) - eff_H * SF_H.at(0)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
+            } else if (WP_variation == (score_discrete + 1) ){
+                nom = (eff_L * SF_L.at(0) - eff_H * SF_H.at(0)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
+                up = (eff_L * SF_L.at(0) - eff_H * SF_H.at(1)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
+                down = (eff_L * SF_L.at(0) - eff_H * SF_H.at(2)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
+            } else if (WP_variation == -1){
+                nom = (eff_L * SF_L.at(0) - eff_H * SF_H.at(0)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
+                up = (eff_L * SF_L.at(1) - eff_H * SF_H.at(1)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
+                down = (eff_L * SF_L.at(2) - eff_H * SF_H.at(2)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
+            } else {
+                nom = (eff_L * SF_L.at(0) - eff_H * SF_H.at(0)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
+                up = (eff_L * SF_L.at(0) - eff_H * SF_H.at(0)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
+                down = (eff_L * SF_L.at(0) - eff_H * SF_H.at(0)) / (eff_L - eff_H ); //IGNORE UNCERTAINTY OF EFFICIENCY
+            }
         }
         nom_event *= std::max(nom,0.0f);    
         up_event *= std::max(up, 0.0f );    
@@ -204,3 +222,4 @@ std::vector<float> AK4_btagging_correction::eval(int nJet, RVec<float> etas, RVe
         weights = {up_event, down_event};
     return weights;
 }
+#endif

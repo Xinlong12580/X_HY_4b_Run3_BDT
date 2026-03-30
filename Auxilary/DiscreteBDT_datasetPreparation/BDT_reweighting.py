@@ -1,15 +1,32 @@
 import ROOT
 import os
+import json
 
 #from TIMBER.Tools.Common import CompileCpp, OpenJSON
 #CompileCpp("discretizeTaggers.C")
 from argparse import ArgumentParser
 parser=ArgumentParser()
+ROOT.gROOT.ProcessLine(".L simpleDiscretizer.cc+")
 parser.add_argument('--mode', type=str, dest='mode',action='store', required=True)
 parser.add_argument('--year', type=str, dest='year',action='store', required=True)
 args = parser.parse_args()
 files = [f for f in os.listdir('./datasets')]
 #print(files)
+with open("WPs.json", "r") as f:
+    WPs = json.load(f)
+AK4_WPs = "{"
+for WP in WPs["AK4"][args.year]:
+    AK4_WPs += f"{WP},"
+AK4_WPs = AK4_WPs[:-1] + "}"
+print(AK4_WPs)
+AK8_WPs = "{"
+for WP in WPs["AK8"][args.year]:
+    AK8_WPs += f"{WP},"
+AK8_WPs = AK8_WPs[:-1] + "}"
+print(AK8_WPs)
+ROOT.gInterpreter.Declare(f'TaggerDiscretizer AK4_discretizer = TaggerDiscretizer("Jet",  "", "", {AK4_WPs});')
+ROOT.gInterpreter.Declare(f'TaggerDiscretizer AK8_discretizer = TaggerDiscretizer("FatJet",  "", "", {AK8_WPs});')
+year_IDs = {"2022": 1, "2022EE": 2, "2023": 3, "2023BPix": 4, "2024": 5} 
 for f in files:
     if f.startswith("Reg") and f.endswith(".root") and args.mode in f and (args.year + "_") in f:
         if "SignalMC" in f:
@@ -39,13 +56,19 @@ for f in files:
             rdf_events = rdf_events.Filter("MY > 40")
             rdf_events = rdf_events.Filter("Tagger_H > 0.1")
             rdf_events = rdf_events.Filter("Tagger_Y > 0.1")
+            rdf_events = rdf_events.Define("Tagger_H_decapitated", "AK8_discretizer.decapitate(Tagger_H)") ##IF this columen already exists; comment out this line
+            rdf_events = rdf_events.Define("Tagger_Y_decapitated", "AK8_discretizer.decapitate(Tagger_Y)") ##IF this columen already exists; comment out this line
         elif args.mode == "2p1":
             rdf_events = rdf_events.Filter("MX > 200")
             rdf_events = rdf_events.Filter("MY > 200")
             rdf_events = rdf_events.Filter("Tagger_H > 0.1")
             rdf_events = rdf_events.Filter("Tagger_b_Y0_discrete >= 1")
             rdf_events = rdf_events.Filter("Tagger_b_Y1_discrete >= 1")
+            rdf_events = rdf_events.Define("Tagger_H_decapitated", "AK8_discretizer.decapitate(Tagger_H)") ##IF this columen already exists; comment out this line
+            rdf_events = rdf_events.Define("Tagger_b_Y0_decapitated", "AK4_discretizer.decapitate(Tagger_b_Y0)") ##IF this columen already exists; comment out this line
+            rdf_events = rdf_events.Define("Tagger_b_Y1_decapitated", "AK4_discretizer.decapitate(Tagger_b_Y1)") ##IF this columen already exists; comment out this line
         rdf_events = rdf_events.Define("BDT_weight", f"{original_weight} / {total_weight}")
         rdf_events = rdf_events.Define("sample_ID", f"{sample_id}")
+        rdf_events = rdf_events.Define("year_ID", f"{year_IDs[args.year]}")
         rdf_events.Snapshot("Events", out_f)
         

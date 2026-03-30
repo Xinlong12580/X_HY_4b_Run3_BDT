@@ -74,6 +74,23 @@ public:
             scores_discrete.push_back(eval(score));
         return scores_discrete; 
     }
+
+    float decapitate(float score){
+        float WP_tightest = WPs.at(WPs.size() - 2);
+        if(score < WP_tightest){
+            return score;
+        }
+        else{
+            return WP_tightest;
+        }
+    }
+    RVec<float> decapitate(RVec<float> scores){
+        RVec<float> scores_decapitated = {};
+        for (const float score : scores)
+            scores_decapitated.push_back(decapitate(score));
+        return scores_decapitated; 
+    }
+
 };
 
 

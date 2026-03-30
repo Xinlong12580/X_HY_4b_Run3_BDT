@@ -214,7 +214,12 @@ Float_t InvMass_PtEtaPhiM(ROOT::VecOps::RVec<Float_t> Pts, ROOT::VecOps::RVec<Fl
 }
 
 float Rapidity(float pt, float eta, float phi, float mass){
+     
     ROOT::Math::PtEtaPhiMVector vector(pt, eta, phi, mass);
+    //if ( ! (vector.Rapidity()  > -50) ){
+    //    std::cout<<vector.Rapidity()<<" "<<pt<<" "<<eta<<" "<<phi<<" "<<mass<<std::endl;
+    //    throw "error";
+    //}
     return vector.Rapidity();
 }
 
