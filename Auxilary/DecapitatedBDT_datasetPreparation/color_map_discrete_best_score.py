@@ -8,11 +8,18 @@ parser.add_argument('--mode', type=str, dest='mode',action='store', required=Tru
 parser.add_argument('--year', type=str, dest='year',action='store', required=True)
 parser.add_argument('--mx', type=str, dest='mx',action='store', required=True)
 parser.add_argument('--my', type=str, dest='my',action='store', required=True)
+parser.add_argument('--method', type=int, dest='method',action='store', required=True)
 args = parser.parse_args()
 # Load data from file
-data = np.loadtxt(f"best_scores_discrete_MX{args.mx}_MY{args.my}_{args.mode}_{args.year}.txt", skiprows = 1)
 #data = np.loadtxt("Y_matching_eff.txt")
-save_dir= "plots/best_scores/"
+if args.method == 0:
+    data = np.loadtxt(f"best_scores_discrete_MX{args.mx}_MY{args.my}_{args.mode}_{args.year}_0.txt", skiprows = 1)
+    save_dir= "plots/best_scores/"
+    title_string = "from local optimization"
+elif args.method == 1:
+    data = np.loadtxt(f"best_scores_discrete_MX{args.mx}_MY{args.my}_{args.mode}_{args.year}_1.txt", skiprows = 1)
+    save_dir= "plots/good_P2Fs/"
+    title_string = "from adjusting QCD P/F"
 # Separate into columns
 MX_vals = data[:, 0]
 MY_vals = data[:, 1]
@@ -32,7 +39,7 @@ cbar = plt.colorbar(sc)
 # Axis labels and title
 plt.xlabel(r"$M_X/GeV$")
 plt.ylabel(r"$M_Y/GeV$")
-plt.title(r"$BDTG_{threshold}(M_X, M_Y)$ from local optimization, " + f"MX{args.mx}_MY{args.my}, {args.mode}, {args.year}")
+plt.title(r"$BDTG_{threshold}(M_X, M_Y)$ " + f"{title_string}, \n Training set: MX{args.mx}_MY{args.my}GeV, {args.mode}, {args.year}")
 #plt.title("Y Matching Efficiency Map (MX vs. MY)")
 plt.grid(True)
 #plt.yscale("log")
@@ -58,7 +65,7 @@ for i in range(len(labels)):
 
     plt.xlabel(r"$M_X/GeV$")
     plt.ylabel(r"$M_Y/GeV$")
-    plt.title(f"{labels[i]} from local optimization, " + f"MX{args.mx}_MY{args.my} {args.mode}, {args.year}")
+    plt.title(f"{labels[i]} {title_string},\n " + f"Training Set: MX{args.mx}_MY{args.my}GeV {args.mode}, {args.year}")
     plt.grid(True)
     plt.tight_layout()
     plt.savefig(f"{save_dir}/linear_{labels[i]}_discrete_MX{args.mx}_MY{args.my}_{args.mode}_{args.year}.png", dpi=300)
@@ -88,7 +95,7 @@ for MY in MYs:
 
         plt.xlabel(r"$M_X/GeV$")
         plt.ylabel(r"{labels[i]}")
-        plt.title(f"{labels[i]} from local optimization, MY = {MY}; " + f"{args.mode}, {args.year}")
+        plt.title(f"{labels[i]} {title_string}, MY = {MY}; " + f"{args.mode}, {args.year}")
         plt.grid(True)
         plt.tight_layout()
         plt.savefig(f"{save_dir}/linear_SliceMY{MY}_{labels[i]}_discrete_MX{args.mx}_MY{args.my}_{args.mode}_{args.year}.png", dpi=300)

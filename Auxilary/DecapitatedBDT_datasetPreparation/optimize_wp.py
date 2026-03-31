@@ -4,6 +4,7 @@ import re
 import os
 import numpy as np
 from argparse import ArgumentParser
+import math
 parser=ArgumentParser()
 parser.add_argument('-f', type=str, dest='f',action='store', required=True)
 parser.add_argument('-b', type=str, dest='b',action='store', default="datasets/BKGs_1p1_ALL.root")
@@ -58,8 +59,8 @@ if args.method == 0:
     winsize_mx = min(max(MX * 0.1, 50), 200)
     winsize_my = min(max(MY * 0.1, 50), 200)
 elif args.method == 1:
-    winsize_mx = max(MX * 0.2, 50)
-    winsize_my = max(MY * 0.2, 50)
+    winsize_mx = max(MX * 0.2, 200)
+    winsize_my = max(MY * 0.2, 200)
 
 sig_rdf = ROOT.RDataFrame("Events", args.f)
 bkg_rdf = ROOT.RDataFrame("Events", BKG_file)
@@ -81,7 +82,7 @@ print(f"MX > {MX - winsize_mx} && MX < {MX + winsize_mx} && MY > {MY - winsize_m
 print(sig_rdf.Sum("BDT_weight").GetValue())
 print(bkg_rdf.Sum("BDT_weight").GetValue(),  bkg_rdf.Count().GetValue())
 
-scores = np.linspace(0, 1, 201) 
+scores = np.linspace(0, 1, 401) 
 
 #N_total_sig = sig_rdf.Sum("BDT_weight").GetValue()
 #N_total_bkg = bkg_rdf.Sum("BDT_weight").GetValue()
@@ -128,25 +129,46 @@ for score in scores:
     print(f"Memory usage: {process.memory_info().rss / 1024**2:.2f} MB")
     
 ##################################################################################################
-ind = 0
 if args.method == 0:
+    ind = 0
     ind = sig2bkgs.index(max(sig2bkgs))
+    best_score = scores[ind]
+    sigEff = sigEffs[ind]
+    bkgEff = bkgEffs[ind]
+    QCDEff = QCDEffs[ind]
+    TTBarEff = TTBarEffs[ind]
+    sig2bkg = sig2bkgs[ind]
+    QCDPtoF = QCDPtoFs[ind]
 elif args.method == 1: 
+    ind_up = 0
     f2 = ROOT.TF2("f2", args.expr, 0, 5000, 0, 5000)
     thres_P2F = f2.Eval(MX, MY)
     for i in range(len(QCDPtoFs)):
         if QCDPtoFs[i] <= thres_P2F:
-            ind = i
+            ind_up = i
             break
+    ind = ind_up
+    ind_down = max(ind_up - 1, 0)
+    distance_up = thres_P2F - QCDPtoFs[ind_up]  
+    distance_down = thres_P2F - QCDPtoFs[ind_down]  
+    distance = distance_down - distance_up
+    if distance == 0 or math.isnan(distance):
+        best_score = scores[ind]
+        sigEff = sigEffs[ind]
+        bkgEff = bkgEffs[ind]
+        QCDEff = QCDEffs[ind]
+        TTBarEff = TTBarEffs[ind]
+        sig2bkg = sig2bkgs[ind]
+        QCDPtoF = QCDPtoFs[ind]
+    else: 
+        best_score = (scores[ind_up] * distance_down - scores[ind_down] * distance_up) / distance
+        sigEff = (sigEffs[ind_up] * distance_down - sigEffs[ind_down] * distance_up) / distance
+        bkgEff = (bkgEffs[ind_up] * distance_down - bkgEffs[ind_down] * distance_up) / distance
+        QCDEff = (QCDEffs[ind_up] * distance_down - QCDEffs[ind_down] * distance_up) / distance
+        TTBarEff = (TTBarEffs[ind_up] * distance_down - TTBarEffs[ind_down] * distance_up) / distance
+        sig2bkg = (sig2bkgs[ind_up] * distance_down - sig2bkgs[ind_down] * distance_up) / distance
+        QCDPtoF = (QCDPtoFs[ind_up] * distance_down - QCDPtoFs[ind_down] * distance_up) / distance
 ##################################################################################################
-best_score = scores[ind]
-sigEff = sigEffs[ind]
-bkgEff = bkgEffs[ind]
-QCDEff = QCDEffs[ind]
-TTBarEff = TTBarEffs[ind]
-sig2bkg = sig2bkgs[ind]
-QCDPtoF = QCDPtoFs[ind]
-print(ind)
 print("sigEffs", sigEffs)
 print("bkgEffs", bkgEffs)
 print("TTBarEffs", TTBarEffs)

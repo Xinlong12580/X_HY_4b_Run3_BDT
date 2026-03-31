@@ -6,6 +6,7 @@ parser.add_argument('--mode', type=str, dest='mode',action='store', required=Tru
 parser.add_argument('--year', type=str, dest='year',action='store', required=True)
 parser.add_argument('--mx', type=str, dest='mx',action='store', required=True)
 parser.add_argument('--my', type=str, dest='my',action='store', required=True)
+parser.add_argument('--method', type=int, dest="method",action='store', required=True)
 args = parser.parse_args()
 files = glob.glob("*.log")
 
@@ -48,7 +49,7 @@ for _file in files:
             if "best_TTBarEff" in lines[-i]:
                 best_TTBarEffs.append(lines[-i].strip().partition(" ")[-1])
 
-with open (f"best_scores_discrete_MX{args.mx}_MY{args.my}_{args.mode}_{args.year}.txt", "w") as f:
+with open (f"best_scores_discrete_MX{args.mx}_MY{args.my}_{args.mode}_{args.year}_{args.method}.txt", "w") as f:
     f.write("{massXs[i]} {massYs[i]} {best_scores[i]} {best_sig2bkgs[i]} {best_sigEffs[i]} {best_bkgEffs[i]} {best_QCDEffs[i]} {best_QCDPtoFs[i]} {best_TTBar_Effs[i]}\n") 
     for i in range(len(massXs)):
         #print(f"{massXs[i]} {massYs[i]} {best_scores[i]} {best_sig2bkgs[i]} {best_sigEffs[i]} {best_bkgEffs[i]} {best_QCDEffs[i]} {best_QCDPtoFs[i]} {best_TTBarEffs[i]}\n")

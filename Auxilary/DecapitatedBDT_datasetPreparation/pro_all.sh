@@ -43,14 +43,14 @@ mode=1p1
 #python plot_BDTG.py --mode $mode --year 2023BPix --mx $MX --my $MY
 #python plot_BDTG.py --mode $mode --year 2023 --mx $MX --my $MY
 #python plot_BDTG.py --mode $mode --year 2024 --mx $MX --my $MY
-#python plot_BDTG.py --mode $mode --year 2022_2022EE_2023_2023BPix_2024_merged --mx $MX --my $MY
+python plot_BDTG.py --mode $mode --year 2022_2022EE_2023_2023BPix_2024_merged --mx $MX --my $MY
 
 #python apply_MVA_discrete.py --mode $mode --year 2022 --mx $MX --my $MY
 #python apply_MVA_discrete.py --mode $mode --year 2022EE --mx $MX --my $MY
 #python apply_MVA_discrete.py --mode $mode --year 2023 --mx $MX --my $MY
 #python apply_MVA_discrete.py --mode $mode --year 2023BPix --mx $MX --my $MY
 #python apply_MVA_discrete.py --mode $mode --year 2024 --mx $MX --my $MY
-python apply_MVA_discrete.py --mode $mode --year 2022_2022EE_2023_2023BPix_2024_merged --mx $MX --my $MY
+#python apply_MVA_discrete.py --mode $mode --year 2022_2022EE_2023_2023BPix_2024_merged --mx $MX --my $MY
 
 #python make_BKG_template.py --mode $mode --year 2022
 #python make_BKG_template.py --mode $mode --year 2022EE
