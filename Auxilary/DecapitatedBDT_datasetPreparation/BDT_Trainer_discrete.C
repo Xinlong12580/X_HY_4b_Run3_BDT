@@ -40,7 +40,7 @@ int BDT_Trainer_discrete(std::string mode, std::string year, std::string MX, std
     if ( mode == "1p1" ){
         //dataloader->AddVariable( "Delta_Eta", 'F' );
         dataloader->AddVariable( "Delta_Y", 'F' );
-        dataloader->AddVariable( "MassHiggsCandidate_regressed", 'F' );
+        dataloader->AddVariable( "MassHiggsCandidate", 'F' );
         dataloader->AddVariable( "Tagger_H_decapitated", 'F' );
         dataloader->AddVariable( "Tagger_Y_decapitated", 'F' );
         //dataloader->AddSpectator( "Tagger_H", 'F' );
@@ -49,7 +49,7 @@ int BDT_Trainer_discrete(std::string mode, std::string year, std::string MX, std
         //dataloader->AddSpectator( "sample_ID", 'I' );
     }
     else if ( mode == "2p1" ){
-        dataloader->AddVariable( "MassHiggsCandidate_regressed", 'F' );
+        dataloader->AddVariable( "MassHiggsCandidate", 'F' );
         dataloader->AddVariable( "Tagger_H_decapitated", 'F' );
         dataloader->AddVariable( "Tagger_b_Y0_decapitated", 'F' );
         dataloader->AddVariable( "Tagger_b_Y1_decapitated", 'F' );

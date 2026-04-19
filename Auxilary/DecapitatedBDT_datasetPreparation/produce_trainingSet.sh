@@ -1,7 +1,7 @@
 mode=$1
 year=$2
-#./hadd_selection.sh $mode $year
-#python BDT_reweighting.py --mode $mode --year $year
+./hadd_selection.sh $mode $year
+python BDT_reweighting.py --mode $mode --year $year
 python hadd_BKGs.py --mode $mode --year $year
 
 #BKG_files=$(find ./datasets -maxdepth 1 -type f -name "reweight*" -name "*$mode*" -name "*""$year""_*" ! -name '*SignalMC*' ! -name '*Data*' ! -name '*RegCon*' -printf '%f\n')
