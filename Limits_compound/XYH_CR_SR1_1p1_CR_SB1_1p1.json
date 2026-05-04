@@ -1,0 +1,368 @@
+{
+    "NAME": "XYH_test",
+    "GLOBAL": {
+        "FILE": "Templates_Only1p1_Control_all.root",
+        "HIST": "$process__$region__nominal",
+        "HIST_UP": "$process__$region__$syst_up",
+        "HIST_DOWN": "$process__$region__$syst_down",
+        "badHIST": "$process__$region_1p1__nominal",
+        "badHIST_UP": "$process__$region_1p1__$syst_up",
+        "badHIST_DOWN": "$process__$region_1p1__$syst_down",
+        "PATH_LOCAL": "./Templates",
+        "SIGNAME": [
+            "SignalMC_XHY4b_MX-XMASS_MY-YMASS"
+        ],
+
+        "COMMENT": "NOTE: I will be using the local rootfiles. I will also include the year in the process name, so that other years can be added easily later. The python script has a findreplace dictionary which will insert the XMASS and YMASS values in signame above to specify the correct signal. This is only relevant if you hvae multiple different signals in the SIGNAME list above, in which case multiple signals are added to the 2DA ledger and you can select which one to create a Combine card for."
+    },
+    "REGIONS": {
+        "CR_SR1_1p1": {
+            "PROCESSES": [
+                "data_obs",
+                "Allyears__SIGNAME",
+                "Allyears__MC_TTBarJets"
+            ],
+            "BINNING": "B_1p1"
+        },
+        "CR_SB1_1p1": {
+            "PROCESSES": [
+                "data_obs",
+                "Allyears__SIGNAME",
+                "Allyears__MC_TTBarJets"
+            ],
+            "BINNING": "B_1p1"
+        }
+    },
+    "PROCESSES": {
+        "data_obs": {
+            "SYSTEMATICS": [],
+            "SCALE": 1.0,
+            "COLOR": "black",
+            "TYPE": "DATA",
+            "ALIAS": "Allyears__JetMET",
+            "TITLE": "Data ",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "Allyears__SIGNAME": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "QCDScaleWeight",
+                "Y2022_lumi",
+                "Y2023_lumi",
+                "Y2024_lumi",
+
+                "Y2022_corr1p1_TriggerSF_data",
+                "Y2022EE_corr1p1_TriggerSF_data",
+                "Y2023_corr1p1_TriggerSF_data",
+                "Y2023BPix_corr1p1_TriggerSF_data",
+                "Y2024_corr1p1_TriggerSF_data",
+
+                "Y2022_corr1p1_TriggerSF_MC",
+                "Y2022EE_corr1p1_TriggerSF_MC",
+                "Y2023_corr1p1_TriggerSF_MC",
+                "Y2023BPix_corr1p1_TriggerSF_MC",
+                "Y2024_corr1p1_TriggerSF_MC",
+
+                "Y2022_corr1p1_AK8_Xbbtagging",
+                "Y2022EE_corr1p1_AK8_Xbbtagging",
+                "Y2023_corr1p1_AK8_Xbbtagging",
+                "Y2023BPix_corr1p1_AK8_Xbbtagging",
+                "Y2024_corr1p1_AK8_Xbbtagging",
+
+                "Y2022_JES_",
+                "Y2022EE_JES_",
+                "Y2023_JES_",
+                "Y2023BPix_JES_",
+                "Y2024_JES_",
+
+                "Y2022_JER_",
+                "Y2022EE_JER_",
+                "Y2023_JER_",
+                "Y2023BPix_JER_",
+                "Y2024_JER_",
+
+                "Y2022_PileUp_Corr",
+                "Y2022EE_PileUp_Corr",
+                "Y2023_PileUp_Corr",
+                "Y2023BPix_PileUp_Corr",
+                "Y2024_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "black",
+            "TYPE": "SIGNAL",
+            "TITLE": "NMSSM_XYH",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "Allyears__MC_TTBarJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "QCDScaleWeight",
+                "Y2022_lumi",
+                "Y2023_lumi",
+                "Y2024_lumi",
+                "TTBar_Xsec",
+                "TopPtWeight",
+
+                "Y2022_corr1p1_TriggerSF_data",
+                "Y2022EE_corr1p1_TriggerSF_data",
+                "Y2023_corr1p1_TriggerSF_data",
+                "Y2023BPix_corr1p1_TriggerSF_data",
+                "Y2024_corr1p1_TriggerSF_data",
+
+                "Y2022_corr1p1_TriggerSF_MC",
+                "Y2022EE_corr1p1_TriggerSF_MC",
+                "Y2023_corr1p1_TriggerSF_MC",
+                "Y2023BPix_corr1p1_TriggerSF_MC",
+                "Y2024_corr1p1_TriggerSF_MC",
+
+                "Y2022_JES_",
+                "Y2022EE_JES_",
+                "Y2023_JES_",
+                "Y2023BPix_JES_",
+                "Y2024_JES_",
+
+                "Y2022_JER_",
+                "Y2022EE_JER_",
+                "Y2023_JER_",
+                "Y2023BPix_JER_",
+                "Y2024_JER_",
+
+                "Y2022_PileUp_Corr",
+                "Y2022EE_PileUp_Corr",
+                "Y2023_PileUp_Corr",
+                "Y2023BPix_PileUp_Corr",
+                "Y2024_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "red",
+            "TYPE": "BKG",
+            "TITLE": "t#bar{t}",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        }
+    },
+
+
+
+    "SYSTEMATICS": {
+        "Y2022_lumi": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_lumi": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_lumi": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+
+        "TTBar_Xsec": {
+            "VALUP":1.0348,
+            "VALDOWN":1.0438,
+            "CODE": 0
+        },
+        "TopPtWeight":{
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+
+        "Pdfweight":{
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "QCDScaleWeight":{
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1
+        },
+
+        "Y2022_corr1p1_TriggerSF_data": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_corr1p1_TriggerSF_data": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_corr1p1_TriggerSF_data": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_corr1p1_TriggerSF_data": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_corr1p1_TriggerSF_data": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        
+        "Y2022_corr1p1_TriggerSF_MC": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_corr1p1_TriggerSF_MC": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_corr1p1_TriggerSF_MC": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_corr1p1_TriggerSF_MC": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_corr1p1_TriggerSF_MC": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022_corr1p1_AK8_Xbbtagging": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_corr1p1_AK8_Xbbtagging": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_corr1p1_AK8_Xbbtagging": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_corr1p1_AK8_Xbbtagging": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_corr1p1_AK8_Xbbtagging": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+
+
+        "Y2022_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+
+        "Y2022_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+
+        "Y2022_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        }
+    },
+    "BINNING": {
+        "B_1p1": {
+            "X": {
+                "NAME": "M_JY",
+                "TITLE": "M_{J}^{Y}",
+                "BINS":[0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.17, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.2, 1.4, 1.7, 2.0, 2.5, 3.0, 4.0],
+                "badBINS":[0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.17, 0.2, 0.3, 0.4, 0.5, 0.6],
+                "SIGBSTART": 120,
+                "SIGBEND": 300
+            },
+            "Y": {
+                "NAME": "M_JJ",
+                "TITLE": "M_{JJ}",
+                "BINS": [0.2, 0.4, 0.6, 0.8,0.9,1.0, 1.1, 1.2, 1.3, 1.4, 1.7, 2.0, 2.3, 2.6, 3.0, 3.5, 4.0, 5.0]
+            }
+        }
+    },
+    "OPTIONS": {
+        "blindedPlots": [],
+        "blindedFit": [],
+        "plotPrefitSigInFitB": false,
+        "plotUncerts": true,
+        "plotEvtsPerUnit": true,
+        "plotTitles": false,
+        "plotTemplateComparisons": true,
+        "year": 2
+    }
+}

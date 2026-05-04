@@ -1,0 +1,2 @@
+TTBar_SF_pass rateParam SR1_Region0 *MC_TTBarJets 1 [0.5, 2]
+TTBar_SF_fail rateParam SB1_Region0 *MC_TTBarJets ((1-@1*@2)/(1-@2)) TTBar_SF_pass,0.8

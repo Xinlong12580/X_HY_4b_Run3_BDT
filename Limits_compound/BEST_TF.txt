@@ -1,0 +1,8 @@
+CR All1p1 0x0
+CR All2p1 0x0
+CR Only1p1 0x0
+CR Only2p1 0x1
+VR All1p1 0x0
+VR All2p1 1x0
+VR Only1p1 0x1
+VR Only2p1 0x1
