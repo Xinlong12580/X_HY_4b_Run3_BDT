@@ -1,0 +1,10 @@
+import ROOT
+ROOT.gROOT.SetBatch(True)
+f2 = ROOT.TF2("DDT 2D map", "(y < 500) * ( (x < 1800) * 0.98 + (x >= 1800) *(  (x - 1800) / (5000 - 1800) * (0 - 0.98) + 0.98 )  ) - (y >= 500)", 0, 5000, 0 , 5000)
+c = ROOT.TCanvas("c", "TF2 colormap", 800, 600)
+f2.Draw("COLZ")
+f2.SetTitle("Final BDTG_{threshold}(M_{X}, M_{Y}), 1+1")
+f2.GetXaxis().SetTitle("M_{X}/GeV")
+f2.GetYaxis().SetTitle("M_{Y}/GeV")
+c.Update()
+c.Print("DDT_map_1p1.png")
