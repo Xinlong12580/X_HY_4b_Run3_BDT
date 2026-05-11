@@ -9,7 +9,8 @@ parser=ArgumentParser()
 parser.add_argument('--MX', type=float, dest='MX',action='store', required=True)
 parser.add_argument('--MY', type=float, dest='MY',action='store', default="datasets/BKGs_1p1_ALL.root")
 parser.add_argument('-b', type=str, dest='b',action='store', default="datasets/BKGs_1p1_ALL.root")
-parser.add_argument('--expr', type=str, dest='expr',action='store', default="(1.75e-6 * exp(0.0017 * x) + 4.48e-4) ")
+#parser.add_argument('--expr', type=str, dest='expr',action='store', default="(1.75e-6 * exp(0.0017 * x) + 4.48e-4) ")
+parser.add_argument('--expr', type=str, dest='expr',action='store', default="0.001 ")
 args = parser.parse_args()
 
 BKG_file = args.b

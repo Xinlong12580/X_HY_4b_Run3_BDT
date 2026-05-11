@@ -1,0 +1,48 @@
+05/06/2026 10:36:19 PM DEBUG: Remote pool to query is set to: cmst1mgr2.fnal.gov, cmst1mgr3.fnal.gov
+05/06/2026 10:36:19 PM DEBUG: Attempting to query collector: cmst1mgr2.fnal.gov
+05/06/2026 10:36:19 PM DEBUG: Schedd ads received: [[ Name = "lpcschedd4.fnal.gov"; MyAddress = "<131.225.189.251:9618?addrs=131.225.189.251-9618+[2620-6a-0-8421--e8]-9618&alias=lpcschedd4.fnal.gov&noUDP&sock=schedd_2063_9ff8>"; TotalIdleJobs = 250; MaxJobsRunning = 10000; ShadowsRunning = 222; RecentDaemonCoreDutyCycle = 9.484148771527590E-02 ], [ Name = "lpcschedd6.fnal.gov"; MyAddress = "<131.225.189.168:9618?addrs=131.225.189.168-9618+[2620-6a-0-8421-f0-0-189-168]-9618&alias=lpcschedd6.fnal.gov&noUDP&sock=schedd_2292_b328>"; TotalIdleJobs = 1; MaxJobsRunning = 10000; ShadowsRunning = 764; RecentDaemonCoreDutyCycle = 2.190549370681971E-02 ], [ Name = "lpcschedd5.fnal.gov"; MyAddress = "<131.225.204.62:9618?addrs=131.225.204.62-9618+[2620-6a-0-8420-f0-0-204-62]-9618&alias=lpcschedd5.fnal.gov&noUDP&sock=schedd_2490_82e8>"; TotalIdleJobs = 387; MaxJobsRunning = 10000; ShadowsRunning = 289; RecentDaemonCoreDutyCycle = 1.173532509599262E-02 ]]
+05/06/2026 10:36:19 PM DEBUG: Going over the schedd list and calculating weight
+05/06/2026 10:36:19 PM DEBUG: Looking at schedd: lpcschedd4.fnal.gov
+05/06/2026 10:36:19 PM DEBUG: DutyCyle: 9.48414877152759
+05/06/2026 10:36:19 PM DEBUG: Running percentage: 2.22
+05/06/2026 10:36:19 PM DEBUG: Idle jobs: 250
+05/06/2026 10:36:19 PM DEBUG: Total weight calculated: 32.08290414006931
+05/06/2026 10:36:19 PM DEBUG: Looking at schedd: lpcschedd6.fnal.gov
+05/06/2026 10:36:19 PM DEBUG: DutyCyle: 2.1905493706819708
+05/06/2026 10:36:19 PM DEBUG: Running percentage: 7.64
+05/06/2026 10:36:19 PM DEBUG: Idle jobs: 1
+05/06/2026 10:36:19 PM DEBUG: Total weight calculated: 3.1613845594773795
+05/06/2026 10:36:19 PM DEBUG: Looking at schedd: lpcschedd5.fnal.gov
+05/06/2026 10:36:19 PM DEBUG: DutyCyle: 1.173532509599262
+05/06/2026 10:36:19 PM DEBUG: Running percentage: 2.8899999999999997
+05/06/2026 10:36:19 PM DEBUG: Idle jobs: 387
+05/06/2026 10:36:19 PM DEBUG: Total weight calculated: 40.099472756719486
+05/06/2026 10:36:19 PM DEBUG: Sorting schedds per their weight (lower the better)
+05/06/2026 10:36:19 PM DEBUG: Sorted list of schedd per their weight: [('lpcschedd6.fnal.gov', 3.1613845594773795), ('lpcschedd4.fnal.gov', 32.08290414006931), ('lpcschedd5.fnal.gov', 40.099472756719486)]
+05/06/2026 10:36:19 PM DEBUG: Attempting to put SCHEDD_HOST into file: /storage/local/data1/condor/config.d/xinlongl.config
+05/06/2026 10:36:19 PM DEBUG: Successfully updated /storage/local/data1/condor/config.d/xinlongl.config
+05/06/2026 10:36:19 PM DEBUG: Final command to execute: /usr/bin/original_condor_submit use_x509userproxy=True temp_20260506-223618_jdl
+05/06/2026 10:37:13 PM DEBUG: Remote pool to query is set to: cmst1mgr2.fnal.gov, cmst1mgr3.fnal.gov
+05/06/2026 10:37:13 PM DEBUG: Attempting to query collector: cmst1mgr2.fnal.gov
+05/06/2026 10:37:13 PM DEBUG: Schedd ads received: [[ Name = "lpcschedd4.fnal.gov"; MyAddress = "<131.225.189.251:9618?addrs=131.225.189.251-9618+[2620-6a-0-8421--e8]-9618&alias=lpcschedd4.fnal.gov&noUDP&sock=schedd_2063_9ff8>"; TotalIdleJobs = 220; MaxJobsRunning = 10000; ShadowsRunning = 229; RecentDaemonCoreDutyCycle = 9.331756909295097E-02 ], [ Name = "lpcschedd6.fnal.gov"; MyAddress = "<131.225.189.168:9618?addrs=131.225.189.168-9618+[2620-6a-0-8421-f0-0-189-168]-9618&alias=lpcschedd6.fnal.gov&noUDP&sock=schedd_2292_b328>"; TotalIdleJobs = 1; MaxJobsRunning = 10000; ShadowsRunning = 764; RecentDaemonCoreDutyCycle = 2.190549370681971E-02 ], [ Name = "lpcschedd5.fnal.gov"; MyAddress = "<131.225.204.62:9618?addrs=131.225.204.62-9618+[2620-6a-0-8420-f0-0-204-62]-9618&alias=lpcschedd5.fnal.gov&noUDP&sock=schedd_2490_82e8>"; TotalIdleJobs = 387; MaxJobsRunning = 10000; ShadowsRunning = 289; RecentDaemonCoreDutyCycle = 1.015456957491934E-02 ]]
+05/06/2026 10:37:13 PM DEBUG: Going over the schedd list and calculating weight
+05/06/2026 10:37:13 PM DEBUG: Looking at schedd: lpcschedd4.fnal.gov
+05/06/2026 10:37:13 PM DEBUG: DutyCyle: 9.331756909295096
+05/06/2026 10:37:13 PM DEBUG: Running percentage: 2.29
+05/06/2026 10:37:13 PM DEBUG: Idle jobs: 220
+05/06/2026 10:37:13 PM DEBUG: Total weight calculated: 28.99022983650657
+05/06/2026 10:37:13 PM DEBUG: Looking at schedd: lpcschedd6.fnal.gov
+05/06/2026 10:37:13 PM DEBUG: DutyCyle: 2.1905493706819708
+05/06/2026 10:37:13 PM DEBUG: Running percentage: 7.64
+05/06/2026 10:37:13 PM DEBUG: Idle jobs: 1
+05/06/2026 10:37:13 PM DEBUG: Total weight calculated: 3.1613845594773795
+05/06/2026 10:37:13 PM DEBUG: Looking at schedd: lpcschedd5.fnal.gov
+05/06/2026 10:37:13 PM DEBUG: DutyCyle: 1.015456957491934
+05/06/2026 10:37:13 PM DEBUG: Running percentage: 2.8899999999999997
+05/06/2026 10:37:13 PM DEBUG: Idle jobs: 387
+05/06/2026 10:37:13 PM DEBUG: Total weight calculated: 39.988819870244356
+05/06/2026 10:37:13 PM DEBUG: Sorting schedds per their weight (lower the better)
+05/06/2026 10:37:13 PM DEBUG: Sorted list of schedd per their weight: [('lpcschedd6.fnal.gov', 3.1613845594773795), ('lpcschedd4.fnal.gov', 28.99022983650657), ('lpcschedd5.fnal.gov', 39.988819870244356)]
+05/06/2026 10:37:13 PM DEBUG: Attempting to put SCHEDD_HOST into file: /storage/local/data1/condor/config.d/xinlongl.config
+05/06/2026 10:37:13 PM DEBUG: Successfully updated /storage/local/data1/condor/config.d/xinlongl.config
+05/06/2026 10:37:13 PM DEBUG: Final command to execute: /usr/bin/original_condor_submit use_x509userproxy=True temp_20260506-223713_jdl
