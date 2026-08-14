@@ -23,7 +23,7 @@ tol=0.1         # --cminDefaultMinimizerTolerance
 strat=0         # --cminDefaultMinimizerStrategy
 verbosity=2
 
-options=$(getopt -o "bl" --long "bfit,limits,seed:,numtoys:,mode:,fitdir;,strat:,verbosity:" -- "$@")
+options=$(getopt -o "bv:n:lr:" --long "bfit,limits,seed:,numtoys:,fitdir:,strat:,verbosity:,tol:,r_value:,paras:" -- "$@")
 eval set -- "$options"
 
 while true; do
@@ -54,14 +54,19 @@ while true; do
             shift
             tol=$1
             ;;
+        -r|--r_value)
+            shift
+            echo test $1
+            r=$1
+            ;;
         --fitdir)
             shift
             fitDir=$1
-            ;;      
-        --mode)
+            ;;
+        --paras)
             shift
-            mode=$1
-            ;;      
+            paras=$1
+            ;;
         --)
             shift
             break;;
@@ -84,35 +89,31 @@ echo strat     = $strat
 echo tol       = $tol 
 echo numtoys   = $numtoys
 echo verbosity = $verbosity
+echo paras = $paras
 echo '--------------------------------------------------------'
+nps=""
+parameters="--setParameters "
+IFS=';' read -ra _paras <<< "$paras"
 
-#################################################################################
-# Setting some variables
-#################################################################################
-#fitDir='test_workspace/SignalMC_XHY4b_1x1_area'
+for para in "${_paras[@]}"; do
+    while IFS= read -r line; do
+        read var_name var_value <<< "$line"
+        if [[ $var_name != "r" && $var_name != *"QCD_"* && $var_name != *"_In"* && $var_name != *"n_"* && $var_name != *"TTBAR"* && $var_name != *"M_"* && $var_name != *"mask_"* ]]; then
+            nps=$nps" "$var_name
+        fi
+        if [[ $line == *"QCD_Rc_SR"* ]]; then
+            parameters=$parameters"$var_name=$var_value,"
+        elif [[ $line == *"QCD_Rc_CR"* ]]; then
+            parameters=$parameters"$var_name=1,"
+        fi
+    done < $para
+done
+
 cwd=`pwd` # current working directory
 card="card.txt"
 wsm="workspace_masked.root" # Workspace with channel masks
-
-parameters="--setParameters "
-while IFS= read -r line; do
-    if [[ $line == *"QCD_Rc"* ]]; then
-        echo 1
-        read var_name var_value <<< "$line"
-        parameters=$parameters"$var_name=$var_value,"
-
-    fi
-done < control_parameters_"$mode".txt
-
-
-parameters=${parameters%?}
 echo $parameters
-card=card.txt
-wsm=card.root
-strat=1
-#fitDir='w3000_300_workspace/SignalMC_XHY4b_1x1_area'
-tot=0.1
-seed=123456
+echo $nps
 if [ $limits = 1 ]; then 
     printf "cd $fitDir \n"
     cd $fitDir
@@ -122,27 +123,25 @@ if [ $limits = 1 ]; then
     (set -x; text2workspace.py $card --channel-masks -o $wsm)
 
     # Loads the B-only fit snapshot obtained from the prior step, then specifies that we want to run blind
-    (set -x; combine -D data_obs -M MultiDimFit --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=400000 $parameters  -n Snapshot --run blind --bypassFrequentistFit)
+    #(set -x; combine -M MultiDimFit -n _initialFit_.impacts $parameters --algo singles --redefineSignalPOIs r --freezeParameters MH --setParameterRanges r=-1,1 --robustFit 1 -m 125 -d card.root)
+    (set -x; combine -M MultiDimFit -n _initialFit_.impacts $parameters --algo singles --redefineSignalPOIs r --freezeParameters MH --setParameterRanges r=-10,10 --robustFit 1 -m 125 -d card.root --bypassFrequentistFit -t -1 --toysFrequentist -v 3  )
+    #(set -x; combine -M MultiDimFit -n _initialFit_.impacts $parameters --algo singles --redefineSignalPOIs r --freezeParameters MH --setParameterRanges r=-10,10  -m 125 -d card.root --bypassFrequentistFit -t 1 --toysFrequentist --cminDefaultMinimizerTolerance 5 -v 3  )
     printf "cd $cwd \n"
-    cd $cwd
 fi
 
-paras=""
-while IFS= read -r line; do
-    if [[ $line != *"QCD_Rc"* && $line != "M_"* &&$line != "n_"* ]]; then
-        echo 1
-        read var_name var_value <<< "$line"
-        read -ra arr <<< "$line"
-        paras=$paras" ${arr[0]}"
-    fi
-done < control_parameters_"$mode".txt
 
-
-for para in $paras: do
-    parameters_impact=$paramters,$para=1
-    (set -x; combine -D data_obs -M MultiDimFit --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=400000 $parameters_impact  -n Snapshot_"$para"_p --run blind --bypassFrequentistFit --freezeParameters $para )
-    parameters_impact=$paramters,$para=-1
-    (set -x; combine -D data_obs -M MultiDimFit --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=400000 $parameters_impact  -n Snapshot_"$para"_m --run blind --bypassFrequentistFit --freezeParameters $para )
+_nps=""
+for np in $nps; do
+    echo $np
+    #(set -x; combine -M MultiDimFit -n _paramFit_.impacts_$np $parameters --algo impact --redefineSignalPOIs r -P $np --floatOtherPOIs 1 --saveInactivePOI 1 --setParameterRanges r=-1,1 --robustFit 1 -m 125 -d card.root)
+    (set -x; combine -M MultiDimFit -n _paramFit_.impacts_$np $parameters --algo impact --redefineSignalPOIs r -P $np --floatOtherPOIs 1 --saveInactivePOI 1 --setParameterRanges r=-1,1 --robustFit 1 -m 125 -d card.root --bypassFrequentistFit -t -1 )
+    #(set -x; combine -M MultiDimFit -n _paramFit_.impacts_$np $parameters --algo impact --redefineSignalPOIs r -P $np --floatOtherPOIs 1 --saveInactivePOI 1 --setParameterRanges r=-1,1 -m 125 -d card.root --bypassFrequentistFit  --toysFrequentist -t 1 --cminDefaultMinimizerTolerance 5 -v 3 )
+    _nps=$_nps$np","
 done
+_nps=${_nps%?}
+echo combineTool.py -M Impacts -d card.root -m 125 --freezeParameters MH -n .impacts --setParameterRanges r=-1,1 -o impacts.json --named "$_nps"
+combineTool.py -M Impacts -d card.root -m 125 --freezeParameters MH -n .impacts --seed 123456 --setParameterRanges r=-1,1 -o impacts.json --named "$_nps"
+plotImpacts.py -i impacts.json -o impacts
+cd $cwd
 
 

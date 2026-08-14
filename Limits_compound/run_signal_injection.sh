@@ -22,8 +22,8 @@ numtoys=100
 tol=0.1         # --cminDefaultMinimizerTolerance
 strat=0         # --cminDefaultMinimizerStrategy
 verbosity=2
-
-options=$(getopt -o "bv:n:lr:" --long "bfit,limits,seed:,numtoys:,fitdir:,strat:,verbosity:,tol:,r_value:" -- "$@")
+r=0
+options=$(getopt -o "bv:n:lr:" --long "bfit,limits,seed:,numtoys:,fitdir:,strat:,verbosity:,tol:,r_value:,paras:" -- "$@")
 eval set -- "$options"
 
 while true; do
@@ -63,6 +63,10 @@ while true; do
             shift
             fitDir=$1
             ;;      
+        --paras)
+            shift
+            paras=$1
+            ;;      
         --)
             shift
             break;;
@@ -78,7 +82,7 @@ while true; do
     shift
 done
 
-echo $r
+
 echo '--------------------------------------------------------'
 echo Using the following options:
 echo seed      = $seed
@@ -95,46 +99,40 @@ echo '--------------------------------------------------------'
 cwd=`pwd` # current working directory
 card="card.txt"
 wsm="workspace_masked.root" # Workspace with channel masks
-
+echo $para1 $para2
 parameters="--setParameters "
-while IFS= read -r line; do
-    if [[ $line == *"QCD_Rc"* ]]; then
-        echo 1
-        read var_name var_value <<< "$line"
-        parameters=$parameters"$var_name=$var_value,"
+IFS=';' read -ra _paras <<< "$paras"
 
-    fi
-done < control_parameters.txt
-parameters=$parameters"r=$r,"
+for para in "${_paras[@]}"; do
+    echo $para
+    while IFS= read -r line; do
+        if [[ $line == *"QCD_Rc_SR"* || $line == *"QCD_Rc_CR"* ]]; then
+            echo 1
+            read var_name var_value <<< "$line"
+            parameters=$parameters"$var_name=$var_value,"
+            #if [[ $line == *"QCD_Rc_SR"* ]]; then
+            #    parameters=$parameters"$var_name=$var_value,"
+            #else
+            #    parameters=$parameters"$var_name=1,"
+            #fi
+        fi
+    done < $para
+done
 
-parameters=${parameters%?}
+parameters="$parameters"r"="$r
+parameters="${parameters//VR/SR}"
+
 echo $parameters
 card=card.txt
 wsm=card.root
-strat=1
-#fitDir='w3000_300_workspace/SignalMC_XHY4b_1x1_area'
-tot=0.1
-seed=123456
-limits=1
 if [ $limits = 1 ]; then 
     printf "cd $fitDir \n"
     cd $fitDir
-    echo test
-
-    # Check to see if the workspace with channel masks exists
-    if [ ! -f "$wsm" ]; then 
-        printf "RooWorkspace with channel masks does not exist, creating it now...\n"
-        (set -x; text2workspace.py $card --channel-masks -o $wsm)
-        #(set -x; text2workspace.py $card -o $wsm)
-    fi
-
-    # Loads the B-only fit snapshot obtained from the prior step, then specifies that we want to run blind
-    #(set -x; combine -M AsymptoticLimits -m 125 -n "" -d higgsCombineSnapshot.MultiDimFit.mH125.root --snapshotName MultiDimFit -v $verbosity --saveWorkspace --saveToys --bypassFrequentistFit -s $seed --toysFrequentist --run blind  -t $numtoys)
-    #(set -x; combine -M AsymptotocLimits -d $wsm -m 125 -n "r_$r" -v $verbosity $parameters --saveWorkspace --saveToys --bypassFrequentistFit -s $seed --toysFrequentist --run blind -t 100 )
-    #(set -x; combine -M MultiDimFit -d $wsm -m 125 -n "r_$r" -v $verbosity $parameters --saveWorkspace --saveToys --bypassFrequentistFit -s $seed  --floatParameters r  --trackParameters r --trackErrors r --saveFitResult --toysFrequentist -t 100 )
-    #(set -x; combine -M FitDiagnostics -d $wsm -m 125 -n "r_$r" -v $verbosity $parameters --saveWorkspace --saveToys --bypassFrequentistFit -s $seed  --floatParameters r  --trackParameters r --trackErrors r --justFit --toysFrequentist -t 100 )
-    (set -x; combine -M FitDiagnostics -d $wsm -m 125 -n "r_$r" -v $verbosity $parameters --saveWorkspace --rMin "-15" --rMax 15 --saveToys --bypassFrequentistFit -s $seed  --floatParameters r   --justFit --toysFrequentist -t 20 )
-
+    rm $wsm
+    (set -x; text2workspace.py $card --channel-masks -o $wsm)
+    #(set -x; combine -M FitDiagnostics -d $wsm -D higgsCombiner_"$r".GenerateOnly.mH125.$seed.root:toys/toy_1 -m 125 -n "r_$r" -v $verbosity $parameters --saveWorkspace --rMin "-20" --rMax 20 --bypassFrequentistFit -s $seed  --floatParameters r   --justFit --toysFrequentist --cminDefaultMinimizerTolerance $tol --trackErrors r --trackParameters r --skipBOnly  )
+    #echo combine -M MultiDimFit -d $wsm -t 2 -n "r_$r" --toysFile higgsCombine"r_$r".GenerateOnly.mH125.$seed.root --algo singles --toysFrequentist --rMin -20 --rMax 20 -s $seed -m 125 -v 3
+    combine -M MultiDimFit -d $wsm -t 20 -n "r_$r" --toysFile higgsCombine"r_$r".GenerateOnly.mH125.$seed.root --algo singles --toysFrequentist --rMin -10 --rMax 10 -s $seed -m 125 --X-rtd MINIMIZER_MaxCalls=40000000000 $parameters -v $verbosity --robustFit 1  --cminPoiOnlyFit --cminPreScan 
     printf "cd $cwd \n"
     cd $cwd
 fi

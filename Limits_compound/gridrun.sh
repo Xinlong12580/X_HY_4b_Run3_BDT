@@ -122,7 +122,12 @@ echo python XYH.py --mode "$base_All_mode" --tf $tf --sig $MX-$MY --r_fail SR_SB
 
 ./make_json.sh "$All_mode" Signal
 python XYH.py --mode "$base_All_mode" --tf $tf --sig $MX-$MY --r_fail SR_SB1_$base_All_mode --r_pass SR_SR1_$base_All_mode --make --makeCard --wsp Signal_"$All_mode"_MX-"$MX"_MY-"$MY" 2>&1 | tee -a $root_dir/$OUTTXT
+
+python inject_MCstats_templates.py --input_file Templates/Templates_"$All_mode"_Signal_all_MCstat.root  --target_file Signal_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/base.root
+
 python modify_card.py --eff_file Templates/Templates_"$All_mode"_Signal_all.root --card_file Signal_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_"$tf"_area/card.txt --pass_name "$All_mode" --fail_name SR_"$All_mode" 2>&1 | tee -a $root_dir/$OUTTXT
+
+#python modify_card_MCstat.py --stat_file Templates/Templates_"$All_mode"_Signal_all_MCstat.root --card_file Signal_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_"$tf"_area/card.txt 2>&1 | tee -a $root_dir/$OUTTXT
 ls | tee -a $root_dir/$OUTTXT
 
 
@@ -130,7 +135,12 @@ tf=$tf_CR_Allmode
 echo python XYH.py --mode "$base_All_mode" --tf $tf --sig $MX-$MY --r_fail CR_SB1_$base_All_mode --r_pass CR_SR1_$base_All_mode --make --makeCard --wsp Control_"$All_mode"_MX-"$MX"_MY-"$MY" | tee -a $root_dir/$OUTTXT 
 ./make_json.sh "$All_mode" Control
 python XYH.py --mode "$base_All_mode" --tf $tf --sig $MX-$MY --r_fail CR_SB1_$base_All_mode --r_pass CR_SR1_$base_All_mode --make --makeCard --wsp Control_"$All_mode"_MX-"$MX"_MY-"$MY" 2>&1 | tee -a $root_dir/$OUTTXT
+
+python inject_MCstats_templates.py --input_file Templates/Templates_"$All_mode"_Control_all_MCstat.root  --target_file Control_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/base.root
+
 python modify_card.py --eff_file Templates/Templates_"$All_mode"_Control_all.root --card_file Control_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_"$tf"_area/card.txt --pass_name "$All_mode" --fail_name CR_"$All_mode" 2>&1 | tee -a $root_dir/$OUTTXT
+
+#python modify_card_MCstat.py --stat_file Templates/Templates_"$All_mode"_Control_all_MCstat.root --card_file Control_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_"$tf"_area/card.txt 2>&1 | tee -a $root_dir/$OUTTXT
 ls | tee -a $root_dir/$OUTTXT
 
 
@@ -162,7 +172,12 @@ echo python XYH.py --mode "$base_Only_mode" --tf $tf --sig $MX-$MY --r_fail SR_S
 
 ./make_json.sh "$Only_mode" Signal
 python XYH.py --mode "$base_Only_mode" --tf $tf --sig $MX-$MY --r_fail SR_SB1_$base_Only_mode --r_pass SR_SR1_$base_Only_mode --make --makeCard --wsp Signal_"$Only_mode"_MX-"$MX"_MY-"$MY" 2>&1 | tee -a $root_dir/$OUTTXT
+
+python inject_MCstats_templates.py --input_file Templates/Templates_"$Only_mode"_Signal_all_MCstat.root  --target_file Signal_"$Only_mode"_MX-"$MX"_MY-"$MY"_workspace/base.root
+
 python modify_card.py --eff_file Templates/Templates_"$Only_mode"_Signal_all.root --card_file Signal_"$Only_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_"$tf"_area/card.txt --pass_name "$Only_mode" --fail_name SR_"$Only_mode" 2>&1 | tee -a $root_dir/$OUTTXT
+
+#python modify_card_MCstat.py --stat_file Templates/Templates_"$Only_mode"_Signal_all_MCstat.root --card_file Signal_"$Only_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_"$tf"_area/card.txt  2>&1 | tee -a $root_dir/$OUTTXT
 ls | tee -a $root_dir/$OUTTXT
 
 
@@ -170,7 +185,12 @@ tf=$tf_CR_Onlymode
 echo python XYH.py --mode "$base_Only_mode" --tf $tf --sig $MX-$MY --r_fail CR_SB1_$base_Only_mode --r_pass CR_SR1_$base_Only_mode --make --makeCard --wsp Control_"$Only_mode"_MX-"$MX"_MY-"$MY" | tee -a $root_dir/$OUTTXT 
 ./make_json.sh "$Only_mode" Control
 python XYH.py --mode "$base_Only_mode" --tf $tf --sig $MX-$MY --r_fail CR_SB1_$base_Only_mode --r_pass CR_SR1_$base_Only_mode --make --makeCard --wsp Control_"$Only_mode"_MX-"$MX"_MY-"$MY" 2>&1 | tee -a $root_dir/$OUTTXT
+
+python inject_MCstats_templates.py --input_file Templates/Templates_"$Only_mode"_Control_all_MCstat.root  --target_file Control_"$Only_mode"_MX-"$MX"_MY-"$MY"_workspace/base.root
+
 python modify_card.py --eff_file Templates/Templates_"$Only_mode"_Control_all.root --card_file Control_"$Only_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_"$tf"_area/card.txt --pass_name "$Only_mode" --fail_name CR_"$Only_mode" 2>&1 | tee -a $root_dir/$OUTTXT
+
+#python modify_card_MCstat.py --stat_file Templates/Templates_"$Only_mode"_Control_all_MCstat.root --card_file Control_"$Only_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_"$tf"_area/card.txt 2>&1 | tee -a $root_dir/$OUTTXT
 ls | tee -a $root_dir/$OUTTXT
 
 
@@ -192,11 +212,14 @@ ls | tee -a $root_dir/$OUTTXT
 #./combine_channels.sh CS_"$mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_area Signal_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area SR_"$base_All_mode" Control_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area CR_"$base_All_mode" Signal_"$Only_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area SR_"$base_Only_mode" Control_"$Only_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area CR_"$base_Only_mode" 2>&1 | tee -a $root_dir/$OUTTXT
 if [[ $All_mode == *"2p1"* ]]; then 
 ./combine_channels.sh CS_"$mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_area Signal_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area SR_"$base_All_mode" Signal_"$Only_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area SR_"$base_Only_mode" Control_"$Only_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area CR_"$base_Only_mode" 2>&1 | tee -a $root_dir/$OUTTXT
+#./combine_channels.sh CS_"$mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_area Signal_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area SR_"$base_All_mode" 2>&1 | tee -a $root_dir/$OUTTXT
 
 paras="parameters/Validation_"$All_mode"_"$tf_SR_Allmode"_control_parameters.txt;parameters/Validation_"$Only_mode"_"$tf_SR_Onlymode"_control_parameters.txt;parameters/Control_"$Only_mode"_"$tf_CR_Onlymode"_control_parameters.txt"        
 
 elif [[ $Only_mode == *"2p1"* ]]; then
-./combine_channels.sh CS_"$mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_area Signal_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area SR_"$base_All_mode" Control_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area CR_"$base_All_mode" Signal_"$Only_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area SR_"$base_Only_mode" 2>&1 | tee -a $root_dir/$OUTTXT
+./combine_channels.sh CS_"$mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_area Signal_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area SR_"$base_All_mode" Control_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area CR_"$base_All_mode" Signal_"$Only_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area SR_"$base_Only_mode"
+#./combine_channels.sh CS_"$mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_area Signal_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area SR_"$base_All_mode" Control_"$All_mode"_MX-"$MX"_MY-"$MY"_workspace/SignalMC_XHY4b_*_area CR_"$base_All_mode"
+
 paras="parameters/Validation_"$All_mode"_"$tf_SR_Allmode"_control_parameters.txt;parameters/Validation_"$Only_mode"_"$tf_SR_Onlymode"_control_parameters.txt;parameters/Control_"$All_mode"_"$tf_CR_Allmode"_control_parameters.txt"        
 fi
 

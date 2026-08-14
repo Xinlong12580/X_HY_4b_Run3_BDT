@@ -74,3 +74,43 @@ file_dir=/store/user/$USER/XHY4bRun3_limits_All2p1AndOnly1p1_BDT/
 eosls $file_dir > outputList/output_selection_2p1_tmp.txt
 sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_2p1_tmp.txt > outputList/output_limits_All2p1AndOnly1p1_BDT.txt
 rm outputList/*tmp*
+
+file_dir=/store/user/$USER/XHY4bRun3_SI_BDT/
+eosls $file_dir > outputList/output_selection_2p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_2p1_tmp.txt > outputList/output_SI_BDT.txt
+rm outputList/*tmp*
+
+file_dir=/store/user/$USER/XHY4bRun3_GOF_BDT/
+eosls $file_dir > outputList/output_selection_2p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_2p1_tmp.txt > outputList/output_GOF_BDT.txt
+rm outputList/*tmp*
+
+rm outputList/*tmp*
+file_dir=/store/user/$USER/XHY4bRun3_division_combined_BDT_experiment/
+eosls $file_dir > outputList/output_selection_1p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_1p1_tmp.txt > outputList/output_division_combined_BDT_experiment.txt
+
+rm outputList/*tmp*
+file_dir=/store/user/$USER/XHY4bRun3_division_combined_BDT_experiment1/
+eosls $file_dir > outputList/output_selection_1p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_1p1_tmp.txt > outputList/output_division_combined_BDT_experiment1.txt
+
+rm outputList/*tmp*
+file_dir=/store/user/$USER/XHY4bRun3_division_combined_BDT_experiment2/
+eosls $file_dir > outputList/output_selection_1p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_1p1_tmp.txt > outputList/output_division_combined_BDT_experiment2.txt
+
+rm outputList/*tmp*
+file_dir=/store/user/$USER/XHY4bRun3_division_combined_BDT_experiment3/
+eosls $file_dir > outputList/output_selection_1p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_1p1_tmp.txt > outputList/output_division_combined_BDT_experiment3.txt
+
+rm outputList/*tmp*
+file_dir=/store/user/$USER/XHY4bRun3_division_combined_BDT_experiment4/
+eosls $file_dir > outputList/output_selection_1p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_1p1_tmp.txt > outputList/output_division_combined_BDT_experiment4.txt
+
+rm outputList/*tmp*
+file_dir=/store/user/$USER/XHY4bRun3_division_combined_BDT_experiment5/
+eosls $file_dir > outputList/output_selection_1p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_1p1_tmp.txt > outputList/output_division_combined_BDT_experiment5.txt

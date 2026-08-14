@@ -9,12 +9,13 @@ import os
 
 parser=ArgumentParser()
 
-parser.add_argument('--mode', type=str, action='store', required=False)
-parser.add_argument('--type', type=str, action='store', required=False)
+parser.add_argument('--mode', type=str, action='store', required=True)
+parser.add_argument('--type', type=str, action='store', required=True)
 
-parser.add_argument('--mx', type=str, action='store', required=False)
-parser.add_argument('--my', type=str, action='store', required=False)
-parser.add_argument('--Reg', type=str, action='store', required=False)
+parser.add_argument('--mx', type=str, action='store', required=True)
+parser.add_argument('--my', type=str, action='store', required=True)
+parser.add_argument('--Reg', type=str, action='store', required=True)
+parser.add_argument('--group', type=int, action='store', default = 0, required=False) #Requiring too much memory, so load in group instead
 args = parser.parse_args()
 if "1p1" in args.mode:
     hist_mode = "1p1"
@@ -38,7 +39,37 @@ if "Control" in args.Reg:
 with open(f"outputList/output_division_combined_BDT.txt") as f:
     lines = f.readlines()
     template_files =[ line.strip() for line in lines if "Templates" in line and "log" not in line and args.mode in line and "Reg" + args.Reg[0:3] in line]
-systs = ["JES__up", "JES__down", "JER__up", "JER__down", "PileUp_Corr_up", "PileUp_Corr_down", f"corr{hist_mode}_TriggerSF_MC_up", f"corr{hist_mode}_TriggerSF_MC_down", f"corr{hist_mode}_TriggerSF_data_up", f"corr{hist_mode}_TriggerSF_data_down", "Pdfweight_up", "Pdfweight_down", "QCDScaleWeight_up", "QCDScaleWeight_down", f"corr{hist_mode}_AK8_Xbbtagging_up", f"corr{hist_mode}_AK8_Xbbtagging_down", f"corr{hist_mode}_AK4_btagging_light_correlated_up", f"corr{hist_mode}_AK4_btagging_light_correlated_down", f"corr{hist_mode}_AK4_btagging_light_uncorrelated_up", f"corr{hist_mode}_AK4_btagging_light_uncorrelated_down", f"corr{hist_mode}_AK4_btagging_heavy_correlated_up", f"corr{hist_mode}_AK4_btagging_heavy_correlated_down", f"corr{hist_mode}_AK4_btagging_heavy_uncorrelated_up", f"corr{hist_mode}_AK4_btagging_heavy_uncorrelated_down", "nominal", "TopPtWeight_up", "TopPtWeight_down"]
+#systs = ["JES__up", "JES__down", "JER__up", "JER__down", "PileUp_Corr_up", "PileUp_Corr_down", f"corr{hist_mode}_TriggerSF_MC_up", f"corr{hist_mode}_TriggerSF_MC_down", f"corr{hist_mode}_TriggerSF_data_up", f"corr{hist_mode}_TriggerSF_data_down", "Pdfweight_up", "Pdfweight_down", "QCDScaleWeight_up", "QCDScaleWeight_down", f"corr{hist_mode}_AK8_Xbbtagging_up", f"corr{hist_mode}_AK8_Xbbtagging_down", f"corr{hist_mode}_AK4_btagging_light_correlated_up", f"corr{hist_mode}_AK4_btagging_light_correlated_down", f"corr{hist_mode}_AK4_btagging_light_uncorrelated_up", f"corr{hist_mode}_AK4_btagging_light_uncorrelated_down", f"corr{hist_mode}_AK4_btagging_heavy_correlated_up", f"corr{hist_mode}_AK4_btagging_heavy_correlated_down", f"corr{hist_mode}_AK4_btagging_heavy_uncorrelated_up", f"corr{hist_mode}_AK4_btagging_heavy_uncorrelated_down", "nominal", "TopPtWeight_up", "TopPtWeight_down"]
+if args.group == 0:
+    systs = ["JMS__up", "JMS__down", "JMR__up", "JMR__down", "JER__up", "JER__down", "PileUp_Corr_up", "PileUp_Corr_down", f"corr{hist_mode}_TriggerSF_MC_up", f"corr{hist_mode}_TriggerSF_MC_down", f"corr{hist_mode}_TriggerSF_data_up", f"corr{hist_mode}_TriggerSF_data_down", "Pdfweight_up", "Pdfweight_down", "QCDScaleWeight_up", "QCDScaleWeight_down", f"corr{hist_mode}_AK8_Xbbtagging_up", f"corr{hist_mode}_AK8_Xbbtagging_down", f"corr{hist_mode}_AK4_btagging_light_correlated_up", f"corr{hist_mode}_AK4_btagging_light_correlated_down", f"corr{hist_mode}_AK4_btagging_light_uncorrelated_up", f"corr{hist_mode}_AK4_btagging_light_uncorrelated_down", f"corr{hist_mode}_AK4_btagging_heavy_correlated_up", f"corr{hist_mode}_AK4_btagging_heavy_correlated_down", f"corr{hist_mode}_AK4_btagging_heavy_uncorrelated_up", f"corr{hist_mode}_AK4_btagging_heavy_uncorrelated_down", "nominal", "TopPtWeight_up", "TopPtWeight_down"]
+    years = ["2022", "2022EE", "2023", "2023BPix", "2024"]
+    jes_systs = ["Absolute", "BBEC1", "EC2",  "FlavorQCD", "HF", "RelativeBal" ]
+    for year in years:
+        jes_systs += [f"Absolute_{year}", f"BBEC1_{year}", f"EC2_{year}", f"HF_{year}", f"RelativeSample_{year}"]
+    for jes_syst in jes_systs:
+        systs.append(f"JES__{jes_syst}_up")
+        systs.append(f"JES__{jes_syst}_down")
+if args.group == 1:
+    systs = ["JMS__up", "JMS__down", "JMR__up", "JMR__down", "JER__up", "JER__down", "PileUp_Corr_up", "PileUp_Corr_down", f"corr{hist_mode}_TriggerSF_MC_up", f"corr{hist_mode}_TriggerSF_MC_down", f"corr{hist_mode}_TriggerSF_data_up", f"corr{hist_mode}_TriggerSF_data_down", "Pdfweight_up", "Pdfweight_down", "QCDScaleWeight_up", "QCDScaleWeight_down", f"corr{hist_mode}_AK8_Xbbtagging_up", f"corr{hist_mode}_AK8_Xbbtagging_down", f"corr{hist_mode}_AK4_btagging_light_correlated_up", f"corr{hist_mode}_AK4_btagging_light_correlated_down", f"corr{hist_mode}_AK4_btagging_light_uncorrelated_up", f"corr{hist_mode}_AK4_btagging_light_uncorrelated_down", f"corr{hist_mode}_AK4_btagging_heavy_correlated_up", f"corr{hist_mode}_AK4_btagging_heavy_correlated_down", f"corr{hist_mode}_AK4_btagging_heavy_uncorrelated_up", f"corr{hist_mode}_AK4_btagging_heavy_uncorrelated_down", "nominal", "TopPtWeight_up", "TopPtWeight_down"]
+if args.group == 2:    
+    systs = ["nominal"]
+    years = ["2022", "2022EE", "2023", "2023BPix", "2024"]
+    jes_systs = ["Absolute", "BBEC1", "EC2",  "FlavorQCD", "HF", "RelativeBal" ]
+    for year in years:
+        jes_systs += [f"Absolute_{year}", f"BBEC1_{year}", f"EC2_{year}", f"HF_{year}", f"RelativeSample_{year}"]
+    for jes_syst in jes_systs:
+        systs.append(f"JES__{jes_syst}__up")
+        systs.append(f"JES__{jes_syst}__down")
+if args.group == 3:    
+    systs = ["nominal"]
+    years = [ "2023BPix", "2024"]
+    jes_systs = ["Absolute", "BBEC1", "EC2",  "FlavorQCD", "HF", "RelativeBal" ]
+    for year in years:
+        jes_systs += [f"Absolute_{year}", f"BBEC1_{year}", f"EC2_{year}", f"HF_{year}", f"RelativeSample_{year}"]
+    for jes_syst in jes_systs:
+        systs.append(f"JES__{jes_syst}__up")
+        systs.append(f"JES__{jes_syst}__down")
+print(systs,len(systs))
 if args.type == "signal":
     processes = {"SignalMC_XHY4b": [f"MX-{args.mx}_MY-{args.my}"]}
     #processes = {"SignalMC_XHY4b": [f"MX-{args.mx}_MY-{args.my}", f"MX-{args.mx}-MY-{args.my}"]}
@@ -46,9 +77,7 @@ if args.type == "signal":
 elif args.type == "bkg":
     processes = { "MC_TTBarJets": ["*"], "MC_WZJets": ["Wto2Q-3Jets_HT-200to400", "Wto2Q-3Jets_HT-400to600", "Wto2Q-3Jets_HT-600to800", "Wto2Q-3Jets_HT-800", "Zto2Q-4Jets_HT-200to400", "Zto2Q-4Jets_HT-400to600", "Zto2Q-4Jets_HT-600to800", "Zto2Q-4Jets_HT-800"]}
 elif args.type == "all":
-    #processes = { "MC_TTBarJets": ["*"], "MC_WZJets": ["Wto2Q-3Jets_HT-200to400", "Wto2Q-3Jets_HT-400to600", "Wto2Q-3Jets_HT-600to800", "Wto2Q-3Jets_HT-800", "Zto2Q-4Jets_HT-200to400", "Zto2Q-4Jets_HT-400to600", "Zto2Q-4Jets_HT-600to800", "Zto2Q-4Jets_HT-800"], "SignalMC_XHY4b": [f"MX-{args.mx}_MY-{args.my}"]}
     processes = { "MC_TTBarJets": ["*"], "MC_QCDJets": ["*"],  "SignalMC_XHY4b": [f"MX-{args.mx}_MY-{args.my}"]}
-    #processes = { "MC_TTBarJets": ["*"], "MC_QCDJets": ["*"],  "SignalMC_XHY4b": [f"MX-{args.mx}_MY-{args.my}", f"MX-{args.mx}-MY-{args.my}"]}
 for process in processes:
     if processes[process] == ["*"]:
         processes[process] = []
@@ -63,6 +92,20 @@ print(processes)
 #print(VB1_files) 
 #processes = ["JetMET", "MC_TTBarJets", "MC_WZJets", "SignalMC_XHY4b" ]
 
+def correlated_syst(syst):
+    if syst == "nominal" or "Pdfweight" in syst or "QCDScaleWeight" in syst or "TopPtWeight" in syst or "_correlated" in syst:
+        return True
+    if "JES" in syst and "_202" not in syst:
+        return True
+    else:
+        return False
+def relevant_syst(syst, year, process = "MC"):
+    if "202" in syst and year + "_" not in syst:
+        return False
+    if process == "JetMET" and syst != "nominal":
+        return False
+    return True
+
 regions = ["SR1", "SR2", "SB1", "SB2", "VS1", "VS2", "VS3", "VS4", "VB1", "VB2"]
 regions = ["SR1", "SB1"]
 years = ["2022", "2022EE", "2023", "2023BPix", "2024"]
@@ -76,18 +119,17 @@ for year in years:
         hists[year]["JetMET"] = {}
         for region in regions:
             hists[year]["JetMET"][region] = {}
-            for syst in systs:
-                if syst == "nominal" or "Pdfweight" in syst or "QCDScaleWeight" in syst or "TopPtWeight" in syst or "_correlated" in syst:
-                    hists[year]["JetMET"][region][syst] = hist_base.Clone(f"{year}__JetMET__{Reg}_{region}_{hist_mode}__{syst}")
-                else:
-                    hists[year]["JetMET"][region][syst] = hist_base.Clone(f"{year}__JetMET__{Reg}_{region}_{hist_mode}__Y{year}_{syst}")
+            syst = "nominal"
+            hists[year]["JetMET"][region][syst] = hist_base.Clone(f"{year}__JetMET__{Reg}_{region}_{hist_mode}__{syst}")
+    
     if "SignalMC_XHY4b" in processes:
         for subprocess in processes["SignalMC_XHY4b"]:
             hists[year][f"SignalMC_XHY4b_{subprocess}"] = {}        
             for region in regions:
                 hists[year][f"SignalMC_XHY4b_{subprocess}"][region] = {}
                 for syst in systs:
-                    if syst == "nominal" or "Pdfweight" in syst or "QCDScaleWeight" in syst or "TopPtWeight" in syst or "_correlated" in syst:
+                    if not relevant_syst(syst, year): continue 
+                    if correlated_syst(syst):
                         hists[year][f"SignalMC_XHY4b_{subprocess}"][region][syst] = hist_base.Clone(f"{year}__SignalMC_XHY4b_{subprocess}__{Reg}_{region}_{hist_mode}__{syst}")
                     else:
                         hists[year][f"SignalMC_XHY4b_{subprocess}"][region][syst] = hist_base.Clone(f"{year}__SignalMC_XHY4b_{subprocess}__{Reg}_{region}_{hist_mode}__Y{year}_{syst}")
@@ -99,7 +141,8 @@ for year in years:
         for region in regions:
             hists[year][process][region] = {}
             for syst in systs:
-                if syst == "nominal" or "Pdfweight" in syst or "QCDScaleWeight" in syst or "TopPtWeight" in syst or "_correlated" in syst:
+                if not relevant_syst(syst, year): continue 
+                if correlated_syst(syst): 
                     hists[year][process][region][syst] = hist_base.Clone(f"{year}__{process}__{Reg}_{region}_{hist_mode}__{syst}")
                 else:
                     hists[year][process][region][syst] = hist_base.Clone(f"{year}__{process}__{Reg}_{region}_{hist_mode}__Y{year}_{syst}")
@@ -132,6 +175,7 @@ for f_name in template_files:
                             for region in regions:
                                 if region in hist_name:
                                     for syst in systs:
+                                        if not relevant_syst(syst, year, process): continue
                                         if hist_name.endswith(syst):
                                             print(f"{year}_{process}_{Reg}_{region}_{syst}")
                                             if "MC" in process:
@@ -160,21 +204,22 @@ for process in hists[years[0]]:
     for region in regions:
         hists_allyears[process][region] = {}
         for syst in systs:
-            if syst == "nominal" or "Pdfweight" in syst or "QCDScaleWeight" in syst or "TopPtWeight" in syst or "_correlated" in syst:
+            if correlated_syst(syst): 
+                if not relevant_syst(syst, "", process): continue
                 hists_allyears[process][region][syst] = hist_base.Clone(f"Allyears__{process}__{Reg}_{region}_{hist_mode}__{syst}")
             else:
                 for year in years:
+                    if not relevant_syst(syst, year, process): continue
                     syst_byyear = f"Y{year}_{syst}"
                     hists_allyears[process][region][syst_byyear] = hist_base.Clone(f"Allyears__{process}__{Reg}_{region}_{hist_mode}__{syst_byyear}")
-            #hists_allyears[process][region][syst] = hist_base.Clone(f"Allyears_{process}_{Reg}_{region}_{syst}")
         for syst_byyear in hists_allyears[process][region]:
-            #print(syst_byyear, year_syst, root_syst)
             for year in years:
-                if syst_byyear == "nominal" or "Pdfweight" in syst_byyear or "QCDScaleWeight" in syst_byyear or "TopPtWeight" in syst_byyear or "_correlated" in syst_byyear:
+                if correlated_syst(syst_byyear): 
                     hists_allyears[process][region][syst_byyear].Add(hists[year][process][region][syst_byyear])
                 else:
                     year_syst = syst_byyear.partition("_")[0][1:]
                     root_syst = syst_byyear[(len(year_syst) + 2):]
+                    #print(syst, correlated_syst(syst), syst_byyear, year_syst)
                     if year_syst not in years:
                         raise ValueError;
                     if year == year_syst:
@@ -183,20 +228,20 @@ for process in hists[years[0]]:
                         hists_allyears[process][region][syst_byyear].Add(hists[year][process][region]["nominal"])
 
 
-
+open_method = "RECREATE" if args.group <= 1 else "UPDATE"
 if args.type == "bkg":
-    f = ROOT.TFile.Open(f"Templates/Templates_{args.mode}_{args.Reg}_bkg.root", "RECREATE")
+    f = ROOT.TFile.Open(f"Templates/Templates_{args.mode}_{args.Reg}_bkg.root", open_method)
 elif args.type == "signal":
-    f = ROOT.TFile.Open(f"Templates/Templates_{args.mode}_{args.Reg}_SignalMC_XHY4b_MX-{args.mx}_MY-{args.my}.root", "RECREATE")
+    f = ROOT.TFile.Open(f"Templates/Templates_{args.mode}_{args.Reg}_SignalMC_XHY4b_MX-{args.mx}_MY-{args.my}.root", open_method)
 if args.type == "all":
-    f = ROOT.TFile.Open(f"Templates/Templates_{args.mode}_{args.Reg}_all.root", "RECREATE")
+    f = ROOT.TFile.Open(f"Templates/Templates_{args.mode}_{args.Reg}_all.root", open_method)
 f.cd()
 
 
 for year in years:
     for process in hists[year]:
         for region in regions:
-            for syst in systs:
+            for syst in hists[year][process][region]:
                 hists[year][process][region][syst].Write()
 
 for process in hists_allyears:

@@ -109,8 +109,10 @@ if [ $bfit = 1 ]; then
         (set -x; text2workspace.py $card --channel-masks -o $wsm)
     fi
     echo "Performing blinded background-only fit"
-    (set -x; combine -D data_obs -M FitDiagnostics --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=400000 --setParameters r=0 --freezeParameters "r" -n FitDiagnostics)
-
+    (set -x; combine -D data_obs -M FitDiagnostics --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=400000 --robustFit 1 --saveShapes --saveWithUncertainties --saveNormalizations )
+    cp $cwd/Pulls.py .
+    python Pulls.py
+    cp nui* $cwd/Pulls
     printf "cd $cwd \n"
     cd $cwd
 fi

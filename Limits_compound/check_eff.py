@@ -5,7 +5,6 @@ import ROOT
 
 from argparse import ArgumentParser
 import os
-
 #Reading input args
 parser=ArgumentParser()
 parser.add_argument('--eff_file', type=str, dest='eff_file',action='store', required=True)

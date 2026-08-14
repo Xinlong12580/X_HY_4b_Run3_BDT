@@ -21,12 +21,15 @@ Limits = {"YSlice": {}, "XSlice": {}}
 markersize = 10
 for file in files:
     f = ROOT.TFile.Open(file)
-    tree = f.limit
+    print( file)
+    tree = f.Get("limit")
+    if  not tree or not tree.InheritsFrom(ROOT.TTree.Class()):
+        print("BAD FILE")
+        continue
     limit = []
     if tree.GetEntries() < 5:
         continue
     for entry in tree:
-        print("Bad File: " + file)
         limit.append(tree.limit)
     if limit[2] > 1000:
         continue
@@ -53,6 +56,7 @@ for MY in Limits["YSlice"]:
     M1sigmas = []
     M2sigmas = []
     for MX in Limits["YSlice"][MY]:
+        #if MX == 3500: continue #TEMPORARY SOLUTION
         MXs.append(MX)
     MXs.sort()    
     for MX in MXs:

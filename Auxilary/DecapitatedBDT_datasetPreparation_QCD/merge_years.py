@@ -6,12 +6,18 @@ parser.add_argument('--mode', type=str, dest='mode',action='store', required=Tru
 parser.add_argument('--years', type=str, dest='years',action='store', required=True)
 args = parser.parse_args()
 years = args.years.split(";")
-base_files = [ "datasets/" + f for f in os.listdir("datasets/") if (f.startswith("BKG") and (years[0] + "_") in f and args.mode in f and "merged" not in f) or (f.startswith("reweighted") and (years[0] + "__") in f and args.mode in f and "merged" not in f) ]
-#base_files = [ "datasets/" + f for f in os.listdir("datasets/") if (f.startswith("BKG") and (years[0] + "_") in f and args.mode in f and "merged" not in f) and 1 ]
+base_files = [ "datasets/" + f for f in os.listdir("datasets/") if (f.startswith("BKG") and (years[0] + "_") in f and args.mode in f and "merged" not in f) or (f.startswith("reweighted") and (years[0] + "__") in f and args.mode in f and "merged" not in f and "SignalMC" in f) ]
+#base_files = [ "datasets/" + f for f in os.listdir("datasets/") if (f.startswith("BKG") and (years[0] + "_") in f and args.mode in f and "merged" not in f) ]
 for base_file in base_files:
     files = []
     for year in years:
-        files.append(base_file.replace(years[0], year))
+        f = base_file.replace(years[0], year)
+        print(f)
+        if (not os.path.exists(f)) or ROOT.RDataFrame("Events",f).Count().GetValue() < 2:
+            continue
+        files.append(f)
+    if len(files) < len(years):
+        continue
     rdf = ROOT.RDataFrame("Events",files)
     print("hadding files: ")
     print(files)

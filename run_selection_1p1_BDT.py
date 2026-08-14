@@ -29,7 +29,8 @@ columns = ["n.*", "TFlavor.*", "Tagger_.*", "MassHiggs.*", "idx.*", "gen_.*", ".
 
 Reg = args.region
 ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job, nEvents = -1)
-ana.selection_1p1_BDT(args.JME_syst, Reg)
+ana.selection_1p1_BDT(args.JME_syst, Reg, massType = "msoftdrop")
+#ana.selection_1p1_BDT(args.JME_syst, Reg)
 ana.trainer_preprosessing_1p1()
 #ana.trainer_preprosessing_1p1()
 #ana.eff_after_selection_1p1()

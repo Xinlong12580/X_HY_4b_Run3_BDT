@@ -32,15 +32,43 @@ TTBar_FAIL = f.Get(f"Allyears__MC_TTBarJets__{Reg}_SB1_{mode}__nominal")
 print(TTBar_PASS.Integral(), TTBar_FAIL.Integral())
 eff = TTBar_PASS.Integral() / (TTBar_PASS.Integral() + TTBar_FAIL.Integral())
 print(f"efficiency from {args.eff_file}", eff)
+
 with open(args.card_file, "r") as f_card:
     lines = [line for line in f_card if (("TTBAR_PASS_SF" not in line) and ("TTBAR_FAIL_SF" not in line))]
+
+with open(args.card_file, "r") as f_card:
+    kmax = len([line for line in lines if ( ("shape" in line or "lnN" in line ) and (not line.startswith("shapes")) )]) + 1
+    lines[2] = f"kmax {kmax}\n"
+print(kmax)
+
 with open(args.card_file, "w") as f_card:
     f_card.writelines(lines)
 
+for line in lines:
+    if line.startswith("process") and "MC" in line:
+        process_columns = line.split()[1:]
+        print(process_columns)
+    if line.startswith("bin") and "SR" in line:
+        bin_columns = line.split()[1:]
+        print(bin_columns)
+
+pass_line=f"TTBAR_PASS_SF_{args.pass_name} lnN "
+for i in range(len(process_columns)):
+    if "TTBar" in process_columns[i] and "SR" in bin_columns[i]:
+        pass_line = pass_line + " 2.0/2.0 "
+    else:
+        pass_line = pass_line + " - "
+print(pass_line)
 with open(args.card_file, "a") as f_card:
-    f_card.write(f"TTBAR_PASS_SF_{args.pass_name} rateParam *SR* *TTBar* 1 [0.5,2]\n")
-    f_card.write(f"TTBAR_FAIL_SF_{args.fail_name} rateParam *SB* *TTBar* (1-{eff:.4f}*@0/({1-eff:.4f})) TTBAR_PASS_SF_{args.pass_name}\n")    
+    #f_card.write(f"TTBAR_PASS_SF_{args.pass_name} rateParam *SR* *TTBar* 1 [0.5,2]\n")
+    f_card.write(pass_line + "\n")
+    #f_card.write(f"TTBAR_FAIL_SF_{args.fail_name} rateParam *SB* *TTBar* (1-{eff:.4f}*@0/({1-eff:.4f})) TTBAR_PASS_SF_{args.pass_name}\n")    
+    f_card.write(f"TTBAR_FAIL_SF_{args.fail_name} rateParam *SB* *TTBar* (1-{eff:.4f}*(pow(2,@0))/({1-eff:.4f})) TTBAR_PASS_SF_{args.pass_name}\n")    
     #print(f_card.readlines())
+
+ 
+
+
 QCD_PASS = f.Get(f"Allyears__MC_QCDJets__{Reg}_SR1_{mode}__nominal")
 QCD_FAIL = f.Get(f"Allyears__MC_QCDJets__{Reg}_SB1_{mode}__nominal")
 print(QCD_PASS.Integral(), QCD_FAIL.Integral())

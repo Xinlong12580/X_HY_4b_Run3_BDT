@@ -102,7 +102,7 @@ IFS=';' read -ra _paras <<< "$paras"
 for para in "${_paras[@]}"; do
     echo $para
     while IFS= read -r line; do
-        if [[ $line == *"QCD_Rc_VR"* ]]; then
+        if [[ $line == *"QCD_Rc_VR"* || $line == *"QCD_Rc_CR"* ]]; then
             echo 1
             read var_name var_value <<< "$line"
             parameters=$parameters"$var_name=$var_value,"

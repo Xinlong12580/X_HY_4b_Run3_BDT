@@ -2,4 +2,11 @@
 if [[ X$1 != X ]]; then
     eosrm /store/user/xinlong/$1/*output.log
 fi
+
+rm *Validation*output.log
+rm *Signal*output.log
+rm *Control*output.log
+rm *JMS*.log
+rm *JMR*.log
+rm *nom*.log
 rm *output.log

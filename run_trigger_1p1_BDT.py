@@ -12,6 +12,7 @@ parser.add_argument('-y', type=str, dest='year',action='store', required=True)
 parser.add_argument('-n', type=int, dest='n_files',action='store', required=True)
 parser.add_argument('-i', type=int, dest='i_job',action='store', required=True)
 parser.add_argument('-s', type=str, dest='JME_syst',action='store', required=True)
+parser.add_argument('-r', type=str, dest='region',action='store', required=True)
 args = parser.parse_args()
 
 #cpp modules from Matej
@@ -29,9 +30,8 @@ columns = ["n.*", "HLT_.*", "TFlavor.*", "Tagger_.*", "MassHiggs.*", "idx.*", "g
 for Reg in ["Signal"]:
 #Running selection
     ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job)
-    ana.selection_1p1_BDT(args.JME_syst, Reg, triggerType = "Reference")
-    #ana.trainer_preprosessing_1p1()
-    #Saving snapshot and cutflow
+    #ana.selection_1p1_BDT(args.JME_syst, Reg, triggerType = "Reference")
+    ana.selection_1p1_BDT(args.JME_syst, Reg, triggerType = "Reference", massType = "regressedMass")
     file_basename = os.path.basename(args.dataset).removesuffix(".txt")
     ana.output = "Reg" + Reg[0:3] + "_" + args.JME_syst + "_1p1_trigger_tagged_selected_" + file_basename + f"_n-{args.n_files}_i-{args.i_job}.root"
 

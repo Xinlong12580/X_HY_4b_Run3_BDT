@@ -1,3 +1,6 @@
+rm outputList/*RegVal*
+rm outputList/*RegSig*
+rm outputList/*Reg*
 rm outputList/*
 mkdir -p outputList
 
@@ -30,7 +33,7 @@ classify_files(){
         echo "${classified_files[$file_base]}" | sed 's/^ *//' | tr ' ' '\n' > outputList/"$output_prefix"_"$file_base".txt
     done
 }
-classify_files "/store/user/$USER/XHY4bRun3_skim" "SKIM" 
+#classify_files "/store/user/$USER/XHY4bRun3_skim" "SKIM" 
 #classify_files "/store/user/$USER/XHY4bRun3_selection_1p1_BDT" "SELECTION_1P1_BDT" 
 #classify_files "/store/user/$USER/XHY4bRun3_selection_2p1_BDT" "SELECTION_2P1_BDT" 
 #classify_files "/store/user/$USER/XHY4bRun3_division_1p1" "DIVISION_1P1" 
@@ -38,7 +41,7 @@ classify_files "/store/user/$USER/XHY4bRun3_skim" "SKIM"
 #classify_files "/store/user/$USER/XHY4bRun3_division_2p1" "DIVISION_2P1" 
 #classify_files "/store/user/$USER/XHY4bRun3_selection_without_trigger_1p1" "SELECTION_WT_1P1" 
 #classify_files "/store/user/$USER/XHY4bRun3_selection_without_trigger_2p1" "SELECTION_WT_2P1" 
-#classify_files "/store/user/$USER/XHY4bRun3_selection_compound" "SELECTION_COMPOUND" 
+classify_files "/store/user/$USER/XHY4bRun3_selection_combined_BDT" "SELECTION_COMBINED_BDT" 
 
 
 
@@ -55,6 +58,9 @@ sed "s@^@root://cmseos.fnal.gov/$skim_1_dir@" outputList/output_skim_1_tmp.txt >
 selection_dir=/store/user/$USER/XHY4bRun3_selection_1p1_BDT/
 eosls $selection_dir"Reg*nom*" > outputList/output_selection_tmp.txt
 sed "s@^@root://cmseos.fnal.gov/$selection_dir@" outputList/output_selection_tmp.txt > outputList/output_selection_1p1_BDT.txt
+selection_dir=/store/user/$USER/XHY4bRun3_selection_1p1_BDT_debug/
+eosls $selection_dir"Reg*nom*" > outputList/output_selection_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$selection_dir@" outputList/output_selection_tmp.txt > outputList/output_selection_1p1_BDT_debug.txt
 
 selection_dir=/store/user/$USER/XHY4bRun3_selection_2p1_BDT/
 eosls $selection_dir"Reg*nom*" > outputList/output_selection_tmp.txt
@@ -91,9 +97,13 @@ file_dir=/store/user/$USER/XHY4bRun3_mass_debug_2p1/
 eosls $file_dir > outputList/output_mass_debug_2p1_tmp.txt
 sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_mass_debug_2p1_tmp.txt > outputList/output_mass_debug_2p1.txt
 
-file_dir=/store/user/$USER/XHY4bRun3_selection_compound/
+file_dir=/store/user/$USER/XHY4bRun3_selection_combined_BDT/
 eosls $file_dir > outputList/output_tmp.txt
-sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_tmp.txt > outputList/output_selection_compound.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_tmp.txt > outputList/output_selection_combined_BDT.txt
+
+file_dir=/store/user/$USER/XHY4bRun3_selection_combined_BDT_debug/
+eosls $file_dir > outputList/output_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_tmp.txt > outputList/output_selection_combined_BDT_debug.txt
 
 rm outputList/*tmp*
 file_dir=/store/user/$USER/XHY4bRun3_selection_1p1_debug/
@@ -108,6 +118,10 @@ rm outputList/*tmp*
 file_dir=/store/user/$USER/XHY4bRun3_division_1p1_BDT/
 eosls $file_dir > outputList/output_selection_1p1_tmp.txt
 sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_1p1_tmp.txt > outputList/output_division_1p1_BDT.txt
+rm outputList/*tmp*
+file_dir=/store/user/$USER/XHY4bRun3_division_1p1_BDT_all/
+eosls $file_dir > outputList/output_selection_1p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_1p1_tmp.txt > outputList/output_division_1p1_BDT_all.txt
 rm outputList/*tmp*
 file_dir=/store/user/$USER/XHY4bRun3_division_2p1_BDT/
 eosls $file_dir > outputList/output_selection_1p1_tmp.txt
@@ -133,4 +147,14 @@ rm outputList/*tmp*
 file_dir=/store/user/$USER/XHY4bRun3_Xbbtagging_1p1_BDT/
 eosls $file_dir > outputList/output_tmp.txt
 sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_tmp.txt > outputList/output_Xbbtagging_1p1_BDT.txt
+rm outputList/*tmp*
+
+file_dir=/store/user/$USER/XHY4bRun3_trigger_1p1_BDT_regressedMass/
+eosls $file_dir > outputList/output_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_tmp.txt > outputList/output_trigger_1p1_BDT_regressed.txt
+rm outputList/*tmp*
+
+file_dir=/store/user/$USER/XHY4bRun3_trigger_2p1_BDT_regressedMass/
+eosls $file_dir > outputList/output_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_tmp.txt > outputList/output_trigger_2p1_BDT_regressed.txt
 rm outputList/*tmp*

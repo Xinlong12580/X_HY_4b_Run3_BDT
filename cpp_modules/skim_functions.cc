@@ -5,37 +5,35 @@ int skimmingTwoAK8Jets(int nFatJet, RVec<float> FatJet_pt, RVec<float> FatJet_et
     if(nFatJet<2){
         return 0;
     }
-    std::vector<int> col_Higgs = {};
-    std::vector<int> col_Y = {};
+    std::vector<int> col_reg = {};
+    std::vector<int> col_sd = {};
     for(int i = 0; i < nFatJet; i ++){
         bool pt_cut = FatJet_pt.at(i)>300;
         bool eta_cut = TMath::Abs(FatJet_eta.at(i))<2.5;
         bool mSD_cut = (FatJet_msoftdrop.at(i)>30);
         bool mreg_cut = (FatJet_regressedMass.at(i)>30);
         if(pt_cut && eta_cut && mreg_cut)
-            col_Higgs.push_back(i);
+            col_reg.push_back(i);
         if(pt_cut && eta_cut && mSD_cut)
-            col_Y.push_back(i);
+            col_sd.push_back(i);
     }
-    if (col_Higgs.size() >= 2)// We may also use regressed mass for Y
+    if (col_reg.size() >= 2 || col_sd.size() >= 2)// We may also use regressed mass for Y
         return 1;
-    if (col_Higgs.size() == 0 || col_Y.size() == 0 )
-        return 0;
-    if (col_Higgs.size() == 1 && col_Y.size() == 1 && col_Higgs.at(0) == col_Y.at(0) )
-        return 0;
+    if (col_reg.size() == 1 && col_sd.size() == 1 && col_reg.at(0) != col_sd.at(0) )
+        return 1;
     //Looks GOOD
-    return 1;
+    return 0;
     
 }
 
 // 2p1 mode.
-int skimmingAK8JetwithTwoAK4Jets(int nFatJet, RVec<float> FatJet_pt, RVec<float> FatJet_eta, RVec<float> FatJet_m, int nJet, RVec<float> Jet_pt, RVec<float> Jet_eta){
+int skimmingAK8JetwithTwoAK4Jets(int nFatJet, RVec<float> FatJet_pt, RVec<float> FatJet_eta, RVec<float> FatJet_m_reg, RVec<float> FatJet_m_sd, int nJet, RVec<float> Jet_pt, RVec<float> Jet_eta){
     if(nFatJet < 1 || nJet < 2){
         return 0;
     }
     int pass = 0;
     for (int i = 0; i < nFatJet; i++){
-        if (FatJet_pt.at(i) > 250 && FatJet_m.at(i) > 50 && FatJet_eta.at(i) < 2.5){
+        if (FatJet_pt.at(i) > 250 && ( FatJet_m_reg.at(i) > 50 || FatJet_m_sd.at(i) > 50) && FatJet_eta.at(i) < 2.5){
             pass = 1;
             break;
         }
@@ -60,7 +58,7 @@ int skimmingAK8JetwithTwoAK4Jets(int nFatJet, RVec<float> FatJet_pt, RVec<float>
 //skimming
 int skimFlag(int nFatJet, RVec<float> FatJet_pt, RVec<float> FatJet_eta, RVec<float> FatJet_msoftdrop, RVec<float> FatJet_regressedMass, int nJet, RVec<float> Jet_pt, RVec<float> Jet_eta){
     Int_t jetSkim1  = skimmingTwoAK8Jets(nFatJet,FatJet_pt,FatJet_eta,FatJet_msoftdrop, FatJet_regressedMass);
-    Int_t jetSkim2  = skimmingAK8JetwithTwoAK4Jets(nFatJet,FatJet_pt,FatJet_eta,FatJet_regressedMass, nJet, Jet_pt, Jet_eta);
+    Int_t jetSkim2  = skimmingAK8JetwithTwoAK4Jets(nFatJet,FatJet_pt,FatJet_eta,FatJet_regressedMass, FatJet_msoftdrop, nJet, Jet_pt, Jet_eta);
     Int_t skimScore  = jetSkim1+2*jetSkim2;
     //LOOKS GOOD
     return skimScore;
@@ -73,6 +71,7 @@ RVec<float> makeRegressedMass(int nFatJet, RVec<float> FatJet_mass, RVec<float> 
     //LOOKS GOOD
     return RegMass;
 }
+/*
 RVec<float> getRawVal(int nJet, RVec<float> val, RVec<float> rawFactor){
     ROOT::VecOps::RVec<Float_t> rawVal = {};
     for (int i = 0; i < nJet; i ++){
@@ -80,3 +79,4 @@ RVec<float> getRawVal(int nJet, RVec<float> val, RVec<float> rawFactor){
     }
     return rawVal;
 }
+*/

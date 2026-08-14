@@ -18,9 +18,9 @@
 bfit=0
 limits=0
 seed=42
-numtoys=100
-tol=0.5         # --cminDefaultMinimizerTolerance
-strat=1         # --cminDefaultMinimizerStrategy
+numtoys=2
+tol=0.1         # --cminDefaultMinimizerTolerance
+strat=0         # --cminDefaultMinimizerStrategy
 verbosity=3
 
 #options=$(getopt -o "blvn" --long "bfit,limits,seed:,numtoys:,fitdir:,strat:,verbosity:" -- "$@")
@@ -99,7 +99,6 @@ wsm="workspace_masked.root" # Workspace with channel masks
 card=card.txt
 #card=card_debug.txt
 wsm=card.root
-strat=0
 if [ $bfit = 1 ]; then 
     printf "cd $fitDir \n"
     cd $fitDir
@@ -111,7 +110,7 @@ if [ $bfit = 1 ]; then
     #(set -x; text2workspace.py $card --channel-masks -o $wsm)
     (set -x; text2workspace.py $card -o $wsm --verbose 3)
     echo "Performing blinded background-only fit"
-    (set -x; combine -D data_obs -M MultiDimFit --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=400000 --setParameters r=0 --freezeParameters "r" -n Snapshot --saveFitResult )
+    (set -x; combine -D data_obs -M MultiDimFit --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=4000000 --setParameters r=0 --freezeParameters "r" -n Snapshot --saveFitResult)
     #(set -x; combine -D data_obs -M MultiDimFit --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=400000 --setParameters r=0 --freezeParameters "r,Y2022_corr1p1_AK8_Xbbtagging,Y2022EE_corr1p1_AK8_Xbbtagging,Y2023_corr1p1_AK8_Xbbtagging,Y2023BPix_corr1p1_AK8_Xbbtagging,Y2024_corr1p1_AK8_Xbbtagging" -n Snapshot --saveFitResult )
     #(set -x; combine -D data_obs -M GoodnessOfFit --algo saturated --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=400000 --setParameters r=0 --freezeParameters "r" -n Snapshot)
 

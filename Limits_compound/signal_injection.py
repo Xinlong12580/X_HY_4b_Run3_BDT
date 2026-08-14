@@ -14,8 +14,11 @@ f = ROOT.TFile.Open(f_name, "READ")
 limit = f.limit
 index = 2
 rs = []
+pos_rs = []
+neg_rs = []
 deltars = []
 sigs = []
+
 for entry in limit:
     if entry.iToy != index:
         r = entry.limit
@@ -41,5 +44,5 @@ errors = np.sqrt(counts)
 ax.errorbar(bin_centers, counts, yerr=errors, fmt='o', capsize=3)
 ax.set_title(f"signal injection, $r_0$={nom_r}, {args.title}")
 ax.set_xlabel(r"$(r-r_0)/(\delta r)$")
-fig.savefig(f"SIs/signal_injection_r_{nom_r}_{args.title}.png")
+fig.savefig(f"SIs/signal_injection_r_{int(nom_r)}_{args.title}.png")
 

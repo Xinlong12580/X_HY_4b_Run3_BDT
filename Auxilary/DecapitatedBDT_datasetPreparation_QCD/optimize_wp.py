@@ -8,7 +8,7 @@ import math
 parser=ArgumentParser()
 parser.add_argument('-f', type=str, dest='f',action='store', required=True)
 parser.add_argument('-b', type=str, dest='b',action='store', default="datasets/BKGs_1p1_ALL.root")
-parser.add_argument('--method', type=int, dest='method',action='store', default=1) #0: optimize punzi significance #1: set continuousefficiency
+parser.add_argument('--method', type=int, dest='method',action='store', default=0) #0: optimize punzi significance #1: set continuousefficiency
 #parser.add_argument('--expr', type=str, dest='expr',action='store', default="( ( x < 2000 ) * 0.0005 + ( x >= 2000 ) * ( ( x - 2000 ) / (4000 - 2000) * ( 0.006 - 0.0005 ) + 0.0005 ) ) * ( y > 0 )")
 parser.add_argument('--expr', type=str, dest='expr',action='store', default="1.75e-6 * exp(0.0017 * x) + 4.48e-4 ")
 #parser.add_argument('--expr', type=str, dest='expr',action='store', default="7e-6 * exp(0.0017 * x) + 1.792e-3 ")
@@ -62,13 +62,13 @@ if args.method == 0:
     winsize_mx = min(max(MX * 0.1, 50), 200)
     winsize_my = min(max(MY * 0.1, 50), 200)
 elif args.method == 1:
-    winsize_mx = max(MX * 0.2, 200)
-    winsize_my = max(MY * 0.2, 200)
+    winsize_mx = max(MX * 0.2, 500)
+    winsize_my = max(MY * 0.2, 500)
 
 sig_rdf = ROOT.RDataFrame("Events", args.f)
 bkg_rdf = ROOT.RDataFrame("Events", BKG_file)
-sig_rdf = sig_rdf.Filter("event_Idx%2 == 1")
-bkg_rdf = bkg_rdf.Filter("event_Idx%2 == 1")
+#sig_rdf = sig_rdf.Filter("event_Idx%2 == 1")
+#bkg_rdf = bkg_rdf.Filter("event_Idx%2 == 1")
 print(sig_rdf.Mean("MX").GetValue())
 print(sig_rdf.StdDev("MX").GetValue())
 #sig_rdf = sig_rdf.Filter(f"PNet_H > 0.3 && PNet_Ymin > 0.3 && PNet_Y > 0.3")
@@ -86,7 +86,7 @@ print(f"MX > {MX - winsize_mx} && MX < {MX + winsize_mx} && MY > {MY - winsize_m
 print(sig_rdf.Sum("BDT_weight").GetValue())
 print(bkg_rdf.Sum("BDT_weight").GetValue(),  bkg_rdf.Count().GetValue())
 
-scores = np.linspace(0, 1, 401) 
+scores = np.linspace(0.8, 1, 101) 
 
 #N_total_sig = sig_rdf.Sum("BDT_weight").GetValue()
 #N_total_bkg = bkg_rdf.Sum("BDT_weight").GetValue()

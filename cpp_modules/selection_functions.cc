@@ -239,5 +239,63 @@ ROOT::VecOps::RVec<Float_t> makeTXbb(int nFatJet, ROOT::VecOps::RVec<Float_t> Fa
 template <class _type>
 bool debugger(_type input, std::string extra = ""){
     std::cout<<extra<<" DEBUGGER: "<<input<<std::endl;
-    return 0;
+    return 1;
+}
+
+Float_t regMassSyst(Float_t m, std::string year, std::string syst){
+    // Author: Beikun Fan
+	// Default regressed mass branch: FatJet_globalParT3_massCorrGeneric.
+	// Other candidate branches: FatJet_globalParT2_massVis, FatJet_globalParT3_massCorrX2p.
+	Float_t jms_central = 1.0;
+	Float_t jms_up = 1.0;
+	Float_t jms_down = 1.0;
+	Float_t jmr_central = 1.0;
+	Float_t jmr_up = 1.0;
+	Float_t jmr_down = 1.0;
+
+	if(year == "2022" || year == "2022EE"){
+		jms_central = 1.008;
+		jms_up = 1.012;
+		jms_down = 1.005;
+		jmr_central = 1.144;
+		jmr_up = 1.190;
+		jmr_down = 1.098;
+	}
+	else if(year == "2023" || year == "2023BPix"){
+		jms_central = 0.974;
+		jms_up = 0.978;
+		jms_down = 0.969;
+		jmr_central = 1.089;
+		jmr_up = 1.152;
+		jmr_down = 1.025;
+	}
+	else if(year == "2024"){
+		jms_up = 1.05;
+		jms_down = 0.95;
+		jmr_up = 1.05;
+		jmr_down = 0.95;
+	}
+
+	if(syst == "JMS__up"){
+		return m * (jms_up / jms_central);
+	}
+	if(syst == "JMS__down"){
+		return m * (jms_down / jms_central);
+	}
+	if(syst == "JMR__up"){
+		return 125.0 + (m - 125.0) * (jmr_up / jmr_central);
+	}
+	if(syst == "JMR__down"){
+		return 125.0 + (m - 125.0) * (jmr_down / jmr_central);
+	}
+	return m;
+}
+
+RVec<float> regMassSyst(RVec<float> ms, std::string year, std::string syst){
+    RVec <float> ms_corr = {};
+    for(auto m : ms){
+        float m_corr =  regMassSyst(m, year, syst);
+        ms_corr.push_back(m_corr);
+    }
+    return ms_corr;
 }

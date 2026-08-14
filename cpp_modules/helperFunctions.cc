@@ -56,7 +56,7 @@ Float_t HEMweightMC(Int_t HEMflag){
 Int_t nElectrons(Int_t nElectron, rvec_i Electron_cutBased, Int_t id_cut, rvec_f Electron_pt, Float_t pt_cut, rvec_f Electron_eta){
     Int_t n = 0;
     for(Int_t i=0; i<nElectron;i++){
-        if(Electron_cutBased[i]>id_cut && Electron_pt[i]>pt_cut && TMath::Abs(Electron_eta[i])<2.4){
+        if(Electron_cutBased[i]>id_cut && Electron_pt[i]>pt_cut && TMath::Abs(Electron_eta[i])<2.5){
             //0:fail,1:veto,2:loose,3:medium,4:tight
             n=n+1;
         }

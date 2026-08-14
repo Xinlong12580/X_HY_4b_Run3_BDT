@@ -23,7 +23,7 @@ rm tartimber.tgz
 mkdir tardir 
 cp tarball.tgz tardir/ 
 cd tardir/
-tar -xzvf tarball.tgz | tee -a $root_dir/$OUTTXT
+tar -xzvf tarball.tgz 
 ls | tee -a $root_dir/$OUTTXT
 rm tarball.tgz
 mkdir ../CMSSW_12_3_5/src/testdir

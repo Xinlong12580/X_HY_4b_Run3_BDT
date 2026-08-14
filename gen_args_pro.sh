@@ -2,7 +2,7 @@ operation=$1
 input=$2
 output="$operation"_args.txt
 > $output
-if [[ $operation == "skim" ]] ; then
+if [[ $operation == "skim" || $operation == *"direct_selection"* ]] ; then
     files=raw_nano/files/*.txt
     #files=raw_nano/files_original_dataset/*.txt
     n_files_base=1
@@ -17,11 +17,14 @@ fi
 debug=0
 for file in $files; do
     if [[ ( $operation == *"selection"* || $operation == *"Nminus1"* ) && ( $file == *"QCD"* ||  $file == *"Data"* ) ]] ; then
-        n_files=1
+        n_files=4
     elif [[ ( $operation == *"selection"* || $operation == *"Nminus1"* ) && ( $file == *"TTBar"* || $file == *"WZ"* ) ]] ; then
-        n_files=2
+        n_files=4
     else
         n_files=$n_files_base
+    fi
+    if [[ $operation == *"direct_selection"* && $file == *"QCD"* && $file != *2024* ]]; then
+        n_files=10
     fi
     if [[  ( $operation == *"skim"* ) && ( $file != *"24"* ) && ( $file == *"QCD"* || $file == *"Signal"* ) ]] ; then
         n_files=10
@@ -63,16 +66,24 @@ for file in $files; do
     #if [[  ( $file != *"2022_"* && $file != *"2024_"* && $file == *"QCD"* ) ]]; then
     #if [[  ( $file == *"TTto4Q"* || $file == *"Data"*   ) ]]; then
     #if [[  (  $file == *"Data"* || $file == *"Signal"* || $file == *"TTBar"*  ) ]]; then
-    if [[  ( $file != *"Signal"*   ) ]]; then
+    #if [[  (  $file != *"Data"* && $file == *"2022EE"*  ) ]]; then
+    #if [[  (  $file == *"2024"* && $file == *"125"*  ) ]]; then
+    #if [[  (  $file == *"2024"*"SignalMC"*"125"*  ) ]]; then
+    if [[  ( $file != *"Data"* ) ]]; then
+    #if [[  (  $file == *"QCD"* && $file != *"HT-100to"*   ) ]]; then
         pass=1
     fi
-    debug=0
+    pass=1
+    #debug=1
     if [[ $operation == *"selection"* && $pass == 1 ]]; then
         Regs=("-r Signal" "-r Control" "-r Validation")
         #Regs=("-r Signal")
-        Regs=("-r Control")
-        Regs=("-r Validation")
+        #Regs=("-r Signal")
+        #Regs=("-r Control")
+        #Regs=("-r AValidation")
         JMEs=("-s nom" "-s JES__up" "-s JES__down" "-s JER__up" "-s JER__down")
+        JMEs=("-s nom")
+        JMEs=("-s nom -v nom" "-s nom -v JMS__up" "-s nom -v JMS__down" "-s nom -v JMR__up" "-s nom -v JMR__down")
         if [[ $debug == 1 ]]; then
             JMEs=("-s nom")
         fi

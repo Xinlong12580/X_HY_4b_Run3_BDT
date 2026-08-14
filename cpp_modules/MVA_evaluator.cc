@@ -53,3 +53,7 @@ float MVA_evaluator::eval(std::vector<float> inputs){
     float MVA_score = reader->EvaluateMVA(methodName);
     return MVA_score;
 }
+
+float mass_shift(float mass, float input_down, float input_up, float target_down, float target_up){
+    return (target_up - target_down)/(input_up - input_down) * (mass - input_down) + target_down;
+}

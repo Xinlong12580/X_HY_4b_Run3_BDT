@@ -18,7 +18,9 @@ fi
 if [[ $mode == *"1p1"* ]]; then
     basemode=1p1
     sed -e "s/R_PASS/$r_pass/g" -e "s/R_FAIL/$r_fail/g" -e "s/BASEMODE/$basemode/g" -e "s/MODE/$mode/g" -e "s/MREG/$Reg/g" -e "s/MBINS/B_$basemode/g"  XYH_1p1.json > XYH_"$r_pass"_"$r_fail".json
+    #python modify_json.py --json XYH_"$r_pass"_"$r_fail".json --stat Templates/Templates_"$mode"_"$Reg"_all_rebinned.root
 elif [[ $mode == *"2p1"* ]]; then
     basemode=2p1
     sed -e "s/R_PASS/$r_pass/g" -e "s/R_FAIL/$r_fail/g" -e "s/BASEMODE/$basemode/g" -e "s/MODE/$mode/g" -e "s/MREG/$Reg/g" -e "s/MBINS/B_$basemode/g" XYH_2p1.json > XYH_"$r_pass"_"$r_fail".json
+    #python modify_json.py --json XYH_"$r_pass"_"$r_fail".json --stat Templates/Templates_"$mode"_"$Reg"_all_rebinned.root
 fi

@@ -1,5 +1,7 @@
 import ROOT
 from argparse import ArgumentParser
+from XHY4b_Helper import *
+import array
 parser=ArgumentParser()
 parser.add_argument('-f', type=str, dest='f', action='store', required=True)
 parser.add_argument('--mx', type=str, dest='mx', action='store', required=True)
@@ -15,9 +17,18 @@ if "Validation" in args.f:
     Reg = "VR"
 if "Control" in args.f:
     Reg = "CR"
+if mode == "1p1":
+    MJY_bins = array.array("d", [0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.22, 0.3, 0.4, 0.5, 1.0])
+    MJJ_bins = array.array("d", [0.8, 0.9, 1.0,  1.2, 1.4, 1.7, 2.0, 2.5, 3.0, 5.0] )
+elif mode == "2p1":
+    MJY_bins = array.array("d", [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.2, 1.5, 2.0, 2.5, 3.0, 4.0])
+    MJJ_bins = array.array("d", [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1.0, 1.2, 1.4, 1.7, 2.0, 2.5, 3.0, 4.0, 5.0] )
 
  
 f = ROOT.TFile.Open(args.f, "UPDATE")
+
+
+
 years = ["2022", "2022EE", "2023", "2023BPix", "2024", "Allyears"]
 regions = ["SR1", "SB1"]
 for year in years:
@@ -26,8 +37,8 @@ for year in years:
         topPt_down = f.Get(f"{year}__MC_TTBarJets__{Reg}_{region}_{mode}__TopPtWeight_down")
         topPt_nom = f.Get(f"{year}__MC_TTBarJets__{Reg}_{region}_{mode}__nominal")
         print(topPt_nom.Integral(), topPt_up.Integral(), topPt_down.Integral())
-        topPt_up.Scale(topPt_nom.Integral()/topPt_up.Integral())
-        topPt_down.Scale(topPt_nom.Integral()/topPt_down.Integral())
+        topPt_up.Scale(topPt_nom.Integral()/max(topPt_up.Integral(), 1e-6))
+        topPt_down.Scale(topPt_nom.Integral()/max(topPt_down.Integral(), 1e-6))
         topPt_up.Write("",  ROOT.TObject.kOverwrite)
         topPt_down.Write("",  ROOT.TObject.kOverwrite)
 
@@ -52,17 +63,14 @@ for lumi_year in lumi_years:
                     year_base.Scale(1/ (1 + lumi_years[lumi_year])) #rescale
                     down_hist.Add(year_base)
                 else:
-                    print(f"{lumi_year} not in {year}")
+                    #print(f"{lumi_year} not in {year}")
                     up_hist.Add(year_base)
                     down_hist.Add(year_base)
             print(up_hist.GetName(), up_hist.Integral()) 
             print(down_hist.GetName(), down_hist.Integral()) 
-            print("TEST1")
             up_hist.Write("",  ROOT.TObject.kOverwrite)
             down_hist.Write("",  ROOT.TObject.kOverwrite)        
-            print("TEST2")
-f.Close()
-exit()
+'''
 def resetBins(h2):
     for i in range(h2.GetNbinsX()):
         for j in range(h2.GetNbinsY()):
@@ -76,8 +84,23 @@ for key_name in key_names :
         print(h2.GetName())
         resetBins(h2)
         h2.Write("",  ROOT.TObject.kOverwrite)
+'''
+
+print("REBINNING###############################################################")
+f_out = ROOT.TFile.Open(args.f.replace(".root", "_rebinned.root"), "RECREATE")
+
+for key in f.GetListOfKeys():
+    if "Allyears_" not in key.GetName() or not ("TTBar" in key.GetName() or "SignalMC" in key.GetName() or ("JetMET" in key.GetName() and "nominal" in key.GetName() ) ):
+        continue
+    hist = key.ReadObj()
+    print("rebinning ", hist.GetName())
+    hist = rebin_TH2(hist,  MJY_bins, MJJ_bins, "rebinned_" + hist.GetName(), forceOutputPositive = True)
+    hist.SetDirectory(f_out)
+    hist.Write()
 
 print("Finishing preprocessing") 
 
+
 f.Close()
+f_out.Close()
 

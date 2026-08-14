@@ -5,3 +5,4 @@
 python load_fit_TH.py --mx $1 --my $2 --mode $3 --type all --Reg $4
 
 ./hist_preprosessing.sh $1 $2
+#./make_MCstats_templates.sh $1 $2

@@ -18,7 +18,7 @@ goodParList = []
 goodParIndex = []
 for i in range(pars.getSize()):
     p = pars.at(i)
-    if "QCD_" in p.GetName() or "TTBAR" in p.GetName():
+    if "QCD_" in p.GetName() or "TTBAR" in p.GetName() or "MCstat" in p.GetName():
         continue
     goodParList.append(p.GetName())
     goodParIndex.append(i)

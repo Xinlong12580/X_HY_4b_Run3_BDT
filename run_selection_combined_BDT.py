@@ -12,6 +12,7 @@ parser.add_argument('-y', type=str, dest='year',action='store', required=True)
 parser.add_argument('-n', type=int, dest='n_files',action='store', required=True)
 parser.add_argument('-i', type=int, dest='i_job',action='store', required=True)
 parser.add_argument('-s', type=str, dest='JME_syst',action='store', required=True)
+parser.add_argument('-v', type=str, dest='JMC_syst',action='store', required=True)
 parser.add_argument('-r', type=str, dest='region',action='store', required=True)
 args = parser.parse_args()
 
@@ -25,15 +26,17 @@ CompileCpp("cpp_modules/selection_functions.cc")
 CompileCpp("cpp_modules/TaggerDiscretizer.cc")
 
 #Specifying columns to save
-columns = ["val1p1.*", "val2p1.*", "flag1p1.*", "flag2p1.*", "weight.*"]
+columns = ["event", "val1p1.*", "val2p1.*", "flag1p1.*", "flag2p1.*", "weight.*"]
 
 #Running selection
 Reg = args.region
 ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job)
-ana.selection_combined_BDT(args.JME_syst, Reg)
+#ana.selection_combined_BDT(args.JME_syst, Reg, massType = "msoftdrop")
+ana.selection_combined_BDT(args.JME_syst, Reg, massType = "regressedMass", JMC_syst = args.JMC_syst)
+#ana.selection_combined_BDT(args.JME_syst, Reg)
 #Saving snapshot and cutflow
 file_basename = os.path.basename(args.dataset).removesuffix(".txt")
-ana.output = "Reg" + Reg[0:3] + "_" + args.JME_syst + "_combined_tagged_selected_" + file_basename + f"_n-{args.n_files}_i-{args.i_job}.root"
+ana.output = "Reg" + Reg[0:3] + "_" + args.JMC_syst + "_combined_tagged_selected_" + file_basename + f"_n-{args.n_files}_i-{args.i_job}.root"
 
 if "MC" in args.dataset:
     ana.snapshot(columns + ["genWeight"], saveRunChain = True)

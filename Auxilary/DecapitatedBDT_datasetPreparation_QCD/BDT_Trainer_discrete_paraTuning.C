@@ -19,7 +19,7 @@
 int BDT_Trainer_discrete_paraTuning(std::string mode, std::string year, std::string MX, std::string MY, std::vector<int> NTreeses, std::vector<float> MinNodeSizes, std::vector<float> Shrinkages, std::vector<float> BaggedSampleFractions, std::vector<int> nCutses,  std::vector<int> MaxDepthes){
     TMVA::Tools::Instance();
     TString BKG_fname = "datasets/BKGs_RegSig_" + mode + "_" + year + "_ALL.root";
-    TString Signal_fname = "datasets/reweighted_RegSig_nom_" + mode + "_tagged_selected_SKIM_skimmed_"+ year +"__SignalMC_XHY4b__MX-" + MX + "_MY-" + MY + "_" + mode + "_ALL.root";
+    TString Signal_fname = "datasets/reweighted_RegSig_nom_combined_tagged_selected_SKIM_skimmed_"+ year +"__SignalMC_XHY4b__MX-" + MX + "_MY-" + MY + "_" + mode + "_ALL.root";
     std::cout<<"using SIGNAL file: "<<Signal_fname<<std::endl;
     std::cout<<"using BKG file: "<<BKG_fname<<std::endl;
     std::unique_ptr<TFile> BKG_file{TFile::Open(BKG_fname)};
@@ -39,10 +39,10 @@ int BDT_Trainer_discrete_paraTuning(std::string mode, std::string year, std::str
     auto dataloader_raii = std::make_unique<TMVA::DataLoader>(dataset_name.c_str());
     auto *dataloader = dataloader_raii.get();
     if ( mode == "1p1" ){
-        dataloader->AddVariable( "Delta_Eta", 'F' );
-        //dataloader->AddVariable( "Delta_Y", 'F' );
-        //dataloader->AddVariable( "MassHiggsCandidate_regressed", 'F' );
-        dataloader->AddVariable( "MassHiggsCandidate", 'F' );
+        //dataloader->AddVariable( "Delta_Eta", 'F' );
+        dataloader->AddVariable( "Delta_Y", 'F' );
+        dataloader->AddVariable( "MassHiggsCandidate_regressed", 'F' );
+        //dataloader->AddVariable( "MassHiggsCandidate", 'F' );
         //dataloader->AddVariable( "MH", 'F' );
         dataloader->AddVariable( "Tagger_H_decapitated", 'F' );
         dataloader->AddVariable( "Tagger_Y_decapitated", 'F' );
@@ -52,8 +52,8 @@ int BDT_Trainer_discrete_paraTuning(std::string mode, std::string year, std::str
         dataloader->AddSpectator( "sample_ID", 'I' );
     }
     else if ( mode == "2p1" ){
-        //dataloader->AddVariable( "MassHiggsCandidate_regressed", 'F' );
-        dataloader->AddVariable( "MassHiggsCandidate", 'F' );
+        dataloader->AddVariable( "MassHiggsCandidate_regressed", 'F' );
+        //dataloader->AddVariable( "MassHiggsCandidate", 'F' );
         //dataloader->AddVariable( "MH", 'F' );
         dataloader->AddVariable( "Tagger_H_decapitated", 'F' );
         dataloader->AddVariable( "Tagger_b_Y0_decapitated", 'F' );

@@ -11,7 +11,7 @@ values = []
 errors = []
 for line in lines:
     syst = line.split()[0]
-    if "In" in syst or "QCD_" in syst or "PASS" in syst or "n_exp" in syst or "r" == syst or "M_" in syst:
+    if "In" in syst or "QCD_" in syst or "PASS" in syst or "n_exp" in syst or "r" == syst or "M_" in syst or "mcstat" in syst or "MCstat" in syst :
         continue 
     value = float(line.split()[1])
     error = float(line.split()[2])
@@ -35,4 +35,4 @@ ax.set_ylabel("Value")
 ax.set_title("Systs")
 fig.tight_layout()
 
-fig.savefig("parameters/plots/" + os.path.basename(args.fname).replace(".txt", ".png"))
+fig.savefig("parameters/parameter_plots/" + os.path.basename(args.fname).replace(".txt", ".png"))

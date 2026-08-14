@@ -7,6 +7,6 @@ args = parser.parse_args()
 f = ROOT.TFile.Open(args.f, "UPDATE")
 for key in f.GetListOfKeys():
     h = key.ReadObj()
-    if "2024__" in h.GetName() and "TTBar" in h.GetName() and "SB1" in h.GetName():
-    #if "Allyears" in h.GetName() and "TTBar" in h.GetName() and "SB1" in h.GetName():
+    #if "2024__" in h.GetName() and "SignalMC" in h.GetName() and "SB1" in h.GetName():
+    if "Allyears" in h.GetName() and "Signal" in h.GetName() :
         print(h.GetName(), h.Integral()) 

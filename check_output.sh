@@ -1,5 +1,5 @@
 output=$1
-process=JetMET
+process=""
 #process=NanoAODv15
 years=(2022__ 2022EE__ 2023__ 2023BPix__ 2024__ )
 if [[ $output == "skim" ]]; then
@@ -48,6 +48,51 @@ if [[ $output == "skim" ]]; then
             
     done < $input_file
 
+elif [[ $output == "direct_selection" ]]; then
+    input_file=direct_selection_args.txt
+    amend_file=amend_direct_selection_args.txt
+    > $amend_file
+    output_dir=/store/user/xinlong/XHY4bRun3_direct_selection
+    output_files=$(eosls $output_dir/*$process*)
+    declare -A classified_files
+    for file in ${output_files[@]}; do
+        for year in ${years[@]}; do
+            if [[ $file == *"output.log"* ]]; then
+                continue
+            fi
+            if [[ $file == *"$year"* ]]; then
+                classified_files["$year"]="${classified_files["$year"]} $file"        
+                break
+            fi
+        done
+    done
+    while IFS= read -r line; do
+        if [[ $line != *$process* ]]; then
+            continue
+        fi
+        #echo "$line"
+        input_arg=$(echo "$line" | awk '{print $2}')
+        file_base=$(basename $input_arg)
+        file_base="${file_base%.*}"
+        input_y=$(echo "$line" | awk '{print $4}')__
+        input_n=$(echo "$line" | awk '{print $6}')
+        input_i=$(echo "$line" | awk '{print $8}')
+        n_base="n-"$input_n
+        i_base="i-"$input_i
+        found=0
+        for file in ${classified_files["$input_y"]}; do
+            if [[ $file == *"$file_base"* && $file == *"$n_base"* && $file == *"$i_base"* ]]; then
+                found=1
+                classified_files["$input_y"]="${classified_files[$input_y]//$file/}"
+                break
+            fi
+        done
+        if [[ $found == 0 ]] ; then
+            echo Missing $line
+            echo $line >> $amend_file
+        fi
+            
+    done < $input_file
 
 elif [[ $output == "selection_"*"_BDT" ]]; then
     echo $output
@@ -159,7 +204,7 @@ elif [[ $output == "Nminus1_1p1" ]]; then
     done < $input_file
 
 
-elif [[ $output == "division_1p1" ]]; then
+elif [[ $output == "division_combined_BDT" ]]; then
     amend_file=amend_division_args.txt
     > $amend_file
     output_dir=/store/user/xinlong/XHY4bRun3_skim

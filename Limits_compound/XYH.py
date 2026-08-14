@@ -80,6 +80,63 @@ def make_2DAlphabet_workspace(name='test', fr={}, json='XYH.json', r_fail = "VB1
             'constraints': _generate_constraints(6)
         }
     }
+    
+
+    _rc_options = {
+        '0x0': {
+            'form': PFR_MC + '*(@0)',
+            'constraints': _generate_constraints(1)
+        },
+        '1x0': {
+            'form': PFR_MC + '*@0 * (1+@1*x)',
+            'constraints': _generate_constraints(2)
+        },
+        '0x1': {
+            'form': PFR_MC + '*@0*(1+@1*y)',
+            'constraints': _generate_constraints(2)
+        },
+        '2x0': {
+            'form': PFR_MC + '*@0*(1+@1*x+@2*x*x)',
+            'constraints': _generate_constraints(3)
+        },
+        '0x2': {
+            'form': PFR_MC + '*@0*(1+@1*y+@2*y*y)',
+            'constraints': _generate_constraints(3)
+        },
+        '1x1': {
+            'form': PFR_MC + '* @0 *(1+@1*x)*(1+@2*y)',
+            'constraints': _generate_constraints(3)
+        },
+        '2x1': {
+            'form': PFR_MC + '* @0 * (1+@1*x+@3*x*x)*(1+@2*y)',
+            'constraints': _generate_constraints(4)
+        },
+        '1x2': {
+            'form': PFR_MC + '* @0 * (1+@1*x)*(1+@2*y + @3*y*y)',
+            'constraints': _generate_constraints(4)
+        },
+        '2x2': {
+            'form': PFR_MC + '* @0 * (1+@1*x+@3*x*x) * (1+@2*y + @4*y*y)',
+            'constraints': _generate_constraints(5)
+        },
+        '1x3': {
+            'form': PFR_MC + '* @0 * (1+@1*x) * (1+@2*y + @3*y*y + @4*y*y*y)',
+            'constraints': _generate_constraints(5)
+        },
+        '3x1': {
+            'form': PFR_MC + '* @0 * (1+@1*x+@3*x*x + @4*x*x*x) * (1+@2*y)',
+            'constraints': _generate_constraints(5)
+        },
+        '3x2': {
+            'form': PFR_MC + '* @0 * (1+@1*x+@3*x*x + @4*x*x*x) * (1+@2*y + @5 * y*y)',
+            'constraints': _generate_constraints(6)
+        },
+        '2x3': {
+            'form': PFR_MC + '* @0 * (1+@1*x + @5 *x * x) * (1+@2*y + @3*y*y + @4*y*y*y)',
+            'constraints': _generate_constraints(6)
+        },
+
+    }
     # Set up the workspace
     twoD = TwoDAlphabet(
         f'{name}_workspace',    # Name of the workspace directory
@@ -225,9 +282,10 @@ if __name__ == "__main__":
 
     if args.make:
         if args.mode == "1p1":
-            PFR_MC = "1.75e-6 * exp(0.0017 *(y * (5000 - 200) + 200) ) + 4.48e-4  "
-            PFR_MC = "7e-6 * exp(0.0017 * (y * (5 - 0.2) + 0.2)) + 1.792e-3  "
-            PFR_MC = "1.2957e-06 * exp(0.0018 * (y * (5 - 0.2) + 0.2)) + 9.4844e-04"
+            #PFR_MC = "1.75e-6 * exp(0.0017 *(y * (5000 - 200) + 200) ) + 4.48e-4  "
+            #PFR_MC = "7e-6 * exp(0.0017 * (y * (5 - 0.2) + 0.2)) + 1.792e-3  "
+            #PFR_MC = "1.2957e-06 * exp(0.0018 * (y * (5 - 0.2) + 0.2)) + 9.4844e-04"
+            PFR_MC = " 0.0005 "
         elif args.mode == "2p1":
             PFR_MC = " 0.0005 "
         fr = {"SignalMC_XHY4b_MX-XMASS_MY-YMASS":f"SignalMC_XHY4b_MX-{MX}_MY-{MY}"}

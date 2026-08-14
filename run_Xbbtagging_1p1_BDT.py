@@ -12,6 +12,7 @@ parser.add_argument('-y', type=str, dest='year',action='store', required=True)
 parser.add_argument('-n', type=int, dest='n_files',action='store', required=True)
 parser.add_argument('-i', type=int, dest='i_job',action='store', required=True)
 parser.add_argument('-s', type=str, dest='JME_syst',action='store', required=True)
+parser.add_argument('-r', type=str, dest='region',action='store', required=True)
 args = parser.parse_args()
 
 #cpp modules from Matej
@@ -29,7 +30,7 @@ columns = ["n.*", "TFlavor.*", "Tagger_.*", "MassHiggs.*", "idx.*", "gen_.*", ".
 for Reg in ["Signal"]:
 #Running selection
     ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job)
-    ana.selection_1p1_BDT(args.JME_syst, Reg)
+    ana.selection_1p1_BDT(args.JME_syst, Reg, massType = "regressedMass", do_tagger_corr = 0)
     #ana.trainer_preprosessing_1p1()
     #ana.trainer_preprosessing_1p1()
     #ana.eff_after_selection_1p1()

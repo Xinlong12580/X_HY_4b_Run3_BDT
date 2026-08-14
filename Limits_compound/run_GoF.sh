@@ -18,12 +18,12 @@
 bfit=0
 limits=0
 seed=42
-numtoys=100
+numtoys=2
 tol=0.1         # --cminDefaultMinimizerTolerance
 strat=0         # --cminDefaultMinimizerStrategy
 verbosity=3
 
-options=$(getopt -o "bl" --long "bfit,limits,seed:,numtoys:,fitdir:,fitdir;,strat:,verbosity:" -- "$@")
+options=$(getopt -o "bl" --long "bfit,limits,seed:,numtoys:,fitdir:,strat:,verbosity:" -- "$@")
 eval set -- "$options"
 
 while true; do
@@ -119,8 +119,8 @@ if [ $bfit = 1 ]; then
     rm $wsm
     (set -x; text2workspace.py $card -o $wsm)
     echo "Performing blinded background-only fit"
-    (set -x; combine -D data_obs -M GoodnessOfFit --algo saturated --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=400000 --setParameters "r=0" --freezeParameters "r" -n Snapshot --toysFrequentist -t 100 --saveToys)
-    (set -x; combine -D data_obs -M GoodnessOfFit --algo saturated --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=400000 --setParameters "r=0" --freezeParameters "r" -n Snapshot)
+    (set -x; combine -D data_obs -M GoodnessOfFit --algo saturated --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=400000 --setParameters "r=0" --freezeParameters "r" -n Snapshot --toysFrequentist -s $seed -t $numtoys --saveToys --fixedSignalStrength=0 )
+    (set -x; combine -D data_obs -M GoodnessOfFit --algo saturated --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=400000 --setParameters "r=0" --freezeParameters "r" -n Snapshot --fixedSignalStrength=0 )
     #(set -x; combine -D data_obs -M GoodnessOfFit --algo saturated --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=400000 --setParameters "r=0" --freezeParameters "r" -n Snapshot -t 2 --saveToys)
     #(set -x; combine -D data_obs -M GoodnessOfFit --algo saturated --saveWorkspace -m 125 -d $wsm -v $verbosity --cminDefaultMinimizerStrategy $strat --cminDefaultMinimizerTolerance $tol --X-rtd MINIMIZER_MaxCalls=400000 $parameters --freezeParameters "r" -n Snapshot -t 2 --saveToys --toysFrequentist)
 

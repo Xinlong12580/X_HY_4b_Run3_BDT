@@ -41,7 +41,7 @@ ns = []
 for subdir in subdirs:
     files = os.listdir(subdir)
     for f in files:
-        if "GoodnessOfFit" in f and ".root" in f and "123456" not in f:
+        if "GoodnessOfFit" in f and "mH125.root" in f and "123456" not in f:
             fs.append(subdir + f)
         elif f == "card.txt":
             p = 0
@@ -58,14 +58,17 @@ for subdir in subdirs:
 print("Results: ", fs, ps, ns)
 if ns[0] == ns[1]:
     n = ns[0]
+else:
+    throw("error")
 ######################### calculating F and plotting ###################################
 F_obs =  FstatCalc(fs[0], fs[1], ps[0], ps[1], n)
 F_obs = F_obs[0]
 p_value = f_dist.sf(F_obs, ps[1] - ps[0], n - ps[1])
+print(args.tf1, args.tf2)
 print(F_obs, p_value)
 F_dist = f_dist(ps[1] - ps[0], n - ps[1] )
 
-xs = np.linspace(0, 15, 1500)
+xs = np.linspace(0, 25, 1500)
 ys = [F_dist.pdf(x) for x in xs]
 
 fig = plt.figure(figsize = (10, 6))

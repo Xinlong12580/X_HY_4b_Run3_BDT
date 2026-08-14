@@ -1,7 +1,9 @@
 mode=$1
 year=$2
+mx=$3
+my=$4
 #rm datasets/*root
-input_dir=/store/user/xinlong/XHY4bRun3_selection_"$mode"_BDT_allcuts
+input_dir=/store/user/xinlong/XHY4bRun3_selection_combined_BDT
 output_dir="./datasets/"
 eosmkdir -p "$output_dir"
 echo "TEST!"
@@ -10,9 +12,12 @@ prefix=$eosprefix$input_dir/
 declare -A classified_files
 declare -A classified_file_idxs
 for file in ${files[@]}; do
-    if [[ $file == *"Template"* || $file != *"$year"_* || $file != *"nom"* ]]; then
+    if [[ $file == *"Template"* || $file != *"$year"_* || $file != *"nom"* || $file == *"Data"* ||  $file == *"TTBar"* ]]; then
         continue
     fi
+    if [[ $file == *Signal* && $file != *MX-*"$mx"_MY-"$my"* ]]; then
+        continue
+    fi 
     file_base="${file%%_n-*}"
     classified_files["$file_base"]="${classified_files["$file_base"]} $prefix$file"
     tmp="${file#*_i-}"
@@ -22,7 +27,7 @@ done
 
 for file_base in ${!classified_files[@]}; do
     echo $file_base
-    if [[ $file_base == *HT-100to* || $file_base == *HT-200to* || $file_base == *HT-400to* || $file_base == *HT-600to* ]]; then
+    if [[ $file_base == *HT-100to* || $file_base == *HT-200to* ]]; then
         continue
     fi
     _files=${classified_files[$file_base]}  ###############REMOVE EMPTY FILES AT THE BEGINNING, or hadd will create empty files

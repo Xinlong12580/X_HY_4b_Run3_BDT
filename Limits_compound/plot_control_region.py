@@ -11,6 +11,7 @@ ROOT.gROOT.SetBatch(True)
 from argparse import ArgumentParser
 parser=ArgumentParser()
 parser.add_argument('--mode', type=str, dest='mode',action='store', required=True)
+parser.add_argument('--Reg', type=str, dest='Reg',action='store', required=True)
 args = parser.parse_args()
 
 years = ["2022", "2022EE", "2023", "2023BPix", "2024"]
@@ -22,12 +23,8 @@ regions = ["SR1", "SB1"]
 
 MJY_bins = array.array("d", np.linspace(0, 1000, 11) )
 MJJ_bins = array.array("d", np.linspace(0, 3000, 21) )
-MJY_bins = array.array("d",[40, 100, 140,  200, 300,  600,  800 ,1000])
-#MJY_bins = array.array("d", [200,  300, 400, 500, 600, 700, 800, 900,1000, 1200, 1500, 2000, 3000, 4000, 5000])
-#MJY_bins = array.array("d", [200,  300, 400, 500, 600, 700, 800, 900,1000, 1200, 1500, 2000, 2500, 3000,  4000, 5000])
-#MJJ_bins = array.array("d", [300, 400, 500, 600, 700, 800,900,1000, 1200, 1500, 2000, 2500, 3000,  4000, 5000] )
-#MJY_bins = array.array("d", [200, 400,  600,  800, 1000, 1200, 1500, 2000, 2500, 3000,  4000, 5000])
-MJJ_bins = array.array("d", [300,  500,  700, 900, 1200, 1500, 2000, 2500, 3000,  4000, 5000] )
+MJY_bins = array.array("d", [0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.17, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.2, 1.4, 1.7, 2.0, 2.5, 3.0, 4.0])
+MJJ_bins = array.array("d", [0.2, 0.4, 0.6, 0.8,0.9,1.0, 1.1, 1.2, 1.3, 1.4, 1.7, 2.0, 2.3, 2.6, 3.0, 3.5, 4.0, 5.0] )
 #MJY_bins = array.array("d", np.linspace(0, 3000, 16) )
 #MJJ_bins = array.array("d", np.linspace(0, 5000, 26) )
 nbins_x = len(MJY_bins) - 1
@@ -39,8 +36,9 @@ h_base_projy = h_base.ProjectionY("MassJJ")
 x_edges = np.array(MJY_bins)
 y_edges = np.array(MJJ_bins)
 mode = args.mode
-f_name=f"Templates/Templates_{mode}_Control_all.root"
-save_dir = f"plots/prefit_{mode}"
+Reg = args.Reg
+f_name=f"Templates/Templates_{mode}_{Reg}_all.root"
+save_dir = f"plots/prefit_{Reg}_{mode}"
 #######################################################################################################################
 #--------------------------rebinning  and creating projection hists--------------------------------------------------------------------------------
 ######################################################################################################################
@@ -355,10 +353,12 @@ c.SaveAs(f"{save_dir}/MCQCD_SR1_y.png")
 c = ROOT.TCanvas()
 h_netQCD_rebinned_projy_merged_allyears_SB1.Draw("E")  
 c.Update()
-c.SaveAs(f"{save_dir}/MCQCD_SB1_y.png") 
+c.SaveAs(f"{save_dir}/MCQCD_SB1_y.png")
+ 
 c = ROOT.TCanvas()
 MCQCD_ratio_x_SR1_SB1.SetMarkerColor(ROOT.kRed)
 MCQCD_ratio_x_SR1_SB1.SetLineColor(ROOT.kRed)
+MCQCD_ratio_x_SR1_SB1.GetYaxis().SetRangeUser(-0.01, 0.01)
 MCQCD_ratio_x_SR1_SB1.Draw("E")  
 QCD_ratio_x_SR1_SB1.Draw("ESAME")  
 c.Update()
@@ -366,6 +366,7 @@ c.SaveAs(f"{save_dir}/MCQCD_ratio_SR1_SB1_x.png")
 c = ROOT.TCanvas()
 MCQCD_ratio_y_SR1_SB1.SetMarkerColor(ROOT.kRed)
 MCQCD_ratio_y_SR1_SB1.SetLineColor(ROOT.kRed)
+MCQCD_ratio_y_SR1_SB1.GetYaxis().SetRangeUser(-0.01, 0.01)
 MCQCD_ratio_y_SR1_SB1.Draw("E")  
 QCD_ratio_y_SR1_SB1.Draw("ESAME")  
 c.Update()

@@ -12,6 +12,7 @@ parser.add_argument('-y', type=str, dest='year',action='store', required=True)
 parser.add_argument('-n', type=int, dest='n_files',action='store', required=True)
 parser.add_argument('-i', type=int, dest='i_job',action='store', required=True)
 parser.add_argument('-s', type=str, dest='JME_syst',action='store', required=True)
+parser.add_argument('-r', type=str, dest='region',action='store', required=True)
 args = parser.parse_args()
 
 #cpp modules from Matej
@@ -24,12 +25,12 @@ CompileCpp("cpp_modules/selection_functions.cc")
 CompileCpp("cpp_modules/TaggerDiscretizer.cc")
 #Specifying columns to save
 columns = [".*matched.*", "Tagger_.*", "TFlavor.*", "MassHiggs.*", "idxJ.*", "MY", "MX", "leadingFatJetPt","leadingFatJetPhi","leadingFatJetEta", "leadingFatJetMsoftdrop", "PtJY0", "PtJY1", "EtaJY0", "EtaJY1", "PhiJY0", "PhiJY1", "MassJY0", "MassJY1", "MassJJH", "MassHiggsCandidate", "PtHiggsCandidate", "EtaHiggsCandidate", "PhiHiggsCandidate", "MassYCandidate", "MJJH", "MJY",  "Pileup_nTrueInt", "weight.*"]
-#columns = [ "MY", "MX", "leadingFatJetPt","leadingFatJetPhi","leadingFatJetEta", "leadingFatJetMsoftdrop", "PtJY0", "PtJY1", "EtaJY0", "EtaJY1", "PhiJY0", "PhiJY1", "MassJY0", "MassJY1", "MassJJH", "MassHiggsCandidate", "PtHiggsCandidate", "EtaHiggsCandidate", "PhiHiggsCandidate", "MassYCandidate", "MJJH", "MJY", "PNet_Y0", "PNet_Y1", "PNet_Ymin", "PNet_Y", "PNet_H", "Pileup_nTrueInt", "weight.*"]
 
+columns += [ "n.*", "Jet_eta", "Jet_pt_nom", "Jet_hadronFlavour", "Jet_tagger_discrete", "Tagger_.*", "TFlavor.*", "MassHiggs.*", "idxJ.*", "MY", "MX", "leadingFatJetPt","leadingFatJetPhi","leadingFatJetEta", "leadingFatJetMsoftdrop", "PtJY0", "PtJY1", "EtaJY0", "EtaJY1", "PhiJY0", "PhiJY1", "MassJY0", "MassJY1", "MassJJH", "MassHiggsCandidate", "PtHiggsCandidate", "EtaHiggsCandidate", "PhiHiggsCandidate", "MassYCandidate", "MJJH", "MJY",  "Pileup_nTrueInt", "weight.*"]
 #Running selection
 for Reg in ["Signal"]:
     ana = XHY4b_Analyzer(args.dataset, args.year, args.n_files, args.i_job)
-    ana.selection_2p1_BDT(args.JME_syst, Reg)
+    ana.selection_2p1_BDT(args.JME_syst, Reg, massType = "regressedMass",  do_tagger_corr = 0)
     #ana.trainer_preprosessing_2p1()
     #ana.trainer_preprosessing_2p1()
     #ana.eff_after_selection_2p1()

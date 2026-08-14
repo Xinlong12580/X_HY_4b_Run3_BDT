@@ -1,0 +1,1176 @@
+{
+    "NAME": "XYH_test",
+    "GLOBAL": {
+        "FILE": "Templates_Only2p1_Signal_all_rebinned.root",
+        "HIST": "rebinned_$process__$region__nominal",
+        "HIST_UP": "rebinned_$process__$region__$syst_up",
+        "HIST_DOWN": "rebinned_$process__$region__$syst_down",
+        "PATH_LOCAL": "./Templates",
+        "SIGNAME": [
+            "SignalMC_XHY4b_MX-XMASS_MY-YMASS"
+        ],
+        "COMMENT": "NOTE: I will be using the local rootfiles. I will also include the year in the process name, so that other years can be added easily later. The python script has a findreplace dictionary which will insert the XMASS and YMASS values in signame above to specify the correct signal. This is only relevant if you hvae multiple different signals in the SIGNAME list above, in which case multiple signals are added to the 2DA ledger and you can select which one to create a Combine card for."
+    },
+    "REGIONS": {
+        "SR_SR1_2p1": {
+            "PROCESSES": [
+                "data_obs",
+                "Allyears__SIGNAME",
+                "Allyears__MC_TTBarJets"
+            ],
+            "BINNING": "B_2p1"
+        },
+        "SR_SB1_2p1": {
+            "PROCESSES": [
+                "data_obs",
+                "Allyears__SIGNAME",
+                "Allyears__MC_TTBarJets"
+            ],
+            "BINNING": "B_2p1"
+        }
+    },
+    "PROCESSES": {
+        "data_obs": {
+            "SYSTEMATICS": [],
+            "SCALE": 1.0,
+            "COLOR": "black",
+            "TYPE": "DATA",
+            "ALIAS": "Allyears__JetMET",
+            "TITLE": "Data ",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "Allyears__SIGNAME": {
+            "SYSTEMATICS": [
+                "Y2022_lumi",
+                "Y2023_lumi",
+                "Y2024_lumi",
+                "Pdfweight",
+                "QCDScaleWeight",
+                "corr2p1_AK4_btagging_light_correlated",
+                "corr2p1_AK4_btagging_heavy_correlated",
+                "Y2022_corr2p1_TriggerSF_data",
+                "Y2022EE_corr2p1_TriggerSF_data",
+                "Y2023_corr2p1_TriggerSF_data",
+                "Y2023BPix_corr2p1_TriggerSF_data",
+                "Y2024_corr2p1_TriggerSF_data",
+                "Y2022_corr2p1_TriggerSF_MC",
+                "Y2022EE_corr2p1_TriggerSF_MC",
+                "Y2023_corr2p1_TriggerSF_MC",
+                "Y2023BPix_corr2p1_TriggerSF_MC",
+                "Y2024_corr2p1_TriggerSF_MC",
+                "Y2022_corr2p1_AK8_Xbbtagging",
+                "Y2022EE_corr2p1_AK8_Xbbtagging",
+                "Y2023_corr2p1_AK8_Xbbtagging",
+                "Y2023BPix_corr2p1_AK8_Xbbtagging",
+                "Y2024_corr2p1_AK8_Xbbtagging",
+                "Y2022_corr2p1_AK4_btagging_light_uncorrelated",
+                "Y2022EE_corr2p1_AK4_btagging_light_uncorrelated",
+                "Y2023_corr2p1_AK4_btagging_light_uncorrelated",
+                "Y2023BPix_corr2p1_AK4_btagging_light_uncorrelated",
+                "Y2024_corr2p1_AK4_btagging_light_uncorrelated",
+                "Y2022_corr2p1_AK4_btagging_heavy_uncorrelated",
+                "Y2022EE_corr2p1_AK4_btagging_heavy_uncorrelated",
+                "Y2023_corr2p1_AK4_btagging_heavy_uncorrelated",
+                "Y2023BPix_corr2p1_AK4_btagging_heavy_uncorrelated",
+                "Y2024_corr2p1_AK4_btagging_heavy_uncorrelated",
+                "Y2022_JES_",
+                "Y2022EE_JES_",
+                "Y2023_JES_",
+                "Y2023BPix_JES_",
+                "Y2024_JES_",
+                "Y2022_JER_",
+                "Y2022EE_JER_",
+                "Y2023_JER_",
+                "Y2023BPix_JER_",
+                "Y2024_JER_",
+                "Y2022_PileUp_Corr",
+                "Y2022EE_PileUp_Corr",
+                "Y2023_PileUp_Corr",
+                "Y2023BPix_PileUp_Corr",
+                "Y2024_PileUp_Corr"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "black",
+            "TYPE": "SIGNAL",
+            "TITLE": "NMSSM_XYH",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "Allyears__MC_TTBarJets": {
+            "SYSTEMATICS": [
+                "Y2022_lumi",
+                "Y2023_lumi",
+                "Y2024_lumi",
+                "Pdfweight",
+                "QCDScaleWeight",
+                "TTBar_Xsec",
+                "TopPtWeight",
+                "Y2022_corr2p1_TriggerSF_data",
+                "Y2022EE_corr2p1_TriggerSF_data",
+                "Y2023_corr2p1_TriggerSF_data",
+                "Y2023BPix_corr2p1_TriggerSF_data",
+                "Y2024_corr2p1_TriggerSF_data",
+                "Y2022_corr2p1_TriggerSF_MC",
+                "Y2022EE_corr2p1_TriggerSF_MC",
+                "Y2023_corr2p1_TriggerSF_MC",
+                "Y2023BPix_corr2p1_TriggerSF_MC",
+                "Y2024_corr2p1_TriggerSF_MC",
+                "Y2022_JES_",
+                "Y2022EE_JES_",
+                "Y2023_JES_",
+                "Y2023BPix_JES_",
+                "Y2024_JES_",
+                "Y2022_JER_",
+                "Y2022EE_JER_",
+                "Y2023_JER_",
+                "Y2023BPix_JER_",
+                "Y2024_JER_",
+                "Y2022_PileUp_Corr",
+                "Y2022EE_PileUp_Corr",
+                "Y2023_PileUp_Corr",
+                "Y2023BPix_PileUp_Corr",
+                "Y2024_PileUp_Corr",
+                "MCstat_SR_SR1_2P1_0_2",
+                "MCstat_SR_SR1_2P1_0_4",
+                "MCstat_SR_SR1_2P1_0_5",
+                "MCstat_SR_SR1_2P1_0_6",
+                "MCstat_SR_SR1_2P1_0_7",
+                "MCstat_SR_SR1_2P1_0_10",
+                "MCstat_SR_SR1_2P1_0_11",
+                "MCstat_SR_SR1_2P1_0_12",
+                "MCstat_SR_SR1_2P1_1_4",
+                "MCstat_SR_SR1_2P1_1_5",
+                "MCstat_SR_SR1_2P1_1_7",
+                "MCstat_SR_SR1_2P1_1_8",
+                "MCstat_SR_SR1_2P1_1_10",
+                "MCstat_SR_SR1_2P1_2_5",
+                "MCstat_SR_SR1_2P1_2_6",
+                "MCstat_SR_SR1_2P1_2_8",
+                "MCstat_SR_SR1_2P1_2_9",
+                "MCstat_SR_SR1_2P1_3_6",
+                "MCstat_SR_SR1_2P1_4_6",
+                "MCstat_SR_SR1_2P1_4_7",
+                "MCstat_SR_SR1_2P1_4_8",
+                "MCstat_SR_SR1_2P1_4_9",
+                "MCstat_SR_SR1_2P1_5_6",
+                "MCstat_SR_SR1_2P1_5_8",
+                "MCstat_SR_SR1_2P1_5_10",
+                "MCstat_SR_SR1_2P1_7_8",
+                "MCstat_SR_SB1_2P1_0_1",
+                "MCstat_SR_SB1_2P1_0_2",
+                "MCstat_SR_SB1_2P1_0_3",
+                "MCstat_SR_SB1_2P1_0_4",
+                "MCstat_SR_SB1_2P1_0_5",
+                "MCstat_SR_SB1_2P1_0_6",
+                "MCstat_SR_SB1_2P1_0_7",
+                "MCstat_SR_SB1_2P1_0_8",
+                "MCstat_SR_SB1_2P1_0_9",
+                "MCstat_SR_SB1_2P1_0_10",
+                "MCstat_SR_SB1_2P1_0_11",
+                "MCstat_SR_SB1_2P1_0_12",
+                "MCstat_SR_SB1_2P1_0_13",
+                "MCstat_SR_SB1_2P1_1_2",
+                "MCstat_SR_SB1_2P1_1_3",
+                "MCstat_SR_SB1_2P1_1_4",
+                "MCstat_SR_SB1_2P1_1_5",
+                "MCstat_SR_SB1_2P1_1_6",
+                "MCstat_SR_SB1_2P1_1_7",
+                "MCstat_SR_SB1_2P1_1_8",
+                "MCstat_SR_SB1_2P1_1_9",
+                "MCstat_SR_SB1_2P1_1_10",
+                "MCstat_SR_SB1_2P1_1_11",
+                "MCstat_SR_SB1_2P1_1_12",
+                "MCstat_SR_SB1_2P1_1_13",
+                "MCstat_SR_SB1_2P1_2_4",
+                "MCstat_SR_SB1_2P1_2_5",
+                "MCstat_SR_SB1_2P1_2_6",
+                "MCstat_SR_SB1_2P1_2_7",
+                "MCstat_SR_SB1_2P1_2_8",
+                "MCstat_SR_SB1_2P1_2_9",
+                "MCstat_SR_SB1_2P1_2_10",
+                "MCstat_SR_SB1_2P1_2_11",
+                "MCstat_SR_SB1_2P1_2_12",
+                "MCstat_SR_SB1_2P1_2_13",
+                "MCstat_SR_SB1_2P1_3_5",
+                "MCstat_SR_SB1_2P1_3_6",
+                "MCstat_SR_SB1_2P1_3_7",
+                "MCstat_SR_SB1_2P1_3_8",
+                "MCstat_SR_SB1_2P1_3_9",
+                "MCstat_SR_SB1_2P1_3_10",
+                "MCstat_SR_SB1_2P1_3_11",
+                "MCstat_SR_SB1_2P1_3_12",
+                "MCstat_SR_SB1_2P1_3_13",
+                "MCstat_SR_SB1_2P1_4_5",
+                "MCstat_SR_SB1_2P1_4_6",
+                "MCstat_SR_SB1_2P1_4_7",
+                "MCstat_SR_SB1_2P1_4_8",
+                "MCstat_SR_SB1_2P1_4_9",
+                "MCstat_SR_SB1_2P1_4_10",
+                "MCstat_SR_SB1_2P1_4_11",
+                "MCstat_SR_SB1_2P1_4_12",
+                "MCstat_SR_SB1_2P1_4_13",
+                "MCstat_SR_SB1_2P1_5_6",
+                "MCstat_SR_SB1_2P1_5_7",
+                "MCstat_SR_SB1_2P1_5_8",
+                "MCstat_SR_SB1_2P1_5_9",
+                "MCstat_SR_SB1_2P1_5_10",
+                "MCstat_SR_SB1_2P1_5_11",
+                "MCstat_SR_SB1_2P1_5_12",
+                "MCstat_SR_SB1_2P1_5_13",
+                "MCstat_SR_SB1_2P1_6_6",
+                "MCstat_SR_SB1_2P1_6_7",
+                "MCstat_SR_SB1_2P1_6_8",
+                "MCstat_SR_SB1_2P1_6_9",
+                "MCstat_SR_SB1_2P1_6_10",
+                "MCstat_SR_SB1_2P1_6_11",
+                "MCstat_SR_SB1_2P1_6_12",
+                "MCstat_SR_SB1_2P1_6_13",
+                "MCstat_SR_SB1_2P1_7_7",
+                "MCstat_SR_SB1_2P1_7_8",
+                "MCstat_SR_SB1_2P1_7_9",
+                "MCstat_SR_SB1_2P1_7_10",
+                "MCstat_SR_SB1_2P1_7_11",
+                "MCstat_SR_SB1_2P1_7_12",
+                "MCstat_SR_SB1_2P1_7_13",
+                "MCstat_SR_SB1_2P1_8_8",
+                "MCstat_SR_SB1_2P1_8_9",
+                "MCstat_SR_SB1_2P1_8_10",
+                "MCstat_SR_SB1_2P1_8_11",
+                "MCstat_SR_SB1_2P1_8_12",
+                "MCstat_SR_SB1_2P1_8_13",
+                "MCstat_SR_SB1_2P1_9_9",
+                "MCstat_SR_SB1_2P1_9_10",
+                "MCstat_SR_SB1_2P1_9_11",
+                "MCstat_SR_SB1_2P1_9_12",
+                "MCstat_SR_SB1_2P1_9_13",
+                "MCstat_SR_SB1_2P1_10_10",
+                "MCstat_SR_SB1_2P1_10_11",
+                "MCstat_SR_SB1_2P1_10_12",
+                "MCstat_SR_SB1_2P1_10_13",
+                "MCstat_SR_SB1_2P1_11_11",
+                "MCstat_SR_SB1_2P1_11_12",
+                "MCstat_SR_SB1_2P1_11_13",
+                "MCstat_SR_SB1_2P1_12_12",
+                "MCstat_SR_SB1_2P1_12_13"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "red",
+            "TYPE": "BKG",
+            "TITLE": "t#bar{t}",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        }
+    },
+    "SYSTEMATICS": {
+        "Y2022_lumi": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_lumi": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_lumi": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "TTBar_Xsec": {
+            "VALUP": 1.0348,
+            "VALDOWN": 1.0438,
+            "CODE": 0
+        },
+        "TopPtWeight": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Pdfweight": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "QCDScaleWeight": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "corr2p1_AK4_btagging_light_correlated": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "corr2p1_AK4_btagging_heavy_correlated": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022_corr2p1_AK4_btagging_light_uncorrelated": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_corr2p1_AK4_btagging_light_uncorrelated": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_corr2p1_AK4_btagging_light_uncorrelated": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_corr2p1_AK4_btagging_light_uncorrelated": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_corr2p1_AK4_btagging_light_uncorrelated": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022_corr2p1_AK4_btagging_heavy_uncorrelated": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_corr2p1_AK4_btagging_heavy_uncorrelated": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_corr2p1_AK4_btagging_heavy_uncorrelated": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_corr2p1_AK4_btagging_heavy_uncorrelated": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_corr2p1_AK4_btagging_heavy_uncorrelated": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022_corr2p1_TriggerSF_data": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_corr2p1_TriggerSF_data": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_corr2p1_TriggerSF_data": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_corr2p1_TriggerSF_data": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_corr2p1_TriggerSF_data": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022_corr2p1_TriggerSF_MC": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_corr2p1_TriggerSF_MC": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_corr2p1_TriggerSF_MC": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_corr2p1_TriggerSF_MC": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_corr2p1_TriggerSF_MC": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022_corr2p1_AK8_Xbbtagging": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_corr2p1_AK8_Xbbtagging": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_corr2p1_AK8_Xbbtagging": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_corr2p1_AK8_Xbbtagging": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_corr2p1_AK8_Xbbtagging": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_JES_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_JER_": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2022EE_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023BPix_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2024_PileUp_Corr": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_0_2": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_0_4": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_0_5": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_0_6": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_0_7": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_0_10": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_0_11": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_0_12": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_1_4": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_1_5": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_1_7": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_1_8": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_1_10": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_2_5": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_2_6": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_2_8": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_2_9": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_3_6": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_4_6": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_4_7": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_4_8": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_4_9": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_5_6": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_5_8": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_5_10": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SR1_2P1_7_8": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_0_1": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_0_2": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_0_3": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_0_4": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_0_5": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_0_6": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_0_7": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_0_8": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_0_9": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_0_10": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_0_11": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_0_12": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_0_13": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_1_2": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_1_3": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_1_4": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_1_5": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_1_6": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_1_7": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_1_8": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_1_9": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_1_10": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_1_11": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_1_12": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_1_13": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_2_4": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_2_5": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_2_6": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_2_7": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_2_8": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_2_9": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_2_10": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_2_11": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_2_12": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_2_13": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_3_5": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_3_6": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_3_7": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_3_8": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_3_9": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_3_10": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_3_11": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_3_12": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_3_13": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_4_5": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_4_6": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_4_7": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_4_8": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_4_9": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_4_10": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_4_11": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_4_12": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_4_13": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_5_6": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_5_7": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_5_8": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_5_9": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_5_10": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_5_11": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_5_12": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_5_13": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_6_6": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_6_7": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_6_8": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_6_9": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_6_10": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_6_11": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_6_12": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_6_13": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_7_7": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_7_8": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_7_9": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_7_10": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_7_11": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_7_12": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_7_13": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_8_8": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_8_9": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_8_10": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_8_11": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_8_12": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_8_13": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_9_9": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_9_10": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_9_11": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_9_12": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_9_13": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_10_10": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_10_11": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_10_12": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_10_13": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_11_11": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_11_12": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_11_13": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_12_12": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "MCstat_SR_SB1_2P1_12_13": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        }
+    },
+    "BINNING": {
+        "B_2p1": {
+            "X": {
+                "NAME": "M_JY",
+                "TITLE": "M_{J}^{Y}",
+                "BINS": [
+                    0.3,
+                    0.4,
+                    0.5,
+                    0.6,
+                    0.7,
+                    0.8,
+                    0.9,
+                    1.0,
+                    1.2,
+                    1.5,
+                    2.0,
+                    2.5,
+                    3.0,
+                    4.0
+                ],
+                "SIGBSTART": 300,
+                "SIGBEND": 400
+            },
+            "Y": {
+                "NAME": "M_JJ",
+                "TITLE": "M_{JJ}",
+                "BINS": [
+                    0.3,
+                    0.4,
+                    0.5,
+                    0.6,
+                    0.7,
+                    0.8,
+                    1.0,
+                    1.2,
+                    1.4,
+                    1.7,
+                    2.0,
+                    2.5,
+                    3.0,
+                    4.0,
+                    5.0
+                ]
+            }
+        }
+    },
+    "OPTIONS": {
+        "blindedPlots": [],
+        "blindedFit": [],
+        "plotPrefitSigInFitB": false,
+        "plotUncerts": false,
+        "plotEvtsPerUnit": false,
+        "plotTitles": false,
+        "plotTemplateComparisons": false,
+        "year": 2
+    }
+}
