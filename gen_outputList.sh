@@ -42,6 +42,7 @@ classify_files(){
 #classify_files "/store/user/$USER/XHY4bRun3_selection_without_trigger_1p1" "SELECTION_WT_1P1" 
 #classify_files "/store/user/$USER/XHY4bRun3_selection_without_trigger_2p1" "SELECTION_WT_2P1" 
 classify_files "/store/user/$USER/XHY4bRun3_selection_combined_BDT" "SELECTION_COMBINED_BDT" 
+#classify_files "/store/user/$USER/XHY4bRun3_selection_combined_BDT_withoutTriggerSF" "SELECTION_COMBINED_BDT_WOTSF" 
 
 
 
@@ -157,4 +158,9 @@ rm outputList/*tmp*
 file_dir=/store/user/$USER/XHY4bRun3_trigger_2p1_BDT_regressedMass/
 eosls $file_dir > outputList/output_tmp.txt
 sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_tmp.txt > outputList/output_trigger_2p1_BDT_regressed.txt
+rm outputList/*tmp*
+
+file_dir=/store/user/$USER/XHY4bRun3_more_TH1/
+eosls $file_dir > outputList/output_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_tmp.txt > outputList/output_more_TH1.txt
 rm outputList/*tmp*

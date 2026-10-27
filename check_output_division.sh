@@ -36,7 +36,7 @@ if [[ $output == "division_"*"_BDT" ]]; then
         found=0
         for file in ${classified_files["$input_y"]}; do
             #echo $file
-            if [[ $file != *"Templates"* && $file == *"$file_base"* && $file == *"$n_base"* && $file == *"$i_base"* ]]; then
+            if [[ $file != *"Templates"* && $file == *"$file_base"* && $file == *"_n-${input_n}_i-${input_i}.root" ]]; then
                 #echo $file_base $file $n_base $i_base $JME_base $Reg_base
               
                 found=1

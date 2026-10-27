@@ -35,7 +35,7 @@ if [[ $output == "skim" ]]; then
         i_base="i-"$input_i
         found=0
         for file in ${classified_files["$input_y"]}; do
-            if [[ $file == *"$file_base"* && $file == *"$n_base"* && $file == *"$i_base"* ]]; then
+            if [[ $file == *"$file_base"* && $file == *"_n-${input_n}_i-${input_i}.root"* ]]; then
                 found=1
                 classified_files["$input_y"]="${classified_files[$input_y]//$file/}"
                 break

@@ -17,9 +17,9 @@ fi
 debug=0
 for file in $files; do
     if [[ ( $operation == *"selection"* || $operation == *"Nminus1"* ) && ( $file == *"QCD"* ||  $file == *"Data"* ) ]] ; then
-        n_files=4
+        n_files=6
     elif [[ ( $operation == *"selection"* || $operation == *"Nminus1"* ) && ( $file == *"TTBar"* || $file == *"WZ"* ) ]] ; then
-        n_files=4
+        n_files=6
     else
         n_files=$n_files_base
     fi
@@ -29,7 +29,7 @@ for file in $files; do
     if [[  ( $operation == *"skim"* ) && ( $file != *"24"* ) && ( $file == *"QCD"* || $file == *"Signal"* ) ]] ; then
         n_files=10
     fi 
-        
+    n_files=10000 
     pass=0
     #if [[ "$file" == *"SignalMC"* ]]; then
     #    pass=1
@@ -69,12 +69,16 @@ for file in $files; do
     #if [[  (  $file != *"Data"* && $file == *"2022EE"*  ) ]]; then
     #if [[  (  $file == *"2024"* && $file == *"125"*  ) ]]; then
     #if [[  (  $file == *"2024"*"SignalMC"*"125"*  ) ]]; then
-    if [[  ( $file != *"Data"* ) ]]; then
+    #if [[  ( $file == *"Data"* ) || ( $file == *"TT"* ) ]]; then
+    #if [[  ( $file == *"Data"* ) && ( $file == *"24"* ) ]]; then
+    #if [[  ( $file == *"QCD"* || $file == *"Data"* || $file == *"TT"* ) && $file == *24* ]]; then
+    #if [[  ( $file == *"TT"* ) || $file == *Muon* ]]; then
+    #if [[  ( $file == *"TT"* )  ]]; then
     #if [[  (  $file == *"QCD"* && $file != *"HT-100to"*   ) ]]; then
+    #if [[  (  $file == *"SignalMC"* && $file == *"2024"*   ) ]]; then
+    if [[    $file != *"Muon"*  && ! ( $file == *"2023_"* && $file == *"MC"* && $file != *"menu"* )  ]]; then
         pass=1
     fi
-    pass=1
-    #debug=1
     if [[ $operation == *"selection"* && $pass == 1 ]]; then
         Regs=("-r Signal" "-r Control" "-r Validation")
         #Regs=("-r Signal")
@@ -85,7 +89,7 @@ for file in $files; do
         JMEs=("-s nom")
         JMEs=("-s nom -v nom" "-s nom -v JMS__up" "-s nom -v JMS__down" "-s nom -v JMR__up" "-s nom -v JMR__down")
         if [[ $debug == 1 ]]; then
-            JMEs=("-s nom")
+            JMEs=("-s nom -v nom")
         fi
         extras=()
         for Reg in "${Regs[@]}"; do
@@ -94,6 +98,11 @@ for file in $files; do
             done
         done
         for extra in "${extras[@]}"; do
+            if [[ $file == *"Data"* || $file == *"QCD"* || $file == *"DiBoson"* || $file == *"SingleTop"* || $file == *"Higgs"* ]]; then
+                if [[ $extra != *'-s nom -v nom'* ]]; then
+                    continue
+                fi
+            fi
             echo $extra
             if [[ $pass == 1 ]] ; then
                 if [[ "$file" == *"2022__"* ]]; then
@@ -107,9 +116,6 @@ for file in $files; do
                 elif [[ "$file" == *"2024"* ]]; then
                     ./gen_args.sh $file 2024 $output $n_files "$extra"
                 fi
-            fi
-            if [[ $file == *"Data"* || $file == *"QCD"* || $file == *"DiBoson"* || $file == *"SingleTop"* || $file == *"Higgs"* ]]; then
-                break
             fi
         done
     else

@@ -36,7 +36,8 @@ if [[ $output == "selection_"*"_BDT" ]]; then
         input_n=$(echo "$line" | awk '{print $6}')
         input_i=$(echo "$line" | awk '{print $8}')
         JME_base=$(echo "$line" | awk '{print $10}')
-        Reg_base=$(echo "$line" | awk '{print $12}')
+        JMC_base=$(echo "$line" | awk '{print $12}')
+        Reg_base=$(echo "$line" | awk '{print $14}')
         #echo $Reg_base
         Reg_base=Reg"${Reg_base:0:3}"
         n_base="n-"$input_n
@@ -45,7 +46,8 @@ if [[ $output == "selection_"*"_BDT" ]]; then
         for file in ${classified_files["$input_y"]}; do
             
             #echo $file
-            if [[ $file != *"Templates"* && $file == *"$file_base"* && $file == *"$n_base"* && $file == *"$i_base"* && $file == *"$JME_base"* && $file == $Reg_base* ]]; then
+            #if [[ $file != *"Templates"* && $file == *"$file_base"* && $file == *"$n_base"* && $file == *"$i_base"* && $file == *"$JME_base"* && $file == $Reg_base* && *$file == $JMC_base* ]]; then
+            if [[ $file != *"Templates"* && $file == *"$file_base"* && $file == *"_n-${input_n}_i-${input_i}.root"  && $file == $Reg_base* && $file == *$JMC_base* ]]; then
                 #echo $file_base $file $n_base $i_base $JME_base $Reg_base
               
                 #echo $file
@@ -56,7 +58,7 @@ if [[ $output == "selection_"*"_BDT" ]]; then
         done
 
         if [[ $found == 0 ]] ; then
-            echo $file_base $n_base $i_base $JME_base $Reg_base
+            echo $file_base $n_base $i_base $JME_base $JMC_base $Reg_base 
             echo Missing $line
             echo $line >> $amend_file
         fi

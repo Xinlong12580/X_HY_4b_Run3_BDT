@@ -53,6 +53,10 @@ if [[ $work == selection_combined_BDT ]] ; then
     sed -e 's/PYTHON_SCRIPT/run_selection_combined_BDT.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_selection_combined_BDT/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
     python CondorHelper.py -r gridrun.sh -a selection_args.txt -i "cpp_modules run_selection_combined_BDT.py XHY4b_Analyzer.py raw_nano outputList"
 fi
+if [[ $work == selection_combined_BDT_withoutTriggerSF ]] ; then
+    sed -e 's/PYTHON_SCRIPT/run_selection_combined_BDT.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_selection_combined_BDT_withoutTriggerSF/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
+    python CondorHelper.py -r gridrun.sh -a selection_args.txt -i "cpp_modules run_selection_combined_BDT.py XHY4b_Analyzer.py raw_nano outputList"
+fi
 
 if [[ $work == selection_combined_BDT_debug ]] ; then
     sed -e 's/PYTHON_SCRIPT/run_selection_combined_BDT_debug.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_selection_combined_BDT_debug/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
@@ -63,8 +67,16 @@ if [[ $work == division_combined_BDT ]] ; then
     python CondorHelper.py -r gridrun.sh -a division_combined_BDT_args.txt -i "cpp_modules run_division_combined_BDT.py XHY4b_Analyzer.py raw_nano outputList"
 fi
 if [[ $work == division_combined_BDT_fast ]] ; then
-    sed -e 's/PYTHON_SCRIPT/run_division_combined_BDT_fast.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_division_combined_BDT/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
+    sed -e 's/PYTHON_SCRIPT/run_division_combined_BDT_fast.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_division_combined_BDT_new/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
     python CondorHelper.py -r gridrun.sh -a division_combined_BDT_args.txt -i "cpp_modules run_division_combined_BDT_fast.py XHY4b_Analyzer.py raw_nano outputList"
+fi
+if [[ $work == division_combined_BDT_fast_withoutTriggerSF ]] ; then
+    sed -e 's/PYTHON_SCRIPT/run_division_combined_BDT_fast.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_division_combined_BDT_withoutTriggerSF/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
+    python CondorHelper.py -r gridrun.sh -a division_combined_BDT_args.txt -i "cpp_modules run_division_combined_BDT_fast.py XHY4b_Analyzer.py raw_nano outputList"
+fi
+if [[ $work == more_TH1 ]] ; then
+    sed -e 's/PYTHON_SCRIPT/run_more_TH1.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_more_TH1/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
+    python CondorHelper.py -r gridrun.sh -a division_combined_BDT_args.txt -i "cpp_modules run_more_TH1.py XHY4b_Analyzer.py raw_nano outputList"
 fi
 
 if [[ $work == direct_selection ]] ; then
@@ -120,6 +132,10 @@ fi
 if [[ $work == trigger_2p1_BDT ]] ; then
     sed -e 's/PYTHON_SCRIPT/run_trigger_2p1_BDT.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_trigger_2p1_BDT_regressedMass/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
     python CondorHelper.py -r gridrun.sh -a selection_args.txt -i "cpp_modules run_trigger_2p1_BDT.py XHY4b_Analyzer.py raw_nano outputList"
+fi
+if [[ $work == triggerless_2p1_BDT ]] ; then
+    sed -e 's/PYTHON_SCRIPT/run_triggerless_2p1_BDT.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_trigger_2p1_BDT_regressedMass/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
+    python CondorHelper.py -r gridrun.sh -a selection_args.txt -i "cpp_modules run_triggerless_2p1_BDT.py XHY4b_Analyzer.py raw_nano outputList"
 fi
 if [[ $work == btagging_2p1_BDT ]] ; then
     sed -e 's/PYTHON_SCRIPT/run_btagging_2p1_BDT.py/g' -e 's#OUTPUT_DIR#root://cmseos.fnal.gov//store/user/USER_NAME/XHY4bRun3_btagging_2p1_BDT/#g' -e "s/USER_NAME/$USER/g" gridrun_template.sh > gridrun.sh
