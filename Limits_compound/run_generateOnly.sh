@@ -129,8 +129,8 @@ if [ $limits = 1 ]; then
     cd $fitDir
     rm $wsm
     (set -x; text2workspace.py $card --channel-masks -o $wsm)
-    #(set -x; combine -M GenerateOnly -d $wsm -m 125  -v $verbosity $parameters --saveWorkspace --saveToys --bypassFrequentistFit --toysFrequentist --expectSignal $r -n Asimov_r_$r -t -1  )
-    (set -x; combine -M GenerateOnly -d $wsm -m 125  -v $verbosity $parameters --saveWorkspace --saveToys --bypassFrequentistFit --toysFrequentist --expectSignal $r -n r_$r -t $numtoys -s $seed  )
+    (set -x; combine -M GenerateOnly -d $wsm -m 125 -v $verbosity $parameters --saveWorkspace --saveToys --toysNoSystematics  --expectSignal $r -n Asimov_r_$r -t -1 -s $seed )
+    (set -x; combine -M GenerateOnly -d $wsm -m 125 -v $verbosity $parameters --saveWorkspace --saveToys --toysFrequentist --bypassFrequentistFit  --expectSignal $r -n r_$r -t $numtoys -s $seed )
     printf "cd $cwd \n"
     cd $cwd
 fi

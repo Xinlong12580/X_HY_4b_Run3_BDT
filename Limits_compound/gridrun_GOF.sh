@@ -49,6 +49,8 @@ echo 'python3 -m venv twoD-env' | tee -a $root_dir/$OUTTXT
 python3 -m venv twoD-env
 echo 'source twoD-env/bin/activate' | tee -a $root_dir/$OUTTXT
 source twoD-env/bin/activate
+export PYTHONPATH="$CMSSW_BASE/src/2DAlphabet${PYTHONPATH:+:$PYTHONPATH}"
+python -c 'import TwoDAlphabet; print(TwoDAlphabet.__file__)' | tee -a $root_dir/$OUTTXT
 ls twoD-env | tee -a $root_dir/$OUTTXT
 echo "$(which python3)" | tee -a $root_dir/$OUTTXT
 echo $VIRTUAL_ENV is the virtual env | tee -a $root_dir/$OUTTXT

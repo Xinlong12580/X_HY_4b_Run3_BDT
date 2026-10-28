@@ -26,10 +26,11 @@ hist_pull.GetXaxis().SetTitle("Pull = (r_{truth}-r_{fit})/#sigma_{fit}")
 hist_pull.GetYaxis().SetTitle("Entries")
 
 
-
+N_neg  =0
+N_pos = 0
 for SI in SIs:
     SI=SI.strip()
-    if f_string not in SI or "123456" in SI or f"r_{int(r_truth)}." not in SI:
+    if f_string not in SI or "123456" in SI or f"r_{int(r_truth)}." not in SI or "MultiDimFit" not in SI:
         continue
     print(f_string)
     print(SI)
@@ -37,7 +38,7 @@ for SI in SIs:
     f = ROOT.TFile.Open(SI)
     t = f.Get("limit")
 
-    N_toys = int(t.GetEntries() / 3) - 1
+    N_toys = int(t.GetEntries() / 3) 
 
     sigma_values = np.array([])
 
@@ -45,22 +46,28 @@ for SI in SIs:
         # Best-fit value
         t.GetEntry(i_toy * 3)
         r_fit = getattr(t, "r")
-
+                
         # -1 sigma value
         t.GetEntry(i_toy * 3 + 1)
         r_lo = getattr(t, "r")
-
+        
         # +1 sigma value
         t.GetEntry(i_toy * 3 + 2)
         r_hi = getattr(t, "r")
         
-        if r_hi > 15 or r_lo < -15:
-            continue
+        print(r_fit, r_lo, r_hi)
         diff = r_truth - r_fit
+
+        if diff > 0: 
+            N_pos +=1 
+        else: N_neg+=1
         # Use uncertainty depending on where mu_truth is relative to mu_fit
         if diff > 0:
+            if r_hi > 4.9: continue
             sigma = abs(r_hi - r_fit)
+
         else:
+            if r_lo < -1.9: continue
             sigma = abs(r_lo - r_fit)
 
         if sigma != 0:
@@ -70,7 +77,7 @@ for SI in SIs:
 
         if sigma != 0:
             hist_pull.Fill(diff / sigma)
-
+print(r_truth, N_pos, N_neg)
 canv = ROOT.TCanvas()
 hist_pull.Draw()
 

@@ -7,4 +7,10 @@ for template in $templates; do
     fi
     echo $template
     python hist_preprosessing.py -f $template --mx $mx --my $my
+    python hist_rebinning.py -f $template --mx $mx --my $my --year Allyears --recreate
+    python hist_rebinning.py -f $template --mx $mx --my $my --year 2022
+    python hist_rebinning.py -f $template --mx $mx --my $my --year 2022EE
+    python hist_rebinning.py -f $template --mx $mx --my $my --year 2023
+    python hist_rebinning.py -f $template --mx $mx --my $my --year 2023BPix
+    python hist_rebinning.py -f $template --mx $mx --my $my --year 2024
 done

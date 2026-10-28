@@ -24,7 +24,7 @@ strat=0         # --cminDefaultMinimizerStrategy
 verbosity=3
 
 #options=$(getopt -o "blvn" --long "bfit,limits,seed:,numtoys:,fitdir:,strat:,verbosity:" -- "$@")
-options=$(getopt -o "bl" --long "bfit,limits,seed:,numtoys:,fitdir:,fitdir;,strat:,verbosity:" -- "$@")
+options=$(getopt -o "blv:" --long "bfit,limits,seed:,numtoys:,fitdir:,strat:,verbosity:" -- "$@")
 eval set -- "$options"
 
 while true; do

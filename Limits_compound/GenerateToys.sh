@@ -8,8 +8,8 @@
 #./run_generateOnly.sh --fitdir $fitdir -b  --paras para_SI.txt -l --numtoys 1000 -r 3
 fitdir=$1
 seed=$2
-numtoys=20
+numtoys=1
 echo ./run_generateOnly.sh --fitdir $fitdir -b  --paras para_SI.txt -l --numtoys $numtoys -r 0 --seed $seed     
-root 'load_parameters.C("'$fitdir'/higgsCombine.AsymptoticLimits.mH125.123456.root","para_SI.txt")' -b -q
+root 'load_parameters.C("'$fitdir'/higgsCombine.AsymptoticLimits.mH125.123456.root","para_SI.txt","clean")' -b -q
 ./run_generateOnly.sh --fitdir $fitdir -b  --paras para_SI.txt -l --numtoys $numtoys -r 0 --seed $seed
 ./run_generateOnly.sh --fitdir $fitdir -b  --paras para_SI.txt -l --numtoys $numtoys -r 1 --seed $seed

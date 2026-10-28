@@ -102,7 +102,7 @@ wsm="workspace_masked.root" # Workspace with channel masks
 echo $para1 $para2
 parameters="--setParameters "
 IFS=';' read -ra _paras <<< "$paras"
-
+frozenParameters=""
 for para in "${_paras[@]}"; do
     echo $para
     while IFS= read -r line; do
@@ -110,19 +110,57 @@ for para in "${_paras[@]}"; do
             echo 1
             read var_name var_value <<< "$line"
             parameters=$parameters"$var_name=$var_value,"
-            #if [[ $line == *"QCD_Rc_SR"* ]]; then
-            #    parameters=$parameters"$var_name=$var_value,"
-            #else
-            #    parameters=$parameters"$var_name=1,"
-            #fi
         fi
+        #if [[ $line !=  "r "* ]]; then
+        #    echo 1
+        #    read var_name var_value <<< "$line"
+        #    frozenParameters=$frozenParameters",$var_name"
+        #fi
+    read -r var_name var_value _ <<< "$line"
+
+        # Ignore empty/malformed lines.
+        [[ -z "$var_name" ]] && continue
+
+        case "$var_name" in
+            r)
+                # POI: leave floating.
+                ;;
+
+            M_JY_*|M_JJ_*)
+                #Likelihood observables: never freeze.
+                ;;
+
+            *_In)
+                # Global observables: do not pass to --freezeParameters.
+                ;;
+
+            n_exp_bin_*)
+                # Derived expected-yield variables: do not freeze.
+                ;;
+            
+            *lumi*)
+                # Derived expected-yield variables: do not freeze.
+                ;;
+
+            mask_*)
+                # Channel-mask controls: leave at their workspace configuration.
+                ;;
+
+            *)
+                # Genuine nuisances and unconstrained QCD/rate parameters.
+                frozenParameters+=",${var_name}"
+                ;;
+        esac
+        
     done < $para
 done
 
 parameters="$parameters"r"="$r
 parameters="${parameters//VR/SR}"
 
+frozenParameters="${frozenParameters#,}"
 echo $parameters
+echo $frozenParameters
 card=card.txt
 wsm=card.root
 if [ $limits = 1 ]; then 
@@ -130,9 +168,8 @@ if [ $limits = 1 ]; then
     cd $fitDir
     rm $wsm
     (set -x; text2workspace.py $card --channel-masks -o $wsm)
-    #(set -x; combine -M FitDiagnostics -d $wsm -D higgsCombiner_"$r".GenerateOnly.mH125.$seed.root:toys/toy_1 -m 125 -n "r_$r" -v $verbosity $parameters --saveWorkspace --rMin "-20" --rMax 20 --bypassFrequentistFit -s $seed  --floatParameters r   --justFit --toysFrequentist --cminDefaultMinimizerTolerance $tol --trackErrors r --trackParameters r --skipBOnly  )
-    #echo combine -M MultiDimFit -d $wsm -t 2 -n "r_$r" --toysFile higgsCombine"r_$r".GenerateOnly.mH125.$seed.root --algo singles --toysFrequentist --rMin -20 --rMax 20 -s $seed -m 125 -v 3
-    combine -M MultiDimFit -d $wsm -t 20 -n "r_$r" --toysFile higgsCombine"r_$r".GenerateOnly.mH125.$seed.root --algo singles --toysFrequentist --rMin -10 --rMax 10 -s $seed -m 125 --X-rtd MINIMIZER_MaxCalls=40000000000 $parameters -v $verbosity --robustFit 1  --cminPoiOnlyFit --cminPreScan 
+    #combine -M MultiDimFit -d $wsm  -n "r_$r" --toysFile higgsCombine"r_$r".GenerateOnly.mH125.$seed.root --algo singles --toysNoSystematics --rMin -5 --rMax 5 -s $seed -m 125 --X-rtd MINIMIZER_MaxCalls=40000000000 $parameters --freezeParameters $frozenParameters -v $verbosity --robustFit 1  --cminPoiOnlyFit --cminPreScan -t 20 --saveWorkspace 
+    combine -M MultiDimFit -d $wsm  -n "r_$r" --toysFile higgsCombine"r_$r".GenerateOnly.mH125.$seed.root --algo singles --toysFrequentist --bypassFrequentistFit --rMin -2 --rMax 5 -s $seed -m 125 --X-rtd MINIMIZER_MaxCalls=40000000000 $parameters -v $verbosity --robustFit 1  --cminPoiOnlyFit --cminPreScan -t $numtoys --saveWorkspace 
     printf "cd $cwd \n"
     cd $cwd
 fi

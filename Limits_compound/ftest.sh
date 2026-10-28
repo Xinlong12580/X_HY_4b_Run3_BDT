@@ -1,20 +1,20 @@
 #tfs=(0x0 1x0 0x1 "$tf" 1x2 2x1)
 tf=1x1
-tfs=(0x0 1x0 0x1 1x1 2x0 0x2 1x2 2x1 2x2 1x3 3x1 0x3 )
-tfs=(0x3)
+tfs=(0x0 1x0 0x1 1x1 2x0 0x2 1x2 2x1 2x2 1x3 3x1 0x3 0x4 1x3 )
+#tfs=(0x3)
 #tfs=(2x2 3x1)
 #tfs=(1x0 0x1)
 #tfs=(0x0)
 modes="All1p1 All2p1 Only1p1 Only2p1"
-modes="All2p1 Only1p1 Only2p1"
-modes="All1p1"
+modes="All2p1 Only2p1"
+#modes="All2p1 Only1p1 Only2p1"
 #modes="Only2p1"
 #Regs="Validation Control Signal"
 #modes="All2p1"
 #Regs="Control"
 #Regs="Signal"
-Regs="Validation"
-#Regs="Control Validation"
+#Regs="Validation"
+Regs="Control Validation"
 MX=3000
 MY=300
 for mode in $modes; do
@@ -56,5 +56,7 @@ for mode in $modes; do
         python ftest.py --tf1 1x2 --tf2 1x3 --work_dir "$Reg"_"$mode"_workspace/ --extra "$Reg"_$mode | tee -a histories/ftest_history_"$mode"_$Reg.txt
         python ftest.py --tf1 0x2 --tf2 0x3 --work_dir "$Reg"_"$mode"_workspace/ --extra "$Reg"_$mode | tee -a histories/ftest_history_"$mode"_$Reg.txt
         python ftest.py --tf1 0x2 --tf2 1x2 --work_dir "$Reg"_"$mode"_workspace/ --extra "$Reg"_$mode | tee -a histories/ftest_history_"$mode"_$Reg.txt
+        python ftest.py --tf1 0x3 --tf2 0x4 --work_dir "$Reg"_"$mode"_workspace/ --extra "$Reg"_$mode | tee -a histories/ftest_history_"$mode"_$Reg.txt
+        python ftest.py --tf1 0x3 --tf2 1x3 --work_dir "$Reg"_"$mode"_workspace/ --extra "$Reg"_$mode | tee -a histories/ftest_history_"$mode"_$Reg.txt
     done
 done

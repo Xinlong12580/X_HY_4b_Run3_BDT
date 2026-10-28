@@ -1,10 +1,30 @@
-void plot_toys()
+void plot_toys(const char *filename, int toy_index = 8, std::string output_extra = "" )
 {
    using namespace RooFit; // YVar(), Binning() calls
+   std::string index_str = std::to_string(toy_index);
+   if (toy_index < 0 ) index_str = "asimov";
+   const std::string toy_name = "toy_" + index_str;
 
-   TFile f("SignalInjection/CS_All1p1AndOnly2p1_MX-3500_MY-200_workspace/SignalMC_XHY4b_area/higgsCombiner_0.GenerateOnly.mH125.1.root", "READ");
+   TFile f(filename, "READ");
+   if (f.IsZombie()) {
+      std::cerr << "ERROR: could not open toy file: " << filename << std::endl;
+      return;
+   }
+
    TDirectoryFile *toys = f.Get<TDirectoryFile>("toys");
-   RooDataSet *rds = toys->Get<RooDataSet>("toy_8");
+   if (!toys) {
+      std::cerr << "ERROR: directory 'toys' was not found in: " << filename << std::endl;
+      return;
+   }
+
+   RooDataSet *rds = toys->Get<RooDataSet>(toy_name.c_str());
+   if (!rds) {
+      std::cerr << "ERROR: dataset 'toys/" << toy_name
+                << "' was not found in: " << filename << std::endl;
+      return;
+   }
+
+   gSystem->mkdir("TOYS", true);
 
    // set up binnings
    std::vector<double> x_bins_1p1{0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.22, 0.3, 0.4, 0.5, 1.0};
@@ -41,64 +61,64 @@ void plot_toys()
 
    auto c_CR_SR1_1p1  = new TCanvas();
    h_CR_SR1_1p1 ->Draw("COL Z");
-   c_CR_SR1_1p1 ->SaveAs("TOYS/CR_SR1_1p1.png");
+   c_CR_SR1_1p1 ->SaveAs(("TOYS/" + output_extra + "CR_SR1_1p1_" + index_str + ".png").c_str());
    auto c_CR_SR1_1p1_x  = new TCanvas();
    h_CR_SR1_1p1->ProjectionX("CR_SR1_1p1x") ->Draw("HIST");
-   c_CR_SR1_1p1_x ->SaveAs("TOYS/CR_SR1_1p1x.png");
+   c_CR_SR1_1p1_x ->SaveAs(("TOYS/" + output_extra + "CR_SR1_1p1x_" + index_str + ".png").c_str());
    auto c_CR_SR1_1p1_y  = new TCanvas();
    h_CR_SR1_1p1->ProjectionY("CR_SR1_1p1y") ->Draw("HIST");
-   c_CR_SR1_1p1_y ->SaveAs("TOYS/CR_SR1_1p1y.png");
+   c_CR_SR1_1p1_y ->SaveAs(("TOYS/" + output_extra + "CR_SR1_1p1y_" + index_str + ".png").c_str());
 
    auto c_CR_SB1_1p1  = new TCanvas();
    h_CR_SB1_1p1 ->Draw("COL Z");
-   c_CR_SB1_1p1 ->SaveAs("TOYS/CR_SB1_1p1.png");
+   c_CR_SB1_1p1 ->SaveAs(("TOYS/" + output_extra + "CR_SB1_1p1_" + index_str + ".png").c_str());
    auto c_CR_SB1_1p1_x  = new TCanvas();
    h_CR_SB1_1p1->ProjectionX("CR_SB1_1p1x") ->Draw("HIST");
-   c_CR_SB1_1p1_x ->SaveAs("TOYS/CR_SB1_1p1x.png");
+   c_CR_SB1_1p1_x ->SaveAs(("TOYS/" + output_extra + "CR_SB1_1p1x_" + index_str + ".png").c_str());
    auto c_CR_SB1_1p1_y  = new TCanvas();
    h_CR_SB1_1p1->ProjectionY("CR_SB1_1p1y") ->Draw("HIST");
-   c_CR_SB1_1p1_y ->SaveAs("TOYS/CR_SB1_1p1y.png");
+   c_CR_SB1_1p1_y ->SaveAs(("TOYS/" + output_extra + "CR_SB1_1p1y_" + index_str + ".png").c_str());
 
 
    auto c_SR_SR1_1p1  = new TCanvas();
    h_SR_SR1_1p1 ->Draw("COL Z");
-   c_SR_SR1_1p1 ->SaveAs("TOYS/SR_SR1_1p1.png");
+   c_SR_SR1_1p1 ->SaveAs(("TOYS/" + output_extra + "SR_SR1_1p1_" + index_str + ".png").c_str());
    auto c_SR_SR1_1p1_x  = new TCanvas();
    h_SR_SR1_1p1->ProjectionX("SR_SR1_1p1x") ->Draw("HIST");
-   c_SR_SR1_1p1_x ->SaveAs("TOYS/SR_SR1_1p1x.png");
+   c_SR_SR1_1p1_x ->SaveAs(("TOYS/" + output_extra + "SR_SR1_1p1x_" + index_str + ".png").c_str());
    auto c_SR_SR1_1p1_y  = new TCanvas();
    h_SR_SR1_1p1->ProjectionY("SR_SR1_1p1y") ->Draw("HIST");
-   c_SR_SR1_1p1_y ->SaveAs("TOYS/SR_SR1_1p1y.png");
+   c_SR_SR1_1p1_y ->SaveAs(("TOYS/" + output_extra + "SR_SR1_1p1y_" + index_str + ".png").c_str());
 
    auto c_SR_SB1_1p1  = new TCanvas();
    h_SR_SB1_1p1 ->Draw("COL Z");
-   c_SR_SB1_1p1 ->SaveAs("TOYS/SR_SB1_1p1.png");
+   c_SR_SB1_1p1 ->SaveAs(("TOYS/" + output_extra + "SR_SB1_1p1_" + index_str + ".png").c_str());
    auto c_SR_SB1_1p1_x  = new TCanvas();
    h_SR_SB1_1p1->ProjectionX("SR_SB1_1p1x") ->Draw("HIST");
-   c_SR_SB1_1p1_x ->SaveAs("TOYS/SR_SB1_1p1x.png");
+   c_SR_SB1_1p1_x ->SaveAs(("TOYS/" + output_extra + "SR_SB1_1p1x_" + index_str + ".png").c_str());
    auto c_SR_SB1_1p1_y  = new TCanvas();
    h_SR_SB1_1p1->ProjectionY("SR_SB1_1p1y") ->Draw("HIST");
-   c_SR_SB1_1p1_y ->SaveAs("TOYS/SR_SB1_1p1y.png");
+   c_SR_SB1_1p1_y ->SaveAs(("TOYS/" + output_extra + "SR_SB1_1p1y_" + index_str + ".png").c_str());
    
    auto c_SR_SR1_2p1  = new TCanvas();
    h_SR_SR1_2p1 ->Draw("COL Z");
-   c_SR_SR1_2p1 ->SaveAs("TOYS/SR_SR1_2p1.png");
+   c_SR_SR1_2p1 ->SaveAs(("TOYS/" + output_extra + "SR_SR1_2p1_" + index_str + ".png").c_str());
    auto c_SR_SR1_2p1_x  = new TCanvas();
    h_SR_SR1_2p1->ProjectionX("SR_SR1_2p1x") ->Draw("HIST");
-   c_SR_SR1_2p1_x ->SaveAs("TOYS/SR_SR1_2p1x.png");
+   c_SR_SR1_2p1_x ->SaveAs(("TOYS/" + output_extra + "SR_SR1_2p1x_" + index_str + ".png").c_str());
    auto c_SR_SR1_2p1_y  = new TCanvas();
    h_SR_SR1_2p1->ProjectionY("SR_SR1_2p1y") ->Draw("HIST");
-   c_SR_SR1_2p1_y ->SaveAs("TOYS/SR_SR1_2p1y.png");
+   c_SR_SR1_2p1_y ->SaveAs(("TOYS/" + output_extra + "SR_SR1_2p1y_" + index_str + ".png").c_str());
 
    auto c_SR_SB1_2p1  = new TCanvas();
    h_SR_SB1_2p1 ->Draw("COL Z");
-   c_SR_SB1_2p1 ->SaveAs("TOYS/SR_SB1_2p1.png");
+   c_SR_SB1_2p1 ->SaveAs(("TOYS/" + output_extra + "SR_SB1_2p1_" + index_str + ".png").c_str());
    auto c_SR_SB1_2p1_x  = new TCanvas();
    h_SR_SB1_2p1->ProjectionX("SR_SB1_2p1x") ->Draw("HIST");
-   c_SR_SB1_2p1_x ->SaveAs("TOYS/SR_SB1_2p1x.png");
+   c_SR_SB1_2p1_x ->SaveAs(("TOYS/" + output_extra + "SR_SB1_2p1x_" + index_str + ".png").c_str());
    auto c_SR_SB1_2p1_y  = new TCanvas();
    h_SR_SB1_2p1->ProjectionY("SR_SB1_2p1y") ->Draw("HIST");
-   c_SR_SB1_2p1_y ->SaveAs("TOYS/SR_SB1_2p1y.png");
+   c_SR_SB1_2p1_y ->SaveAs(("TOYS/" + output_extra + "SR_SB1_2p1y_" + index_str + ".png").c_str());
    
 
 

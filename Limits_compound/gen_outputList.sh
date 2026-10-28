@@ -80,6 +80,21 @@ eosls $file_dir > outputList/output_selection_2p1_tmp.txt
 sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_2p1_tmp.txt > outputList/output_SI_BDT.txt
 rm outputList/*tmp*
 
+file_dir=/store/user/$USER/XHY4bRun3_impact_BDT/
+eosls $file_dir > outputList/output_selection_2p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_2p1_tmp.txt > outputList/output_impact_BDT.txt
+rm outputList/*tmp*
+
+file_dir=/store/user/$USER/XHY4bRun3_SI_100x_BDT/
+eosls $file_dir > outputList/output_selection_2p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_2p1_tmp.txt > outputList/output_SI_100x_BDT.txt
+rm outputList/*tmp*
+
+file_dir=/store/user/$USER/XHY4bRun3_SI_1000x_BDT/
+eosls $file_dir > outputList/output_selection_2p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_2p1_tmp.txt > outputList/output_SI_1000x_BDT.txt
+rm outputList/*tmp*
+
 file_dir=/store/user/$USER/XHY4bRun3_GOF_BDT/
 eosls $file_dir > outputList/output_selection_2p1_tmp.txt
 sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_2p1_tmp.txt > outputList/output_GOF_BDT.txt
@@ -114,3 +129,8 @@ rm outputList/*tmp*
 file_dir=/store/user/$USER/XHY4bRun3_division_combined_BDT_experiment5/
 eosls $file_dir > outputList/output_selection_1p1_tmp.txt
 sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_1p1_tmp.txt > outputList/output_division_combined_BDT_experiment5.txt
+
+rm outputList/*tmp*
+file_dir=/store/user/$USER/XHY4bRun3_division_combined_BDT_new/
+eosls $file_dir > outputList/output_selection_1p1_tmp.txt
+sed "s@^@root://cmseos.fnal.gov/$file_dir@" outputList/output_selection_1p1_tmp.txt > outputList/output_division_combined_BDT_new.txt

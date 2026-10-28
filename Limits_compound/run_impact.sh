@@ -1,5 +1,5 @@
 #!/bin/bash 
-
+set -euo pipefail
 ##############################################################################
 # Script for running blinded limits
 #
@@ -22,8 +22,9 @@ numtoys=100
 tol=0.1         # --cminDefaultMinimizerTolerance
 strat=0         # --cminDefaultMinimizerStrategy
 verbosity=2
-
-options=$(getopt -o "bv:n:lr:" --long "bfit,limits,seed:,numtoys:,fitdir:,strat:,verbosity:,tol:,r_value:,paras:" -- "$@")
+ngroup=1
+igroup=1
+options=$(getopt -o "bv:n:lr:" --long "bfit,limits,seed:,numtoys:,ngroup:,igroup:,fitdir:,strat:,verbosity:,tol:,r_value:,paras:" -- "$@")
 eval set -- "$options"
 
 while true; do
@@ -63,6 +64,14 @@ while true; do
             shift
             fitDir=$1
             ;;
+        --ngroup)
+            shift
+            ngroup=$1
+            ;;
+        --igroup)
+            shift
+            igroup=$1
+            ;;
         --paras)
             shift
             paras=$1
@@ -98,13 +107,11 @@ IFS=';' read -ra _paras <<< "$paras"
 for para in "${_paras[@]}"; do
     while IFS= read -r line; do
         read var_name var_value <<< "$line"
-        if [[ $var_name != "r" && $var_name != *"QCD_"* && $var_name != *"_In"* && $var_name != *"n_"* && $var_name != *"TTBAR"* && $var_name != *"M_"* && $var_name != *"mask_"* ]]; then
+        if [[ $var_name != "r" && $var_name != *"QCD_"* && $var_name != *"_In"* && $var_name != *"n_"* && $var_name != *"mcstat"* && $var_name != *"M_"* && $var_name != *"mask_"* ]]; then
             nps=$nps" "$var_name
         fi
-        if [[ $line == *"QCD_Rc_SR"* ]]; then
+        if [[ $line == *"QCD_Rc_SR"* || $line == *"QCD_Rc_CR"* ]]; then
             parameters=$parameters"$var_name=$var_value,"
-        elif [[ $line == *"QCD_Rc_CR"* ]]; then
-            parameters=$parameters"$var_name=1,"
         fi
     done < $para
 done
@@ -112,20 +119,40 @@ done
 cwd=`pwd` # current working directory
 card="card.txt"
 wsm="workspace_masked.root" # Workspace with channel masks
+parameters="$parameters"r=$r
 echo $parameters
 echo $nps
-if [ $limits = 1 ]; then 
-    printf "cd $fitDir \n"
-    cd $fitDir
 
-    # Check to see if the workspace with channel masks exists
-    rm $wsm
-    (set -x; text2workspace.py $card --channel-masks -o $wsm)
+read -ra words <<< "$nps"
+n=${#words[@]}
+
+
+if (( igroup < 1 || igroup > ngroup )); then
+  echo "igroup must be in [1, ngroup]" >&2
+  exit 2
+fi
+
+group_index=$((igroup - 1))
+
+base=$((n / ngroup))
+rem=$((n % ngroup))
+
+start=$((group_index * base + (group_index < rem ? group_index : rem)))
+len=$((base + (group_index < rem ? 1 : 0)))
+nps="${words[*]:start:len}"
+if [[ X$nps == X ]]; then
+    echo "Empty NP list in group $igroup" >&2
+    exit 1
+fi
+printf "cd $fitDir \n"
+cd $fitDir
+rm -f $wsm
+(set -x; text2workspace.py $card --channel-masks -o $wsm)
+
+if [[ $limits == 1 && $igroup == 1 ]]; then 
 
     # Loads the B-only fit snapshot obtained from the prior step, then specifies that we want to run blind
-    #(set -x; combine -M MultiDimFit -n _initialFit_.impacts $parameters --algo singles --redefineSignalPOIs r --freezeParameters MH --setParameterRanges r=-1,1 --robustFit 1 -m 125 -d card.root)
-    (set -x; combine -M MultiDimFit -n _initialFit_.impacts $parameters --algo singles --redefineSignalPOIs r --freezeParameters MH --setParameterRanges r=-10,10 --robustFit 1 -m 125 -d card.root --bypassFrequentistFit -t -1 --toysFrequentist -v 3  )
-    #(set -x; combine -M MultiDimFit -n _initialFit_.impacts $parameters --algo singles --redefineSignalPOIs r --freezeParameters MH --setParameterRanges r=-10,10  -m 125 -d card.root --bypassFrequentistFit -t 1 --toysFrequentist --cminDefaultMinimizerTolerance 5 -v 3  )
+    (set -x; combine -M MultiDimFit -n _initialFit_.r_"$r"_impacts  --expectSignal "$r" $parameters --algo singles --redefineSignalPOIs r --freezeParameters MH --setParameterRanges r=-5,5 --robustFit 1 -m 125 -d $wsm --bypassFrequentistFit -t -1 --toysFrequentist -v 3  )
     printf "cd $cwd \n"
 fi
 
@@ -133,15 +160,14 @@ fi
 _nps=""
 for np in $nps; do
     echo $np
-    #(set -x; combine -M MultiDimFit -n _paramFit_.impacts_$np $parameters --algo impact --redefineSignalPOIs r -P $np --floatOtherPOIs 1 --saveInactivePOI 1 --setParameterRanges r=-1,1 --robustFit 1 -m 125 -d card.root)
-    (set -x; combine -M MultiDimFit -n _paramFit_.impacts_$np $parameters --algo impact --redefineSignalPOIs r -P $np --floatOtherPOIs 1 --saveInactivePOI 1 --setParameterRanges r=-1,1 --robustFit 1 -m 125 -d card.root --bypassFrequentistFit -t -1 )
-    #(set -x; combine -M MultiDimFit -n _paramFit_.impacts_$np $parameters --algo impact --redefineSignalPOIs r -P $np --floatOtherPOIs 1 --saveInactivePOI 1 --setParameterRanges r=-1,1 -m 125 -d card.root --bypassFrequentistFit  --toysFrequentist -t 1 --cminDefaultMinimizerTolerance 5 -v 3 )
+    #(set -x; combine -M MultiDimFit -n _paramFit_.r_"$r"_impacts_$np  --expectSignal "$r" $parameters --algo impact --freezeParameters MH --redefineSignalPOIs r -P $np --floatOtherPOIs 1 --saveInactivePOI 1 --setParameterRanges r=-5,5 --robustFit 1 -m 125 -d $wsm --bypassFrequentistFit --toysFrequentist -t -1 -v $verbosity --X-rtd MINIMIZER_MaxCalls=1000000  --cminPoiOnlyFit --cminPreScan --cminDefaultMinimizerTolerance $tol )
+    (set -x; combine -M MultiDimFit -n _paramFit_.r_"$r"_impacts_$np  --expectSignal "$r" $parameters --algo impact --freezeParameters MH --redefineSignalPOIs r -P $np --floatOtherPOIs 1 --saveInactivePOI 1 --setParameterRanges r=-5,5 --robustFit 1 -m 125 -d $wsm --bypassFrequentistFit --toysFrequentist -t -1 -v $verbosity --X-rtd MINIMIZER_MaxCalls=1000000   --cminPreScan  --cminDefaultMinimizerStrategy 1  --cminDefaultMinimizerTolerance 0.5 )
     _nps=$_nps$np","
 done
 _nps=${_nps%?}
 echo combineTool.py -M Impacts -d card.root -m 125 --freezeParameters MH -n .impacts --setParameterRanges r=-1,1 -o impacts.json --named "$_nps"
-combineTool.py -M Impacts -d card.root -m 125 --freezeParameters MH -n .impacts --seed 123456 --setParameterRanges r=-1,1 -o impacts.json --named "$_nps"
-plotImpacts.py -i impacts.json -o impacts
+#combineTool.py -M Impacts  -d "$wsm" -m 125 --freezeParameters MH -n .r_"$r"_impacts --seed 123456 --setParameterRanges r=-5,5 -o impacts_r_"$r".json --named "$_nps"
+#plotImpacts.py -i impacts_r_"$r".json -o impacts_r_"$r"
 cd $cwd
 
 

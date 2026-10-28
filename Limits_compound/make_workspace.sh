@@ -3,6 +3,7 @@ tf=0x0
 MX=3000
 MY=300
 modes="All1p1 All2p1 Only1p1 Only2p1"
+modes="All2p1 Only2p1"
 #modes="Only2p1"
 #Regs="Validation Control Signal"
 Regs="Validation Control"
@@ -10,8 +11,8 @@ Regs="Validation Control"
 #Regs="Validation"
 #Regs="Validation Control"
 #Regs="Signal"
-#modes="All2p1"
-#Regs="Validation"
+#modes="All2p1 All1p1"
+#Regs="Control"
 for mode in $modes; do
     for Reg in $Regs; do
         if [[  $Reg == "Control" && $mode == *"2p1"* ]]; then

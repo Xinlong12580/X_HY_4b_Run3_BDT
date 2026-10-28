@@ -36,10 +36,6 @@ print(f"efficiency from {args.eff_file}", eff)
 with open(args.card_file, "r") as f_card:
     lines = [line for line in f_card if (("TTBAR_PASS_SF" not in line) and ("TTBAR_FAIL_SF" not in line))]
 
-with open(args.card_file, "r") as f_card:
-    kmax = len([line for line in lines if ( ("shape" in line or "lnN" in line ) and (not line.startswith("shapes")) )]) + 1
-    lines[2] = f"kmax {kmax}\n"
-print(kmax)
 
 with open(args.card_file, "w") as f_card:
     f_card.writelines(lines)
@@ -54,11 +50,12 @@ for line in lines:
 
 pass_line=f"TTBAR_PASS_SF_{args.pass_name} lnN "
 for i in range(len(process_columns)):
-    if "TTBar" in process_columns[i] and "SR" in bin_columns[i]:
-        pass_line = pass_line + " 2.0/2.0 "
+    if "TTBar" in process_columns[i] and "_SR1_" in bin_columns[i]:
+        pass_line = pass_line + " 0.5/2.0 "
     else:
         pass_line = pass_line + " - "
 print(pass_line)
+
 with open(args.card_file, "a") as f_card:
     #f_card.write(f"TTBAR_PASS_SF_{args.pass_name} rateParam *SR* *TTBar* 1 [0.5,2]\n")
     f_card.write(pass_line + "\n")
@@ -66,6 +63,37 @@ with open(args.card_file, "a") as f_card:
     f_card.write(f"TTBAR_FAIL_SF_{args.fail_name} rateParam *SB* *TTBar* (1-{eff:.4f}*(pow(2,@0))/({1-eff:.4f})) TTBAR_PASS_SF_{args.pass_name}\n")    
     #print(f_card.readlines())
 
+lumi_1 = {"2022": 1.0138, "2022EE": 1.0138, "2023": 1.0017, "2023BPix": 1.0017, "2024":1.0020}
+lumi_2 = {"2023": 1.0127, "2023BPix": 1.0127, "2024": 1.0068}
+lumi_3 = {"2024": 1.0144}
+
+lumis = {"lumi_1": lumi_1, "lumi_2": lumi_2, "lumi_3": lumi_3}
+lumi_lines=[]
+for lumi in lumis:
+    lumi_line = f"{lumi} lnN "
+    for i in range(len(process_columns)):
+        found = 0
+        for year in lumis[lumi]:
+            if year + "_" in process_columns[i]:
+                found = 1
+                lumi_line += f" {lumis[lumi][year]} "
+        if found == 0:
+            lumi_line += " - "
+    lumi_lines.append(lumi_line)
+
+with open(args.card_file, "r") as f_card:
+    lines = f_card.readlines()
+
+with open(args.card_file, "r") as f_card:
+    kmax = len([line for line in lines if ( ("shape" in line or "lnN" in line ) and (not line.startswith("shapes")) )]) + 2
+    lines[2] = f"kmax {kmax}\n"
+print(kmax)
+with open(args.card_file, "w") as f_card:
+    for line in lines:
+        if "lumi" not in line:
+            f_card.write(line)
+    for lumi_line in lumi_lines:
+        f_card.write( lumi_line + "\n")
  
 
 

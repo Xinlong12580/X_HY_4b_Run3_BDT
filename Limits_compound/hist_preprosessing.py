@@ -21,8 +21,10 @@ if mode == "1p1":
     MJY_bins = array.array("d", [0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.22, 0.3, 0.4, 0.5, 1.0])
     MJJ_bins = array.array("d", [0.8, 0.9, 1.0,  1.2, 1.4, 1.7, 2.0, 2.5, 3.0, 5.0] )
 elif mode == "2p1":
-    MJY_bins = array.array("d", [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.2, 1.5, 2.0, 2.5, 3.0, 4.0])
-    MJJ_bins = array.array("d", [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1.0, 1.2, 1.4, 1.7, 2.0, 2.5, 3.0, 4.0, 5.0] )
+    #MJY_bins = array.array("d", [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.2, 1.5, 2.0, 2.5, 3.0, 4.0])
+    #MJJ_bins = array.array("d", [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1.0, 1.2, 1.4, 1.7, 2.0, 2.5, 3.0, 5.0] )
+    MJY_bins = array.array("d", [0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.5, 2.0, 2.5, 3.0, 4.0])
+    MJJ_bins = array.array("d", [0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.7, 2.0, 2.5, 3.0, 5.0] )
 
  
 f = ROOT.TFile.Open(args.f, "UPDATE")
@@ -57,11 +59,17 @@ for lumi_year in lumi_years:
                 year_base = f.Get(f"{year}__{process}__{Reg}_{region}_{mode}__nominal")
                 if lumi_year in year:
                     print(f"{lumi_year} in {year}")
-                    year_base.Scale(1 + lumi_years[lumi_year])
-                    up_hist.Add(year_base)
-                    year_base.Scale(1/ (1 + lumi_years[lumi_year])) # Revserve the opration above
-                    year_base.Scale(1/ (1 + lumi_years[lumi_year])) #rescale
-                    down_hist.Add(year_base)
+                    uncertainty = lumi_years[lumi_year]
+                    up_year = year_base.Clone()
+                    down_year = year_base.Clone()
+                    up_year.SetDirectory(0)
+                    down_year.SetDirectory(0)
+
+                    up_year.Scale(1.0 + uncertainty)
+                    down_year.Scale(1.0 / (1.0 + uncertainty))
+
+                    up_hist.Add(up_year)
+                    down_hist.Add(down_year)
                 else:
                     #print(f"{lumi_year} not in {year}")
                     up_hist.Add(year_base)
@@ -88,18 +96,45 @@ for key_name in key_names :
 
 print("REBINNING###############################################################")
 f_out = ROOT.TFile.Open(args.f.replace(".root", "_rebinned.root"), "RECREATE")
-
+'''
 for key in f.GetListOfKeys():
-    if "Allyears_" not in key.GetName() or not ("TTBar" in key.GetName() or "SignalMC" in key.GetName() or ("JetMET" in key.GetName() and "nominal" in key.GetName() ) ):
+    #if "Allyears_" not in key.GetName() or not ("TTBar" in key.GetName() or "SignalMC" in key.GetName() or ("JetMET" in key.GetName() and "nominal" in key.GetName() ) ):
+    if not ("TTBar" in key.GetName() or "SignalMC" in key.GetName() or ("JetMET" in key.GetName() and "nominal" in key.GetName() ) ):
         continue
     hist = key.ReadObj()
     print("rebinning ", hist.GetName())
     hist = rebin_TH2(hist,  MJY_bins, MJJ_bins, "rebinned_" + hist.GetName(), forceOutputPositive = True)
     hist.SetDirectory(f_out)
     hist.Write()
+'''
+'''
+import gc
+
+ROOT.TH1.AddDirectory(False)
+processed = 0
+for key in f.GetListOfKeys():
+    name = key.GetName()
+    if not ("TTBar" in name or "SignalMC" in name or ("JetMET" in name and "nominal" in name)):
+        continue
+
+    source_hist = key.ReadObj()
+    print("rebinning", name)
+
+    rebinned_hist = rebin_TH2( source_hist,MJY_bins, MJJ_bins, "rebinned_" + name, forceOutputPositive=True,outputFloor = 0)
+
+    f_out.cd()
+    rebinned_hist.Write()
+    del rebinned_hist
+    del source_hist
+
+    processed += 1
+    if processed % 100 == 0:
+        gc.collect()
+
+
 
 print("Finishing preprocessing") 
-
+'''
 
 f.Close()
 f_out.Close()

@@ -9,6 +9,7 @@ from TwoDAlphabet.ftest import FstatCalc
 import os
 import numpy as np
 import subprocess
+from Rc_options import _Rc_options
 
 def _generate_constraints(nparams):
     out = {}
@@ -42,101 +43,10 @@ def _select_signal(row, args):
 
 
 def make_2DAlphabet_workspace(name='test', fr={}, json='XYH.json', r_fail = "VB1", r_pass = "VS2", PFR_MC = "1"):
-    _rc_options = {
-        '0x0': {
-            'form': PFR_MC + '*(@0)',
-            'constraints': _generate_constraints(1)
-        },
-        '1x0': {
-            'form': PFR_MC + '*(@0+@1*x)',
-            'constraints': _generate_constraints(2)
-        },
-        '0x1': {
-            'form': PFR_MC + '*(@0+@1*y)',
-            'constraints': _generate_constraints(2)
-        },
-        '1x1': {
-            'form': PFR_MC + '*(@0+@1*x+@2*y+@3*x*y)',
-            'constraints': _generate_constraints(4)
-        },
-        '2x0': {
-            'form': PFR_MC + '*(@0+@1*x+@2*x*x)',
-            'constraints': _generate_constraints(3)
-        },
-        '0x2': {
-            'form': PFR_MC + '*(@0+@1*y+@2*y*y)',
-            'constraints': _generate_constraints(3)
-        },
-        '2x1': {
-            'form': PFR_MC + '*(@0+@1*x+@2*y+@3*x*y+@4*x**2+@5*y*x**2)',
-            'constraints': _generate_constraints(5)
-        },
-        '1x2': {
-            'form': PFR_MC + '*(@0+@1*x+@2*y+@3*x*y+@4*y**2+@5*x*y**2)',
-            'constraints': _generate_constraints(5)
-        },
-        '2x2': {
-            'form': PFR_MC + '* (@0+@1*x+@2*x**2)*(@3+@4*y*@5*y**2)',
-            'constraints': _generate_constraints(6)
-        }
-    }
-    
-
-    _rc_options = {
-        '0x0': {
-            'form': PFR_MC + '*(@0)',
-            'constraints': _generate_constraints(1)
-        },
-        '1x0': {
-            'form': PFR_MC + '*@0 * (1+@1*x)',
-            'constraints': _generate_constraints(2)
-        },
-        '0x1': {
-            'form': PFR_MC + '*@0*(1+@1*y)',
-            'constraints': _generate_constraints(2)
-        },
-        '2x0': {
-            'form': PFR_MC + '*@0*(1+@1*x+@2*x*x)',
-            'constraints': _generate_constraints(3)
-        },
-        '0x2': {
-            'form': PFR_MC + '*@0*(1+@1*y+@2*y*y)',
-            'constraints': _generate_constraints(3)
-        },
-        '1x1': {
-            'form': PFR_MC + '* @0 *(1+@1*x)*(1+@2*y)',
-            'constraints': _generate_constraints(3)
-        },
-        '2x1': {
-            'form': PFR_MC + '* @0 * (1+@1*x+@3*x*x)*(1+@2*y)',
-            'constraints': _generate_constraints(4)
-        },
-        '1x2': {
-            'form': PFR_MC + '* @0 * (1+@1*x)*(1+@2*y + @3*y*y)',
-            'constraints': _generate_constraints(4)
-        },
-        '2x2': {
-            'form': PFR_MC + '* @0 * (1+@1*x+@3*x*x) * (1+@2*y + @4*y*y)',
-            'constraints': _generate_constraints(5)
-        },
-        '1x3': {
-            'form': PFR_MC + '* @0 * (1+@1*x) * (1+@2*y + @3*y*y + @4*y*y*y)',
-            'constraints': _generate_constraints(5)
-        },
-        '3x1': {
-            'form': PFR_MC + '* @0 * (1+@1*x+@3*x*x + @4*x*x*x) * (1+@2*y)',
-            'constraints': _generate_constraints(5)
-        },
-        '3x2': {
-            'form': PFR_MC + '* @0 * (1+@1*x+@3*x*x + @4*x*x*x) * (1+@2*y + @5 * y*y)',
-            'constraints': _generate_constraints(6)
-        },
-        '2x3': {
-            'form': PFR_MC + '* @0 * (1+@1*x + @5 *x * x) * (1+@2*y + @3*y*y + @4*y*y*y)',
-            'constraints': _generate_constraints(6)
-        },
-
-    }
+    rc_builder = _Rc_options(PFR_MC)
+    #_rc_options = rc_builder._rc_options_factorized_bernstein_log_par
+    #_rc_options = rc_builder._rc_options_factorized_bernstein
+    _rc_options = rc_builder._rc_options_factorized_legendre_factorized_exp
     # Set up the workspace
     twoD = TwoDAlphabet(
         f'{name}_workspace',    # Name of the workspace directory

@@ -15,16 +15,32 @@
         "R_PASS": {
             "PROCESSES": [
                 "data_obs",
-                "Allyears__SIGNAME",
-                "Allyears__MC_TTBarJets"
+                "2022__SIGNAME",
+                "2022EE__SIGNAME",
+                "2023__SIGNAME",
+                "2023BPix__SIGNAME",
+                "2024__SIGNAME",
+                "2022__MC_TTBarJets",
+                "2022EE__MC_TTBarJets",
+                "2023__MC_TTBarJets",
+                "2023BPix__MC_TTBarJets",
+                "2024__MC_TTBarJets"
             ],
             "BINNING": "MBINS"
         },
         "R_FAIL": {
             "PROCESSES": [
                 "data_obs",
-                "Allyears__SIGNAME",
-                "Allyears__MC_TTBarJets"
+                "2022__SIGNAME",
+                "2022EE__SIGNAME",
+                "2023__SIGNAME",
+                "2023BPix__SIGNAME",
+                "2024__SIGNAME",
+                "2022__MC_TTBarJets",
+                "2022EE__MC_TTBarJets",
+                "2023__MC_TTBarJets",
+                "2023BPix__MC_TTBarJets",
+                "2024__MC_TTBarJets"
             ],
             "BINNING": "MBINS"
         }
@@ -39,47 +55,19 @@
             "TITLE": "Data ",
             "LOC": "PATH_LOCAL/FILE:HIST"
         },
-        "Allyears__SIGNAME": {
+        "2022__SIGNAME": {
             "SYSTEMATICS": [
                 "Pdfweight",
                 "QCDScaleWeight",
                 "corr2p1_AK4_btagging_light_correlated",
                 "corr2p1_AK4_btagging_heavy_correlated",
                 "Y2022_corr2p1_TriggerSF_data",
-                "Y2022EE_corr2p1_TriggerSF_data",
-                "Y2023_corr2p1_TriggerSF_data",
-                "Y2023BPix_corr2p1_TriggerSF_data",
-                "Y2024_corr2p1_TriggerSF_data",
                 "Y2022_corr2p1_TriggerSF_MC",
-                "Y2022EE_corr2p1_TriggerSF_MC",
-                "Y2023_corr2p1_TriggerSF_MC",
-                "Y2023BPix_corr2p1_TriggerSF_MC",
-                "Y2024_corr2p1_TriggerSF_MC",
                 "Y2022_corr2p1_AK8_Xbbtagging",
-                "Y2022EE_corr2p1_AK8_Xbbtagging",
-                "Y2023_corr2p1_AK8_Xbbtagging",
-                "Y2023BPix_corr2p1_AK8_Xbbtagging",
-                "Y2024_corr2p1_AK8_Xbbtagging",
                 "Y2022_corr2p1_AK4_btagging_light_uncorrelated",
-                "Y2022EE_corr2p1_AK4_btagging_light_uncorrelated",
-                "Y2023_corr2p1_AK4_btagging_light_uncorrelated",
-                "Y2023BPix_corr2p1_AK4_btagging_light_uncorrelated",
-                "Y2024_corr2p1_AK4_btagging_light_uncorrelated",
                 "Y2022_corr2p1_AK4_btagging_heavy_uncorrelated",
-                "Y2022EE_corr2p1_AK4_btagging_heavy_uncorrelated",
-                "Y2023_corr2p1_AK4_btagging_heavy_uncorrelated",
-                "Y2023BPix_corr2p1_AK4_btagging_heavy_uncorrelated",
-                "Y2024_corr2p1_AK4_btagging_heavy_uncorrelated",
                 "Y2022_JER_",
-                "Y2022EE_JER_",
-                "Y2023_JER_",
-                "Y2023BPix_JER_",
-                "Y2024_JER_",
                 "Y2022_PileUp_Corr",
-                "Y2022EE_PileUp_Corr",
-                "Y2023_PileUp_Corr",
-                "Y2023BPix_PileUp_Corr",
-                "Y2024_PileUp_Corr",
                 "JES__Absolute",
                 "JES__BBEC1",
                 "JES__EC2",
@@ -93,6 +81,33 @@
                 "Y2022_JES__RelativeSample_2022",
                 "Y2022_JMS_",
                 "Y2022_JMR_",
+                "lumi"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "black",
+            "TYPE": "SIGNAL",
+            "TITLE": "NMSSM_XYH",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2022EE__SIGNAME": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "QCDScaleWeight",
+                "corr2p1_AK4_btagging_light_correlated",
+                "corr2p1_AK4_btagging_heavy_correlated",
+                "Y2022EE_corr2p1_TriggerSF_data",
+                "Y2022EE_corr2p1_TriggerSF_MC",
+                "Y2022EE_corr2p1_AK8_Xbbtagging",
+                "Y2022EE_corr2p1_AK4_btagging_light_uncorrelated",
+                "Y2022EE_corr2p1_AK4_btagging_heavy_uncorrelated",
+                "Y2022EE_JER_",
+                "Y2022EE_PileUp_Corr",
+                "JES__Absolute",
+                "JES__BBEC1",
+                "JES__EC2",
+                "JES__FlavorQCD",
+                "JES__HF",
+                "JES__RelativeBal",
                 "Y2022EE_JES__Absolute_2022EE",
                 "Y2022EE_JES__BBEC1_2022EE",
                 "Y2022EE_JES__EC2_2022EE",
@@ -100,6 +115,35 @@
                 "Y2022EE_JES__RelativeSample_2022EE",
                 "Y2022EE_JMS_",
                 "Y2022EE_JMR_",
+                "lumi"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "black",
+            "TYPE": "SIGNAL",
+            "TITLE": "NMSSM_XYH",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2023__SIGNAME": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "QCDScaleWeight",
+                "corr2p1_AK4_btagging_light_correlated",
+                "corr2p1_AK4_btagging_heavy_correlated",
+                "Y2023_menu1_corr2p1_TriggerSF_data",
+                "Y2023_menu1_corr2p1_TriggerSF_MC",
+                "Y2023_menu2_corr2p1_TriggerSF_data",
+                "Y2023_menu2_corr2p1_TriggerSF_MC",
+                "Y2023_corr2p1_AK8_Xbbtagging",
+                "Y2023_corr2p1_AK4_btagging_light_uncorrelated",
+                "Y2023_corr2p1_AK4_btagging_heavy_uncorrelated",
+                "Y2023_JER_",
+                "Y2023_PileUp_Corr",
+                "JES__Absolute",
+                "JES__BBEC1",
+                "JES__EC2",
+                "JES__FlavorQCD",
+                "JES__HF",
+                "JES__RelativeBal",
                 "Y2023_JES__Absolute_2023",
                 "Y2023_JES__BBEC1_2023",
                 "Y2023_JES__EC2_2023",
@@ -107,6 +151,33 @@
                 "Y2023_JES__RelativeSample_2023",
                 "Y2023_JMS_",
                 "Y2023_JMR_",
+                "lumi"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "black",
+            "TYPE": "SIGNAL",
+            "TITLE": "NMSSM_XYH",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2023BPix__SIGNAME": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "QCDScaleWeight",
+                "corr2p1_AK4_btagging_light_correlated",
+                "corr2p1_AK4_btagging_heavy_correlated",
+                "Y2023BPix_corr2p1_TriggerSF_data",
+                "Y2023BPix_corr2p1_TriggerSF_MC",
+                "Y2023BPix_corr2p1_AK8_Xbbtagging",
+                "Y2023BPix_corr2p1_AK4_btagging_light_uncorrelated",
+                "Y2023BPix_corr2p1_AK4_btagging_heavy_uncorrelated",
+                "Y2023BPix_JER_",
+                "Y2023BPix_PileUp_Corr",
+                "JES__Absolute",
+                "JES__BBEC1",
+                "JES__EC2",
+                "JES__FlavorQCD",
+                "JES__HF",
+                "JES__RelativeBal",
                 "Y2023BPix_JES__Absolute_2023BPix",
                 "Y2023BPix_JES__BBEC1_2023BPix",
                 "Y2023BPix_JES__EC2_2023BPix",
@@ -114,6 +185,33 @@
                 "Y2023BPix_JES__RelativeSample_2023BPix",
                 "Y2023BPix_JMS_",
                 "Y2023BPix_JMR_",
+                "lumi"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "black",
+            "TYPE": "SIGNAL",
+            "TITLE": "NMSSM_XYH",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2024__SIGNAME": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "QCDScaleWeight",
+                "corr2p1_AK4_btagging_light_correlated",
+                "corr2p1_AK4_btagging_heavy_correlated",
+                "Y2024_corr2p1_TriggerSF_data",
+                "Y2024_corr2p1_TriggerSF_MC",
+                "Y2024_corr2p1_AK8_Xbbtagging",
+                "Y2024_corr2p1_AK4_btagging_light_uncorrelated",
+                "Y2024_corr2p1_AK4_btagging_heavy_uncorrelated",
+                "Y2024_JER_",
+                "Y2024_PileUp_Corr",
+                "JES__Absolute",
+                "JES__BBEC1",
+                "JES__EC2",
+                "JES__FlavorQCD",
+                "JES__HF",
+                "JES__RelativeBal",
                 "Y2024_JES__Absolute_2024",
                 "Y2024_JES__BBEC1_2024",
                 "Y2024_JES__EC2_2024",
@@ -129,32 +227,16 @@
             "TITLE": "NMSSM_XYH",
             "LOC": "PATH_LOCAL/FILE:HIST"
         },
-        "Allyears__MC_TTBarJets": {
+        "2022__MC_TTBarJets": {
             "SYSTEMATICS": [
                 "Pdfweight",
                 "QCDScaleWeight",
                 "TTBar_Xsec",
                 "TopPtWeight",
                 "Y2022_corr2p1_TriggerSF_data",
-                "Y2022EE_corr2p1_TriggerSF_data",
-                "Y2023_corr2p1_TriggerSF_data",
-                "Y2023BPix_corr2p1_TriggerSF_data",
-                "Y2024_corr2p1_TriggerSF_data",
                 "Y2022_corr2p1_TriggerSF_MC",
-                "Y2022EE_corr2p1_TriggerSF_MC",
-                "Y2023_corr2p1_TriggerSF_MC",
-                "Y2023BPix_corr2p1_TriggerSF_MC",
-                "Y2024_corr2p1_TriggerSF_MC",
                 "Y2022_JER_",
-                "Y2022EE_JER_",
-                "Y2023_JER_",
-                "Y2023BPix_JER_",
-                "Y2024_JER_",
                 "Y2022_PileUp_Corr",
-                "Y2022EE_PileUp_Corr",
-                "Y2023_PileUp_Corr",
-                "Y2023BPix_PileUp_Corr",
-                "Y2024_PileUp_Corr",
                 "JES__Absolute",
                 "JES__BBEC1",
                 "JES__EC2",
@@ -168,6 +250,30 @@
                 "Y2022_JES__RelativeSample_2022",
                 "Y2022_JMS_",
                 "Y2022_JMR_",
+                "lumi"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "red",
+            "TYPE": "BKG",
+            "TITLE": "t#bar{t}",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2022EE__MC_TTBarJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "QCDScaleWeight",
+                "TTBar_Xsec",
+                "TopPtWeight",
+                "Y2022EE_corr2p1_TriggerSF_data",
+                "Y2022EE_corr2p1_TriggerSF_MC",
+                "Y2022EE_JER_",
+                "Y2022EE_PileUp_Corr",
+                "JES__Absolute",
+                "JES__BBEC1",
+                "JES__EC2",
+                "JES__FlavorQCD",
+                "JES__HF",
+                "JES__RelativeBal",
                 "Y2022EE_JES__Absolute_2022EE",
                 "Y2022EE_JES__BBEC1_2022EE",
                 "Y2022EE_JES__EC2_2022EE",
@@ -175,6 +281,32 @@
                 "Y2022EE_JES__RelativeSample_2022EE",
                 "Y2022EE_JMS_",
                 "Y2022EE_JMR_",
+                "lumi"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "red",
+            "TYPE": "BKG",
+            "TITLE": "t#bar{t}",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2023__MC_TTBarJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "QCDScaleWeight",
+                "TTBar_Xsec",
+                "TopPtWeight",
+                "Y2023_menu1_corr2p1_TriggerSF_data",
+                "Y2023_menu1_corr2p1_TriggerSF_MC",
+                "Y2023_menu2_corr2p1_TriggerSF_data",
+                "Y2023_menu2_corr2p1_TriggerSF_MC",
+                "Y2023_JER_",
+                "Y2023_PileUp_Corr",
+                "JES__Absolute",
+                "JES__BBEC1",
+                "JES__EC2",
+                "JES__FlavorQCD",
+                "JES__HF",
+                "JES__RelativeBal",
                 "Y2023_JES__Absolute_2023",
                 "Y2023_JES__BBEC1_2023",
                 "Y2023_JES__EC2_2023",
@@ -182,6 +314,30 @@
                 "Y2023_JES__RelativeSample_2023",
                 "Y2023_JMS_",
                 "Y2023_JMR_",
+                "lumi"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "red",
+            "TYPE": "BKG",
+            "TITLE": "t#bar{t}",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2023BPix__MC_TTBarJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "QCDScaleWeight",
+                "TTBar_Xsec",
+                "TopPtWeight",
+                "Y2023BPix_corr2p1_TriggerSF_data",
+                "Y2023BPix_corr2p1_TriggerSF_MC",
+                "Y2023BPix_JER_",
+                "Y2023BPix_PileUp_Corr",
+                "JES__Absolute",
+                "JES__BBEC1",
+                "JES__EC2",
+                "JES__FlavorQCD",
+                "JES__HF",
+                "JES__RelativeBal",
                 "Y2023BPix_JES__Absolute_2023BPix",
                 "Y2023BPix_JES__BBEC1_2023BPix",
                 "Y2023BPix_JES__EC2_2023BPix",
@@ -189,6 +345,30 @@
                 "Y2023BPix_JES__RelativeSample_2023BPix",
                 "Y2023BPix_JMS_",
                 "Y2023BPix_JMR_",
+                "lumi"
+            ],
+            "SCALE": 1.0,
+            "COLOR": "red",
+            "TYPE": "BKG",
+            "TITLE": "t#bar{t}",
+            "LOC": "PATH_LOCAL/FILE:HIST"
+        },
+        "2024__MC_TTBarJets": {
+            "SYSTEMATICS": [
+                "Pdfweight",
+                "QCDScaleWeight",
+                "TTBar_Xsec",
+                "TopPtWeight",
+                "Y2024_corr2p1_TriggerSF_data",
+                "Y2024_corr2p1_TriggerSF_MC",
+                "Y2024_JER_",
+                "Y2024_PileUp_Corr",
+                "JES__Absolute",
+                "JES__BBEC1",
+                "JES__EC2",
+                "JES__FlavorQCD",
+                "JES__HF",
+                "JES__RelativeBal",
                 "Y2024_JES__Absolute_2024",
                 "Y2024_JES__BBEC1_2024",
                 "Y2024_JES__EC2_2024",
@@ -207,8 +387,7 @@
     },
     "SYSTEMATICS": {
         "TTBar_Xsec": {
-            "VALUP": 1.0348,
-            "VALDOWN": 1.0438,
+            "VAL": 1.0348,
             "CODE": 0
         },
         "TopPtWeight": {
@@ -296,7 +475,12 @@
             "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
             "SIGMA": 1.0
         },
-        "Y2023_corr2p1_TriggerSF_data": {
+        "Y2023_menu1_corr2p1_TriggerSF_data": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_menu2_corr2p1_TriggerSF_data": {
             "UP": "PATH_LOCAL/FILE:HIST_UP",
             "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
             "SIGMA": 1.0
@@ -321,7 +505,12 @@
             "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
             "SIGMA": 1.0
         },
-        "Y2023_corr2p1_TriggerSF_MC": {
+        "Y2023_menu1_corr2p1_TriggerSF_MC": {
+            "UP": "PATH_LOCAL/FILE:HIST_UP",
+            "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
+            "SIGMA": 1.0
+        },
+        "Y2023_menu2_corr2p1_TriggerSF_MC": {
             "UP": "PATH_LOCAL/FILE:HIST_UP",
             "DOWN": "PATH_LOCAL/FILE:HIST_DOWN",
             "SIGMA": 1.0
@@ -617,7 +806,7 @@
             "SIGMA": 1.0
         },
         "lumi": {
-            "VAL": 1.03,
+            "VAL": 1.013,
             "CODE": 0
         }
     },
@@ -626,7 +815,8 @@
             "X": {
                 "NAME": "M_JY",
                 "TITLE": "M_{J}^{Y}",
-                "BINS": [
+                "BINS": [0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.5, 2.0, 2.5, 3.0, 4.0],
+                "OLDBINS": [
                     0.3,
                     0.4,
                     0.5,
@@ -648,7 +838,8 @@
             "Y": {
                 "NAME": "M_JJ",
                 "TITLE": "M_{JJ}",
-                "BINS": [
+                "BINS": [0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.7, 2.0, 2.5, 3.0, 5.0],
+                "OLDBINS": [
                     0.3,
                     0.4,
                     0.5,

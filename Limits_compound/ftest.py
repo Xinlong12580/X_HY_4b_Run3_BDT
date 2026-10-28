@@ -59,7 +59,10 @@ print("Results: ", fs, ps, ns)
 if ns[0] == ns[1]:
     n = ns[0]
 else:
-    throw("error")
+    raise RuntimeError(
+        f"Different bin counts: {ns[0]} and {ns[1]}"
+    )
+  
 ######################### calculating F and plotting ###################################
 F_obs =  FstatCalc(fs[0], fs[1], ps[0], ps[1], n)
 F_obs = F_obs[0]

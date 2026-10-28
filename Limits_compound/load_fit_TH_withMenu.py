@@ -1,0 +1,334 @@
+import ROOT
+import os
+import numpy as np
+import array
+import json
+from XHY4b_Helper import * 
+from argparse import ArgumentParser
+import os
+
+parser=ArgumentParser()
+
+parser.add_argument('--mode', type=str, action='store', required=True)
+parser.add_argument('--type', type=str, action='store', required=True)
+
+parser.add_argument('--mx', type=str, action='store', required=True)
+parser.add_argument('--my', type=str, action='store', required=True)
+parser.add_argument('--Reg', type=str, action='store', required=True)
+parser.add_argument('--ngroup', type=int, action='store', default = 1, required=False)
+parser.add_argument('--igroup', type=int, action='store', default = 1, required=False) #Requiring too much memory, so load in group instead
+args = parser.parse_args()
+if "1p1" in args.mode:
+    hist_mode = "1p1"
+elif "2p1" in args.mode:
+    hist_mode = "2p1"
+with open("raw_nano/Luminosity.json") as f:
+    lumi_json = json.load(f)
+
+with open("raw_nano/Xsections_background.json") as f:
+    Xsec_json = json.load(f)
+
+with open("raw_nano/Datasets_signal.json") as f:
+    signal_json=json.load(f)
+#----------------------------- set bins, variable columns and other configs---------------------------------------------------------------------
+if "Signal" in args.Reg:
+    Reg = "SR"
+if "Validation" in args.Reg:
+    Reg = "VR"
+if "Control" in args.Reg:
+    Reg = "CR"
+#with open(f"outputList/output_division_combined_BDT.txt") as f:
+with open(f"outputList/output_division_combined_BDT_new.txt") as f:
+    lines = f.readlines()
+    template_files =[ line.strip() for line in lines if "Templates" in line and "log" not in line and args.mode in line and "Reg" + args.Reg[0:3] in line]
+
+all_systs = ["JMS_", "JMR_", "JER_", "PileUp_Corr", f"corr{hist_mode}_TriggerSF_MC", f"corr{hist_mode}_TriggerSF_data", "Pdfweight", "QCDScaleWeight", f"corr{hist_mode}_AK8_Xbbtagging", f"corr{hist_mode}_AK4_btagging_light_correlated", f"corr{hist_mode}_AK4_btagging_light_uncorrelated", f"corr{hist_mode}_AK4_btagging_heavy_correlated", f"corr{hist_mode}_AK4_btagging_heavy_uncorrelated", "TopPtWeight"]
+years = ["2022", "2022EE", "2023", "2023BPix", "2024"]
+jes_systs = ["Absolute", "BBEC1", "EC2",  "FlavorQCD", "HF", "RelativeBal" ]
+for year in years:
+    jes_systs += [f"Absolute_{year}", f"BBEC1_{year}", f"EC2_{year}", f"HF_{year}", f"RelativeSample_{year}"]
+for jes_syst in jes_systs:
+    all_systs.append(f"JES__{jes_syst}")
+
+n_syst = len(all_systs)
+q, r = divmod(n_syst, args.ngroup)
+#args.igroup starts with 1
+if args.igroup <= r:
+    i_start = (q+1)*(args.igroup - 1)
+    i_end = i_start + q + 1
+else:
+    i_start = (q+1) * r + q * (args.igroup - r - 1)
+    i_end = i_start + q  
+
+n_syst = len(all_systs)
+q, r = divmod(n_syst, args.ngroup)
+#args.igroup starts with 1
+if args.igroup <= r:
+    i_start = (q+1)*(args.igroup - 1)
+    i_end = i_start + q + 1
+else:
+    i_start = (q+1) * r + q * (args.igroup - r - 1)
+    i_end = i_start + q
+
+systs = ["nominal"]
+for i in range(i_start, i_end):
+    systs.append(all_systs[i] + "_up")
+    systs.append(all_systs[i] + "_down")
+
+    
+print(systs,len(systs))
+if args.type == "signal":
+    processes = {"SignalMC_XHY4b": [f"MX-{args.mx}_MY-{args.my}"]}
+    #processes = {"SignalMC_XHY4b": [f"MX-{args.mx}_MY-{args.my}", f"MX-{args.mx}-MY-{args.my}"]}
+
+elif args.type == "bkg":
+    processes = { "MC_TTBarJets": ["*"], "MC_WZJets": ["Wto2Q-3Jets_HT-200to400", "Wto2Q-3Jets_HT-400to600", "Wto2Q-3Jets_HT-600to800", "Wto2Q-3Jets_HT-800", "Zto2Q-4Jets_HT-200to400", "Zto2Q-4Jets_HT-400to600", "Zto2Q-4Jets_HT-600to800", "Zto2Q-4Jets_HT-800"]}
+elif args.type == "all":
+    processes = { "MC_TTBarJets": ["*"], "MC_QCDJets": ["*"],  "SignalMC_XHY4b": [f"MX-{args.mx}_MY-{args.my}"]}
+for process in processes:
+    if processes[process] == ["*"]:
+        processes[process] = []
+        if "SignalMC" in process:
+            for mass in signal_json["2022"]["SignalMC_XHY4b"]:
+                processes[process].append(mass)
+        elif "MC" in process:
+            for subprocess in Xsec_json[process]:
+                processes[process].append(subprocess) 
+print(processes)
+#exit()
+#print(VB1_files) 
+#processes = ["JetMET", "MC_TTBarJets", "MC_WZJets", "SignalMC_XHY4b" ]
+
+def correlated_syst(syst):
+    if syst == "nominal" or "Pdfweight" in syst or "QCDScaleWeight" in syst or "TopPtWeight" in syst or "_correlated" in syst:
+        return True
+    if "JES" in syst and "_202" not in syst:
+        return True
+    else:
+        return False
+def relevant_syst(syst, year, process = "MC"):
+    if "202" in syst and year + "_" not in syst:
+        return False
+    if process == "JetMET" and syst != "nominal":
+        return False
+    return True
+
+trigger_sf_bases = [
+      f"corr{hist_mode}_TriggerSF_MC",
+      f"corr{hist_mode}_TriggerSF_data",
+  ]
+
+def is_trigger_sf(syst):
+    return any(base in syst for base in trigger_sf_bases)
+
+
+def get_menu(filename):
+    if "menu1_" in filename:
+        return "menu1"
+    if "menu2_" in filename:
+        return "menu2"
+    return None
+def other_menu(menu):
+    if menu == "menu1": return "menu2"
+    if menu == "menu2": return "menu1"
+def expanded_systs(year):
+    output = []
+
+    for syst in systs:
+        if year == "2023" and is_trigger_sf(syst):
+            output.append(f"menu1_{syst}")
+            output.append(f"menu2_{syst}")
+        else:
+            output.append(syst)
+
+    return output
+
+def strip_menu(syst):
+    if "menu" not in syst: return syst
+    else: return syst[6:]
+
+def relevant_trigger(f_name, hist_name, syst):
+    if "2023_" not in f_name or "MC" not in f_name or "menu" not in syst: return False
+    menu = get_menu(syst) 
+    if hist_name.endswith("nominal") and other_menu(menu) in f_name: return True
+    if hist_name.endswith(strip_menu(syst)) and menu in f_name: return True
+    return False
+
+regions = ["SR1", "SR2", "SB1", "SB2", "VS1", "VS2", "VS3", "VS4", "VB1", "VB2"]
+regions = ["SR1", "SB1"]
+years = ["2022", "2022EE", "2023", "2023BPix", "2024"]
+MJY_bins = array.array("d", np.linspace(0, 5, 501) )
+MJJ_bins = array.array("d", np.linspace(0, 5, 501) )
+hist_base = ROOT.TH2D(f"MJJvsMJY", f"MJJ vs MJY", len(MJY_bins) - 1, MJY_bins, len(MJJ_bins) - 1, MJJ_bins)
+hists = {}
+
+
+for year in years:
+    hists[year] = {}
+    if args.type == "bkg" or args.type == "all":
+        hists[year]["JetMET"] = {}
+        for region in regions:
+            hists[year]["JetMET"][region] = {}
+            syst = "nominal"
+            hists[year]["JetMET"][region][syst] = hist_base.Clone(f"{year}__JetMET__{Reg}_{region}_{hist_mode}__{syst}")
+    
+    if "SignalMC_XHY4b" in processes:
+        for subprocess in processes["SignalMC_XHY4b"]:
+            hists[year][f"SignalMC_XHY4b_{subprocess}"] = {}        
+            for region in regions:
+                hists[year][f"SignalMC_XHY4b_{subprocess}"][region] = {}
+                for syst in expanded_systs(year):
+                    if not relevant_syst(syst, year): continue 
+                    if correlated_syst(syst):
+                        hists[year][f"SignalMC_XHY4b_{subprocess}"][region][syst] = hist_base.Clone(f"{year}__SignalMC_XHY4b_{subprocess}__{Reg}_{region}_{hist_mode}__{syst}")
+                    else:
+                        hists[year][f"SignalMC_XHY4b_{subprocess}"][region][syst] = hist_base.Clone(f"{year}__SignalMC_XHY4b_{subprocess}__{Reg}_{region}_{hist_mode}__Y{year}_{syst}")
+        
+    for process in processes:
+        if "SignalMC" in process:
+            continue
+        hists[year][process] = {}        
+        for region in regions:
+            hists[year][process][region] = {}
+            for syst in expanded_systs(year):
+                if not relevant_syst(syst, year): continue 
+                if correlated_syst(syst): 
+                    hists[year][process][region][syst] = hist_base.Clone(f"{year}__{process}__{Reg}_{region}_{hist_mode}__{syst}")
+                else:
+                    hists[year][process][region][syst] = hist_base.Clone(f"{year}__{process}__{Reg}_{region}_{hist_mode}__Y{year}_{syst}")
+#print(hists)
+if args.type == "bkg" or args.type == "all":
+    processes["JetMET"] = {}
+for f_name in template_files:
+    for year in years:
+        if (year + "__") in f_name:
+            for process in processes:
+                if process in f_name:
+                    good = 0
+                    if "MC" in process:
+                        for subprocess in processes[process]:
+                            if subprocess in f_name:
+                                good = 1
+                                break
+                    else:
+                        good = 1
+                    if good == 0:
+                        continue
+                    print(f_name)
+                    f = ROOT.TFile.Open(f_name, "READ")
+                    for key in f.GetListOfKeys():
+                        hist = key.ReadObj()
+                        if isinstance(hist, ROOT.TH2):  
+                            hist_name = hist.GetName()
+                            print(hist_name) 
+                            loaded = 0
+                            for region in regions:
+                                if region in hist_name:
+                                    for syst in expanded_systs(year):
+                                        if not relevant_syst(syst, year, process): continue
+                                        if hist_name.endswith(syst) or relevant_trigger(f_name, hist_name, syst):
+                                            print(f"{year}_{process}_{Reg}_{region}_{syst}")
+                                            if "MC" in process:
+                                                for subprocess in processes[process]:
+                                                    
+                                                    if subprocess  + "_" in f_name:
+                                                        if "SignalMC" in process:
+                                                            hist_to_add = hist.Clone()
+                                                            hist_to_add.SetDirectory(0)
+                                                            hist_to_add.Scale(1.0 / 1000.0)
+                                                            hists[year][f"{process}_{subprocess}"][region][syst].Add(hist_to_add)
+                                                        else:
+                                                            hists[year][process][region][syst].Add(hist)
+                                                        loaded = 1
+                                                        break
+                                                    
+                                            else:
+                                                hists[year][process][region][syst].Add(hist)
+                                                loaded = 1
+                                    print(f"HIST LOADING STATUS:  {loaded}")
+                        del hist
+                    f.Close()
+                    del f
+
+trigger_systs_2023 = ["Y2023_menu1_corr{hist_mode}_TriggerSF_data", "Y2023_menu1_corr{hist_mode}_TriggerSF_MC", "Y2023_menu2_corr{hist_mode}_TriggerSF_data", "Y2023_menu2_corr{hist_mode}_TriggerSF_MC",]
+bad_trigger_systs_2023 = ["Y2023_corr{hist_mode}_TriggerSF_data", "Y2023_corr{hist_mode}_TriggerSF_MC"]
+trigger_variations = [
+    syst for syst in systs
+    if is_trigger_sf(syst)
+]
+
+trigger_systs_2023 = [
+    f"Y2023_{menu}_{syst}"
+    for menu in ("menu1", "menu2")
+    for syst in trigger_variations
+]
+
+bad_trigger_systs_2023 = [
+    f"Y2023_{syst}"
+    for syst in trigger_variations
+]
+hists_allyears = {}
+for process in hists[years[0]]:
+    hists_allyears[process] = {}        
+    for region in regions:
+        hists_allyears[process][region] = {}
+        for syst in systs:
+            if correlated_syst(syst): 
+                if not relevant_syst(syst, "", process): continue
+                hists_allyears[process][region][syst] = hist_base.Clone(f"Allyears__{process}__{Reg}_{region}_{hist_mode}__{syst}")
+            else:
+                for year in years:
+                    if not relevant_syst(syst, year, process): continue
+                    syst_byyear = f"Y{year}_{syst}"
+                    hists_allyears[process][region][syst_byyear] = hist_base.Clone(f"Allyears__{process}__{Reg}_{region}_{hist_mode}__{syst_byyear}")
+        if "MC" in process:
+            for trigger_syst in trigger_systs_2023:
+                hists_allyears[process][region][trigger_syst] = hist_base.Clone(f"Allyears__{process}__{Reg}_{region}_{hist_mode}__{trigger_syst}")
+            for trigger_syst in bad_trigger_systs_2023:
+                hists_allyears[process][region].pop(trigger_syst, None)
+        for syst_byyear in hists_allyears[process][region]:
+            for year in years:
+                if correlated_syst(syst_byyear): 
+                    hists_allyears[process][region][syst_byyear].Add(hists[year][process][region][syst_byyear])
+                else:
+                    year_syst = syst_byyear.partition("_")[0][1:]
+                    root_syst = syst_byyear[(len(year_syst) + 2):]
+                    #print(syst, correlated_syst(syst), syst_byyear, year_syst)
+                    if year_syst not in years:
+                        raise ValueError;
+                    if year == year_syst:
+                        hists_allyears[process][region][syst_byyear].Add(hists[year][process][region][root_syst])
+                    else:
+                        hists_allyears[process][region][syst_byyear].Add(hists[year][process][region]["nominal"])
+
+
+open_method = "RECREATE" if args.igroup <= 1 else "UPDATE"
+if args.type == "bkg":
+    f = ROOT.TFile.Open(f"Templates/Templates_{args.mode}_{args.Reg}_bkg.root", open_method)
+elif args.type == "signal":
+    f = ROOT.TFile.Open(f"Templates/Templates_{args.mode}_{args.Reg}_SignalMC_XHY4b_MX-{args.mx}_MY-{args.my}.root", open_method)
+if args.type == "all":
+    f = ROOT.TFile.Open(f"Templates/Templates_{args.mode}_{args.Reg}_all.root", open_method)
+f.cd()
+
+
+for year in years:
+    for process in hists[year]:
+        for region in regions:
+            for syst in hists[year][process][region]:
+                if syst == "nominal" and args.igroup > 1: continue
+                hists[year][process][region][syst].Write()
+
+for process in hists_allyears:
+    for region in hists_allyears[process]:
+        for syst in hists_allyears[process][region]:
+            if syst == "nominal" and args.igroup > 1: continue
+            hists_allyears[process][region][syst].Write()
+
+f.Close()
+
+
+   
+
+
+    

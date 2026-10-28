@@ -49,6 +49,8 @@ echo 'python3 -m venv twoD-env' | tee -a $root_dir/$OUTTXT
 python3 -m venv twoD-env
 echo 'source twoD-env/bin/activate' | tee -a $root_dir/$OUTTXT
 source twoD-env/bin/activate
+export PYTHONPATH="$CMSSW_BASE/src/2DAlphabet${PYTHONPATH:+:$PYTHONPATH}"
+python -c 'import TwoDAlphabet; print(TwoDAlphabet.__file__)' | tee -a $root_dir/$OUTTXT
 ls twoD-env | tee -a $root_dir/$OUTTXT
 echo "$(which python3)" | tee -a $root_dir/$OUTTXT
 echo $VIRTUAL_ENV is the virtual env | tee -a $root_dir/$OUTTXT
@@ -72,11 +74,12 @@ cd testdir
 
 fitdir=$1
 SEED=$2
-./GenerateToys.sh $fitdir $SEED
-root 'load_parameters.C("'$fitdir'/higgsCombine.AsymptoticLimits.mH125.123456.root","para_SI.txt")' -b -q 2>&1 | tee -a $root_dir/$OUTTXT
-./run_signal_injection.sh --fitdir $fitdir -r 0  --numtoys 10 --paras para_SI.txt -l --seed $SEED -v 0 2>&1 | tee -a $root_dir/$OUTTXT
-./run_signal_injection.sh --fitdir $fitdir -r 1 -l --numtoys 10 --paras para_SI.txt --seed $SEED -v 0 2>&1 | tee -a $root_dir/$OUTTXT
+./GenerateToys.sh $fitdir $SEED | tee -a $root_dir/$OUTTXT
+root 'load_parameters.C("'$fitdir'/higgsCombine.AsymptoticLimits.mH125.123456.root","para_SI.txt","clean")' -b -q 2>&1 | tee -a $root_dir/$OUTTXT
+./run_signal_injection.sh --fitdir $fitdir -r 0  --numtoys 1 --paras para_SI.txt -l --seed $SEED -v 0 2>&1 | tee -a $root_dir/$OUTTXT
+./run_signal_injection.sh --fitdir $fitdir -r 1 -l --numtoys 1 --paras para_SI.txt --seed $SEED -v 0 2>&1 | tee -a $root_dir/$OUTTXT
 
+status=${PIPESTATUS[0]}
 
 
 echo "CALCULATING LIMITS ......." | tee -a $root_dir/$OUTTXT
@@ -85,16 +88,16 @@ ls | tee -a $root_dir/$OUTTXT
 
 
 
-status=${PIPESTATUS[0]}
 if [ $status -eq 0 ]; then
     rm *root
     rm *txt
-    cp SignalInjection/*workspace/SignalMC_XHY4b_area/higgsCombiner_* .
+    cp "$fitdir"/higgsCombiner_* .
     root_files=$(ls | grep "root" )
     for f in $root_files; do
         mv $f ${fitdir//\//_}_$f
     done
     xrdcp -f *r_*MultiDimFit.mH125*root root://cmseos.fnal.gov//store/user/$USER/XHY4bRun3_SI_BDT/
+    xrdcp -f *r_*GenerateOnly*root root://cmseos.fnal.gov//store/user/$USER/XHY4bRun3_SI_BDT/
     
 else
     mv $root_dir/$OUTTXT $root_dir/FAILED_$OUTTXT

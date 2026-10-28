@@ -31,7 +31,7 @@ for SI in SIs:
     limitErr = np.array(ROOT.RDataFrame("limit", SI).AsNumpy()["limitErr"])
     print(limit)
     mask = (limit[::4] < 14 ) * (limit[::4] > -14 ) * (limit[1::4] < 14 ) * (limit[1::4] > -14 ) * (limit[2::4] < 14 ) * (limit[2::4] > -14 )
-    mask = (limit[::4] < 14 ) * (limit[::4] > -14 )
+    #mask = (limit[::4] < 14 ) * (limit[::4] > -14 )
     print(mask)
     _rs = limit[::4][mask]
     _deltars = _rs - nom_r

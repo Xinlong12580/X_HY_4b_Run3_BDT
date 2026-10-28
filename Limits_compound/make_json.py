@@ -1,6 +1,6 @@
 import json
 
-mode = "1p1"
+mode = "2p1"
 config_file = f"XYH_{mode}_old.json"
 with open( config_file, "r") as f:
     config = json.load(f)
@@ -45,7 +45,7 @@ for process in config["PROCESSES"]:
         config["PROCESSES"][process]["SYSTEMATICS"].remove(old_lumi)
     config["PROCESSES"][process]["SYSTEMATICS"].append("lumi")
 
-config["SYSTEMATICS"]["lumi"] = {"VAL":1.03, "CODE": 0}
+config["SYSTEMATICS"]["lumi"] = {"VAL":1.013, "CODE": 0}
 for old_lumi in old_lumies:
     if old_lumi in config["SYSTEMATICS"]: del config["SYSTEMATICS"][old_lumi]
 

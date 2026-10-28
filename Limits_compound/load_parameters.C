@@ -2,6 +2,10 @@ void load_parameters(std::string in_file = "Control_MX-3000_MY-1000_workspace/Si
     
 	TFile *f_control = TFile::Open(in_file.c_str(), "READ");
 	RooWorkspace w_control =* (RooWorkspace*) f_control->Get("w");
+    auto const& snaps = w_control.getSnapshots();
+    for (auto obj : snaps) {
+        std::cout << obj->GetName() << std::endl;
+    }
     w_control.loadSnapshot(snapshot.c_str());
 	RooArgSet v_control = w_control.allVars();
     std::ofstream outfile(out_file.c_str());

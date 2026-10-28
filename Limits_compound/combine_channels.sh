@@ -15,7 +15,7 @@ for arg in "$@"; do
             cp $source_dir/card.txt $target_dir/card_"$arg".txt
             cp $source_dir/../base.root $target_dir/../base_"$arg".root
             sed -i 's/base.root/'base_"$arg".root'/g' $target_dir/card_"$arg".txt
-            combine_arg=$combine_arg" "$args"="card_"$arg".txt
+            combine_arg=$combine_arg" ""="card_"$arg".txt
         fi
     fi
 done

@@ -19,12 +19,10 @@ fitdir=SignalInjection/CS_All1p1AndOnly2p1_MX-1800_MY-200_workspace/SignalMC_XHY
 
 fitdir=SignalInjection/CS_All1p1AndOnly2p1_MX-3500_MY-200_workspace/SignalMC_XHY4b_area/
 python plot_bias_pull.py -f $fitdir -r 0 --title All1p1AndOnly2p1_MX-3500_MY-200_grid 
-exit
 python plot_bias_pull.py -f $fitdir -r 1 --title All1p1AndOnly2p1_MX-3500_MY-200_grid 
 fitdir=SignalInjection/CS_All1p1AndOnly2p1_MX-1800_MY-200_workspace/SignalMC_XHY4b_area/
 python plot_bias_pull.py -f $fitdir -r 0 --title All1p1AndOnly2p1_MX-1800_MY-200_grid 
 python plot_bias_pull.py -f $fitdir -r 1 --title All1p1AndOnly2p1_MX-1800_MY-200_grid 
-
 
 fitdir=SignalInjection/CS_All2p1AndOnly1p1_MX-3500_MY-800_workspace/SignalMC_XHY4b_area/
 python plot_bias_pull.py -f $fitdir -r 0 --title All2p1AndOnly1p1_MX-3500_MY-800_grid 
@@ -32,3 +30,17 @@ python plot_bias_pull.py -f $fitdir -r 1 --title All2p1AndOnly1p1_MX-3500_MY-800
 fitdir=SignalInjection/CS_All2p1AndOnly1p1_MX-1800_MY-800_workspace/SignalMC_XHY4b_area/
 python plot_bias_pull.py -f $fitdir -r 0 --title All2p1AndOnly1p1_MX-1800_MY-800_grid 
 python plot_bias_pull.py -f $fitdir -r 1 --title All2p1AndOnly1p1_MX-1800_MY-800_grid 
+
+fitdir=SignalInjection/withfloor_CS_All1p1AndOnly2p1_MX-3500_MY-200_workspace/SignalMC_XHY4b_area/
+python plot_bias_pull.py -f $fitdir -r 0 --title withfloor_All1p1AndOnly2p1_MX-3500_MY-200_grid 
+python plot_bias_pull.py -f $fitdir -r 1 --title withfloor_All1p1AndOnly2p1_MX-3500_MY-200_grid 
+fitdir=SignalInjection/withfloor_CS_All1p1AndOnly2p1_MX-1800_MY-200_workspace/SignalMC_XHY4b_area/
+python plot_bias_pull.py -f $fitdir -r 0 --title withfloor_All1p1AndOnly2p1_MX-1800_MY-200_grid 
+python plot_bias_pull.py -f $fitdir -r 1 --title withfloor_All1p1AndOnly2p1_MX-1800_MY-200_grid 
+
+fitdir=SignalInjection/withfloor_CS_All2p1AndOnly1p1_MX-3500_MY-800_workspace/SignalMC_XHY4b_area/
+python plot_bias_pull.py -f $fitdir -r 0 --title withfloor_All2p1AndOnly1p1_MX-3500_MY-800_grid 
+python plot_bias_pull.py -f $fitdir -r 1 --title withfloor_All2p1AndOnly1p1_MX-3500_MY-800_grid 
+fitdir=SignalInjection/withfloor_CS_All2p1AndOnly1p1_MX-1800_MY-800_workspace/SignalMC_XHY4b_area/
+python plot_bias_pull.py -f $fitdir -r 0 --title withfloor_All2p1AndOnly1p1_MX-1800_MY-800_grid 
+python plot_bias_pull.py -f $fitdir -r 1 --title withfloor_All2p1AndOnly1p1_MX-1800_MY-800_grid 

@@ -39,7 +39,7 @@ def rebin_TH1(h, bins, name = "default"):
     
     
     
-def rebin_TH2(h, xbins, ybins, name = "default", forceInputPositive = False, forceOutputPositive = False):
+def rebin_TH2(h, xbins, ybins, name = "default", forceInputPositive = False, forceOutputPositive = False, outputFloor = 0):
     nbins_ori_x = h.GetNbinsX()
     nbins_ori_y = h.GetNbinsY()
     
@@ -91,7 +91,7 @@ def rebin_TH2(h, xbins, ybins, name = "default", forceInputPositive = False, for
                         value += h.GetBinContent(m + 1, n + 1)
                     sigma = np.sqrt(sigma**2 + h.GetBinError(m + 1, n + 1)**2)
             if forceOutputPositive:
-                h_merged.SetBinContent(i + 1, j + 1, max(0, value))
+                h_merged.SetBinContent(i + 1, j + 1, max(outputFloor, value))
             else:
                 h_merged.SetBinContent(i + 1, j + 1, value)
             h_merged.SetBinError(i + 1, j + 1, sigma)
